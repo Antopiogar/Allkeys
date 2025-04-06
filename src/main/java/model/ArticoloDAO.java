@@ -18,6 +18,7 @@ public class ArticoloDAO {
 		ResultSet rs = null;
 		ArrayList<BeanArticolo> articoli = new ArrayList<BeanArticolo>();
 		try {
+			con = DBConnection.getConnection();
 			PreparedStatement ps = con.prepareStatement(query);
 			rs=ps.executeQuery();
 			while(rs.next()) {
@@ -32,6 +33,7 @@ public class ArticoloDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		DBConnection.closeConnection();
 		return articoli;
 	}
 

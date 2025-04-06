@@ -16,9 +16,8 @@ public class DBConnection {
     public static Connection getConnection() {
         if (conn == null) { // Crea la connessione solo se non esiste già
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver"); // Carica il driver JDBC
+                Class.forName("com.mysql.cj.jdbc.Driver"); 
                 conn = DriverManager.getConnection(URL, USER, PASSWORD);
-                System.out.println("✅ Connessione al database riuscita!");
             } catch (ClassNotFoundException e) {
                 System.err.println("❌ Driver JDBC non trovato!");
                 e.printStackTrace();
@@ -36,7 +35,6 @@ public class DBConnection {
             try {
                 conn.close();
                 conn = null; // Reset della connessione
-                System.out.println("🔌 Connessione chiusa.");
             } catch (SQLException e) {
                 System.err.println("❌ Errore durante la chiusura della connessione!");
                 e.printStackTrace();

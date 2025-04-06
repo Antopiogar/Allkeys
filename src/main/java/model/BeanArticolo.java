@@ -36,9 +36,13 @@ public class BeanArticolo {
 		this.piattaforma = piattaforma;
 	}
 	
-	@Override
-	public String toString() {
+	public String debugToString() {
 		return "BeanArticolo [IdArticolo=" + IdArticolo + ", logo=" + logo + ", nome=" + nome + ", piattaforma="
 				+ piattaforma + "]";
+	}
+	@Override
+	public String toString() {
+		return "Articolo: nome= %s, piattaforma = %s, srcLogo = %s "
+				.formatted(this.nome,this.piattaforma,this.logo);
 	}
 }
