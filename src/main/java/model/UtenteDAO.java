@@ -12,7 +12,7 @@ public class UtenteDAO {
 		con=DBConnection.getConnection();
 	}
 	
-	public BeanUtente loadUserById(int id) {
+	public synchronized BeanUtente loadUserById(int id) {
 		String query = "SELECT * FROM UTENTE WHERE idUtente = ?";
 		ResultSet rs = null;
 		BeanUtente utente = null;

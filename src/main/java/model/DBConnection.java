@@ -7,13 +7,13 @@ import java.sql.SQLException;
 public class DBConnection {
 	private static final String URL = "jdbc:mysql://localhost:3306/AllKeys"; // Modifica con il tuo database
     private static final String USER = "root"; // Modifica con il tuo username
-    private static final String PASSWORD = ""; // Modifica con la tua password
+    private static final String PASSWORD = "root"; // Modifica con la tua password
     
  // Oggetto statico per la connessione
     private static Connection conn = null;
 
     // Metodo per ottenere la connessione
-    public static Connection getConnection() {
+    public static synchronized Connection getConnection() {
         if (conn == null) { // Crea la connessione solo se non esiste già
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver"); 
@@ -30,7 +30,7 @@ public class DBConnection {
     }
 
     // Metodo per chiudere la connessione
-    public static void closeConnection() {
+    public static synchronized void closeConnection() {
         if (conn != null) {
             try {
                 conn.close();
