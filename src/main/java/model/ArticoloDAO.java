@@ -13,7 +13,7 @@ public class ArticoloDAO {
 		con=DBConnection.getConnection();
 	}
 	
-	public ArrayList<BeanArticolo> loadAllDistinctArticles() {
+	public synchronized ArrayList<BeanArticolo> loadAllDistinctArticles() {
 		String query = "SELECT DISTINCT * FROM ARTICOLO ";
 		ResultSet rs = null;
 		ArrayList<BeanArticolo> articoli = new ArrayList<BeanArticolo>();
