@@ -7,18 +7,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ArticoloDAO {
-	private static Connection con;
+	private Connection con;
 	
 	public ArticoloDAO() {
-		con=DBConnection.getConnection();
+		
 	}
 	
 	public synchronized ArrayList<BeanArticolo> loadAllDistinctArticles() {
+		con = DBConnection.getConnection();
 		String query = "SELECT DISTINCT * FROM ARTICOLO ";
 		ResultSet rs = null;
 		ArrayList<BeanArticolo> articoli = new ArrayList<BeanArticolo>();
 		try {
-			con = DBConnection.getConnection();
 			PreparedStatement ps = con.prepareStatement(query);
 			rs=ps.executeQuery();
 			while(rs.next()) {
@@ -29,11 +29,11 @@ public class ArticoloDAO {
 				articolo.setPiattaforma(rs.getString("piattaforma"));
 				articoli.add(articolo);
 			}
+			DBConnection.releseConnection(con);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		DBConnection.closeConnection();
 		return articoli;
 	}
 
