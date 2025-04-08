@@ -35,7 +35,10 @@ create table Ordine(
 	dataAcquisto date not null,
 	conferma boolean not null,
 	fkCarta int null,
+	fkUtente int null,
 	foreign key (fkCarta) references Carta_Pagamento(idCarta) 
+	on delete restrict on update cascade,
+	foreign key (fkUtente) references Utente(idUtente)
 	on delete restrict on update cascade
 );
 
