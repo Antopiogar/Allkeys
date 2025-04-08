@@ -1,4 +1,5 @@
-In qualsiasi caso è necessario java 22 e si consiglia tomcat 9 con all'interno delle sue librerie un connettore a mysql già inserito
+Il progetto è sviluppato su java 22 e tomcat 9
 
+Per far funzionare il database è necessario configuare le credenziali del Database dal file DBConnection.java presente in src/main/Java/model ed inserire il connettore a mysql nel folder lib di tomcat
 
-Per far funzionare il database è necessario configuare le credenziali del Database dal file DBConnection.java presente in src/main/Java/model
+L'ultima versione stabile è presente nella main branch, le altre sono branch di lavoro necessarie per il code-sharing ed una volta corrette verranno inserite nella main
