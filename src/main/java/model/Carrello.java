@@ -78,6 +78,21 @@ public class Carrello {
 	public ArrayList<ArticoliCarrello> getArticoli() {
 		return articoli;
 	}
+	public boolean isEmpty() {
+		if(articoli.size()==0)
+			return true;
+		return false;
+	}
+	
+	public float prezzoTotale() {
+		float s=0;
+		for (ArticoliCarrello art : articoli) {
+			s+= art.getQta()*art.getArticolo().getPrezzo();
+		}
+		s= (float) ((int) (s * 100)) / 100; //tronca alla seconda cifra decimale
+		return s;
+	}
+	
 	@Override
 	public String toString() {
 		return "Carrello [articoli=" + articoli + "]";
