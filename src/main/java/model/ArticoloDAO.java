@@ -7,16 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ArticoloDAO {
-<<<<<<< HEAD
-	private Connection con;
-	
-	public ArticoloDAO() {
-		
-	}
-	
-	public synchronized ArrayList<BeanArticolo> loadAllDistinctArticles() {
-		con = DBConnection.getConnection();
-=======
+
 	private static Connection con;
 	
 	public ArticoloDAO() {
@@ -24,15 +15,12 @@ public class ArticoloDAO {
 	}
 	
 	public synchronized ArrayList<BeanArticolo> loadAllDistinctArticles() {
->>>>>>> origin/cartCreation
 		String query = "SELECT DISTINCT * FROM ARTICOLO ";
 		ResultSet rs = null;
 		ArrayList<BeanArticolo> articoli = new ArrayList<BeanArticolo>();
 		try {
-<<<<<<< HEAD
-=======
 			con = DBConnection.getConnection();
->>>>>>> origin/cartCreation
+
 			PreparedStatement ps = con.prepareStatement(query);
 			rs=ps.executeQuery();
 			while(rs.next()) {
@@ -43,18 +31,12 @@ public class ArticoloDAO {
 				articolo.setPiattaforma(rs.getString("piattaforma"));
 				articoli.add(articolo);
 			}
-<<<<<<< HEAD
 			DBConnection.releseConnection(con);
-=======
->>>>>>> origin/cartCreation
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-<<<<<<< HEAD
-		return articoli;
-	}
-=======
 		DBConnection.releseConnection(con);
 		return articoli;
 	}
@@ -111,7 +93,6 @@ public class ArticoloDAO {
 		DBConnection.releseConnection(con);
 		return articolo;
 	}
->>>>>>> origin/cartCreation
 
 	
 

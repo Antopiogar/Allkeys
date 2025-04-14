@@ -12,10 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import model.ArticoloDAO;
 import model.BeanArticolo;
 import model.BeanUtente;
-<<<<<<< HEAD
-=======
+
 import model.Carrello;
->>>>>>> origin/cartCreation
 import model.UtenteDAO;
 
 /**
@@ -30,30 +28,23 @@ public class TestingServlet extends HttpServlet {
         
     }
 
-<<<<<<< HEAD
-=======
+
 	@SuppressWarnings("unused")
->>>>>>> origin/cartCreation
+
 	private void testUserById() {
 		UtenteDAO utenteDao = new UtenteDAO();
 		BeanUtente user = utenteDao.loadUserById(1);
 		System.out.println(user);
 	}
 	
-<<<<<<< HEAD
-=======
 	@SuppressWarnings("unused")
->>>>>>> origin/cartCreation
+
 	private void testAllArticles() {
 		ArticoloDAO articoloDao= new ArticoloDAO();
 		ArrayList<BeanArticolo> articoli = articoloDao.loadAllDistinctArticles();
 		System.out.println(articoli);
 	}
-<<<<<<< HEAD
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		testUserById();
-		testAllArticles();
-=======
+
 	
 	
 	private void testCarrello() {
@@ -77,7 +68,7 @@ public class TestingServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		testCarrello();
->>>>>>> origin/cartCreation
+
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

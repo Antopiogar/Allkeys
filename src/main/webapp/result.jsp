@@ -15,9 +15,7 @@
     <h1>Catalogo articoli</h1>
     <% 	if (articoli != null && !articoli.isEmpty()) { 
         	for (BeanArticolo articolo : articoli) { %>
-<<<<<<< HEAD
-            <p><%= articolo.toString() %></p>
-=======
+
             <p><%= articolo.toString() %>
             <form action="CartServlet" method="POST">
             	<input type="text" value = "<%= articolo.getIdArticolo() %>" hidden = "true" name = idArticolo>
@@ -25,7 +23,6 @@
             	<input type="submit" value="Aggiungi al carrello">
             </form>
             </p>
->>>>>>> origin/cartCreation
         <% } 
    		}else { %>
       	  <p>Nessun articolo disponibile.</p>

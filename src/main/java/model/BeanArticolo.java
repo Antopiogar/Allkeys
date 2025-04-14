@@ -5,10 +5,8 @@ public class BeanArticolo {
 	private String logo;
 	private String nome;
 	private String piattaforma;
-<<<<<<< HEAD
-=======
+
 	private float prezzo;
->>>>>>> origin/cartCreation
 	
 	public BeanArticolo() {
 		// TODO Auto-generated constructor stub
@@ -21,19 +19,15 @@ public class BeanArticolo {
 	public void setIdArticolo(int idArticolo) {
 		IdArticolo = idArticolo;
 	}
-<<<<<<< HEAD
-=======
+
 	public float getPrezzo() {
 		return prezzo;
 	}
-
 
 	public void setPrezzo(float prezzo) {
 		this.prezzo = prezzo;
 	}
 
-
->>>>>>> origin/cartCreation
 	public String getLogo() {
 		return logo;
 	}
@@ -59,12 +53,8 @@ public class BeanArticolo {
 	}
 	@Override
 	public String toString() {
-<<<<<<< HEAD
-		return "Articolo: nome= %s, piattaforma = %s, srcLogo = %s "
-				.formatted(this.nome,this.piattaforma,this.logo);
-=======
+
 		return "Articolo: nome= %s, piattaforma = %s, srcLogo = %s , prezzo = %s €"
 				.formatted(this.nome,this.piattaforma,this.logo, this.prezzo);
->>>>>>> origin/cartCreation
 	}
 }

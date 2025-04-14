@@ -3,10 +3,6 @@ package model;
 public class BeanChiave {
 	private int idChiave;
 	private String codice;
-<<<<<<< HEAD
-	private float prezzo;
-=======
->>>>>>> origin/cartCreation
 	private BeanOrdine fkOrdine;
 	private BeanArticolo fkArticolo;
 	
@@ -30,16 +26,7 @@ public class BeanChiave {
 		this.codice = codice;
 	}
 
-<<<<<<< HEAD
-	public float getPrezzo() {
-		return prezzo;
-	}
 
-	public void setPrezzo(float prezzo) {
-		this.prezzo = prezzo;
-	}
-=======
->>>>>>> origin/cartCreation
 
 	public BeanOrdine getFkOrdine() {
 		return fkOrdine;
@@ -59,11 +46,8 @@ public class BeanChiave {
 
 	@Override
 	public String toString() {
-<<<<<<< HEAD
-		return "BeanChiave [idChiave=" + idChiave + ", codice=" + codice + ", prezzo=" + prezzo + ", fkOrdine="
-=======
+
 		return "BeanChiave [idChiave=" + idChiave + ", codice=" + codice + ", fkOrdine="
->>>>>>> origin/cartCreation
 				+ fkOrdine + ", fkArticolo=" + fkArticolo + "]";
 	}
 	
