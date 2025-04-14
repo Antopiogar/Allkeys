@@ -46,7 +46,7 @@ public class TestingServlet extends HttpServlet {
 	}
 
 	
-	
+	@SuppressWarnings("unused")
 	private void testCarrello() {
 		ArticoloDAO articoloDao= new ArticoloDAO();
 		ArrayList<BeanArticolo> articoli = articoloDao.loadAllDistinctArticles();
@@ -65,10 +65,14 @@ public class TestingServlet extends HttpServlet {
 		
 		
 	}
+
+	private void testLogin() {
+		UtenteDAO uDao = new UtenteDAO();
+		System.out.println(uDao.login("mario.rossi@email.com", "admin"));
+	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		testCarrello();
-
+		testLogin();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

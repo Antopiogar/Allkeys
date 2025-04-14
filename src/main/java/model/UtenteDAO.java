@@ -40,4 +40,25 @@ public class UtenteDAO {
 		return utente;
 		
 	}
+	
+	public synchronized boolean login(String email, String pass) {
+		String query = "SELECT * FROM UTENTE WHERE email = ? and password = sha2(?,256)";
+		ResultSet rs = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, email);
+			ps.setString(2, pass);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				if(rs.getString("email").equalsIgnoreCase(email))
+					return true;
+			}
+			DBConnection.releseConnection(con);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
