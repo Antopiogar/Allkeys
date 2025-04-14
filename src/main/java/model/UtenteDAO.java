@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UtenteDAO {
+<<<<<<< HEAD
 	private Connection con;
 	
 	public UtenteDAO() {
@@ -13,6 +14,15 @@ public class UtenteDAO {
 	
 	public synchronized BeanUtente loadUserById(int id) {
 		con = DBConnection.getConnection();
+=======
+	private static Connection con;
+	
+	public UtenteDAO() {
+		con=DBConnection.getConnection();
+	}
+	
+	public synchronized BeanUtente loadUserById(int id) {
+>>>>>>> origin/cartCreation
 		String query = "SELECT * FROM UTENTE WHERE idUtente = ?";
 		ResultSet rs = null;
 		BeanUtente utente = null;
@@ -30,7 +40,10 @@ public class UtenteDAO {
 				utente.setCognome(rs.getString("cognome"));
 				utente.setPass(rs.getString("password"));
 			}
+<<<<<<< HEAD
 			DBConnection.releseConnection(con);
+=======
+>>>>>>> origin/cartCreation
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

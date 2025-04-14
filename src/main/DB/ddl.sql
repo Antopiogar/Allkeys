@@ -26,6 +26,10 @@ create table Articolo(
 	idArticolo int auto_increment primary key,
 	logo varchar(50),
 	nome varchar(50) not null,
+<<<<<<< HEAD
+=======
+	prezzo decimal(10,2) not null check (prezzo>=0),
+>>>>>>> origin/cartCreation
 	piattaforma varchar(20) not null
 );
 
@@ -34,8 +38,13 @@ create table Ordine(
 	idOrdine int auto_increment primary key,
 	dataAcquisto date not null,
 	conferma boolean not null,
+<<<<<<< HEAD
 	fkCarta int null,
 	fkUtente int null,
+=======
+	fkUtente int not null,
+	fkCarta int null,
+>>>>>>> origin/cartCreation
 	foreign key (fkCarta) references Carta_Pagamento(idCarta) 
 	on delete restrict on update cascade,
 	foreign key (fkUtente) references Utente(idUtente)
@@ -45,7 +54,10 @@ create table Ordine(
 create table Chiave(
 	idChiave int auto_increment primary key,
 	codice varchar(24) not null,
+<<<<<<< HEAD
 	prezzo decimal(10,2) not null check (prezzo>=0),
+=======
+>>>>>>> origin/cartCreation
 	FkOrdine int null,
 	FkArticolo int not null,
 	foreign key (FkOrdine) references Ordine(idOrdine)

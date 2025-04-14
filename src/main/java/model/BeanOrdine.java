@@ -7,7 +7,20 @@ public class BeanOrdine {
 	private LocalTime dataAcquisto;
 	private Boolean conferma;
 	private BeanCartaPagamento pagamento;
+<<<<<<< HEAD
 	
+=======
+	private BeanUtente utente;
+	
+	public BeanUtente getUtente() {
+		return utente;
+	}
+
+	public void setUtente(BeanUtente utente) {
+		this.utente = utente;
+	}
+
+>>>>>>> origin/cartCreation
 	public BeanOrdine() {
 		// TODO Auto-generated constructor stub
 	}
@@ -46,6 +59,10 @@ public class BeanOrdine {
 	@Override
 	public String toString() {
 		return "BeanOrdine [idOrdine=" + idOrdine + ", dataAcquisto=" + dataAcquisto + ", conferma=" + conferma
+<<<<<<< HEAD
 				+ ", pagamento=" + pagamento + "]";
+=======
+				+ ", pagamento=" + pagamento + ", utente=" + utente + "]";
+>>>>>>> origin/cartCreation
 	}
 }

@@ -57,4 +57,8 @@ public class DBConnection {
             connectionList.add(con);
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/cartCreation
