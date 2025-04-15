@@ -10,10 +10,10 @@ public class UtenteDAO {
 	private static Connection con;
 	
 	public UtenteDAO() {
-		con=DBConnection.getConnection();
 	}
 	
 	public synchronized BeanUtente loadUserById(int id) {
+		con=DBConnection.getConnection();
 		String query = "SELECT * FROM UTENTE WHERE idUtente = ?";
 		ResultSet rs = null;
 		BeanUtente utente = null;
@@ -42,6 +42,7 @@ public class UtenteDAO {
 	}
 	
 	public synchronized boolean login(String email, String pass) {
+		con=DBConnection.getConnection();
 		String query = "SELECT * FROM UTENTE WHERE email = ? and password = sha2(?,256)";
 		ResultSet rs = null;
 		try {
@@ -60,5 +61,34 @@ public class UtenteDAO {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public synchronized boolean register(BeanUtente user) {
+		
+		con=DBConnection.getConnection();
+		String query = "INSERT INTO UTENTE (nome,cognome,dataNascita,email,cf,password) value (?,?,?,?,?,sha2(?,256);";
+		ResultSet rs = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, user.getNome());
+			ps.setString(2, user.getCognome());
+			ps.setString(4, user.getEmail());
+			ps.setString(5, user.getCf());
+			ps.setString(6, user.getPass());
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				if(rs.rowInserted()) {
+					return true;
+				}
+			}
+
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		DBConnection.releseConnection(con);
+
+		return false;
+		
 	}
 }

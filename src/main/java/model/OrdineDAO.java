@@ -17,11 +17,12 @@ public class OrdineDAO {
 private static Connection con;
 	
 	public OrdineDAO() {
-		con=DBConnection.getConnection();
 	}
 	
 	//NON TESTATO
 	public static synchronized boolean CreateOrder(ArrayList<ArticoliCarrello> articoli, BeanUtente user) {
+		con=DBConnection.getConnection();
+
 		String query = "call {createOrder(?,?,?)};";
 		int idOrder=0;
 		ResultSet rs = null;

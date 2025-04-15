@@ -11,10 +11,11 @@ public class ArticoloDAO {
 	private static Connection con;
 	
 	public ArticoloDAO() {
-		con=DBConnection.getConnection();
 	}
 	
 	public synchronized ArrayList<BeanArticolo> loadAllDistinctArticles() {
+		con=DBConnection.getConnection();
+
 		String query = "SELECT DISTINCT * FROM ARTICOLO ";
 		ResultSet rs = null;
 		ArrayList<BeanArticolo> articoli = new ArrayList<BeanArticolo>();
@@ -42,6 +43,8 @@ public class ArticoloDAO {
 	}
 	
 	public synchronized ArrayList<BeanArticolo> loadAllAvailableArticles() {
+		con=DBConnection.getConnection();
+
 		String query = "select distinct * from articolo as a join chiave as c on a.idArticolo = c.fkArticolo where c.fkOrdine is null";
 		ResultSet rs = null;
 		ArrayList<BeanArticolo> articoli = new ArrayList<BeanArticolo>();
@@ -70,7 +73,7 @@ public class ArticoloDAO {
 	}
 
 	public static BeanArticolo getArticoloById(String id) {
-		
+		con=DBConnection.getConnection();
 		String query = "SELECT * FROM ARTICOLO WHERE IdArticolo = ?";
 		ResultSet rs = null;
 		BeanArticolo articolo = new BeanArticolo();

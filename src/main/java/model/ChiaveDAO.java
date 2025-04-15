@@ -9,11 +9,11 @@ public class ChiaveDAO {
 	private static Connection con;
 	
 	public ChiaveDAO() {
-		con=DBConnection.getConnection();
 	}
 	
 	
 	public static float getPriceByIdArticolo(String id) {
+		con=DBConnection.getConnection();
 		String query = "SELECT c.prezzo FROM CHIAVE WHERE FKArticolo = ? AND FkOrdine = null ORDER BY PREZZO ASC LIMIT 1";
 		ResultSet rs = null;
 		float prezzo=0;

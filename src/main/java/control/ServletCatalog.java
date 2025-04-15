@@ -28,7 +28,7 @@ public class ServletCatalog extends HttpServlet {
 		ArrayList<BeanArticolo> articoli = adao.loadAllAvailableArticles();
 
 		request.setAttribute("result", articoli);
-		RequestDispatcher view = request.getRequestDispatcher("result.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("login.jsp");
 		view.forward(request, response);
 	}
 
