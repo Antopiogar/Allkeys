@@ -4,7 +4,10 @@
 <%@ page import = "model.*" %>
 <% 
 	ArrayList<BeanArticolo> articoli = (ArrayList<BeanArticolo>) request.getAttribute("result");
- %>
+	if(articoli == null){
+		response.sendRedirect("ViewCatalog");
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +15,7 @@
 <title>Catalogo articoli</title>
 </head>
 <body>
+<%@ include file="NavBar.jsp" %>
     <h1>Catalogo articoli</h1>
     <% 	if (articoli != null && !articoli.isEmpty()) { 
         	for (BeanArticolo articolo : articoli) { %>

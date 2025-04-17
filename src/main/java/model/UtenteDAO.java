@@ -1,6 +1,10 @@
 package model;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,10 +45,11 @@ public class UtenteDAO {
 		
 	}
 	
-	public synchronized boolean login(String email, String pass) {
+	public synchronized int login(String email, String pass) {
 		con=DBConnection.getConnection();
-		String query = "SELECT * FROM UTENTE WHERE email = ? and password = sha2(?,256)";
+		String query = "SELECT * FROM UTENTE WHERE email = ? and password = ?";
 		ResultSet rs = null;
+		int id =-1;
 		try {
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, email);
@@ -52,7 +57,7 @@ public class UtenteDAO {
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				if(rs.getString("email").equalsIgnoreCase(email))
-					return true;
+					id= rs.getInt("idUtente");
 			}
 			DBConnection.releseConnection(con);
 
@@ -60,35 +65,104 @@ public class UtenteDAO {
 			
 			e.printStackTrace();
 		}
-		return false;
+		return id;
 	}
 	
-	public synchronized boolean register(BeanUtente user) {
+	
+	public static String toSHA256(String input) {
+        try {
+            // Crea l'istanza dell'algoritmo SHA-256
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            
+            // Calcola l'hash come array di byte
+            byte[] hashBytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+            
+            // Converte i byte in una stringa esadecimale
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hashBytes) {
+                hexString.append(String.format("%02x", b));
+            }
+
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            // In pratica non succede mai, SHA-256 è sempre disponibile
+            throw new RuntimeException("SHA-256 algorithm not found", e);
+        }
+    }
+	
+	
+	public synchronized String register(BeanUtente user) {
 		
 		con=DBConnection.getConnection();
-		String query = "INSERT INTO UTENTE (nome,cognome,dataNascita,email,cf,password) value (?,?,?,?,?,sha2(?,256);";
+		String query = "INSERT INTO UTENTE (nome,cognome,dataNascita,email,cf,password) value (?,?,?,?,?,?);";
+		
 		ResultSet rs = null;
+		String risultato = "Errore generico";
+		
 		try {
+			PreparedStatement ps = con.prepareStatement("Select idUtente from utente where email = ?");
+			ps.setString(1, user.getEmail());
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				if(rs.getInt("idUtente") >0) {
+					return "Utente gia registrato";
+				}
+			}
+		}
+		catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		try {
+			int risultatoInserimento;
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, user.getNome());
 			ps.setString(2, user.getCognome());
+			ps.setDate(3, Date.valueOf(user.getDataNascita()));
 			ps.setString(4, user.getEmail());
 			ps.setString(5, user.getCf());
 			ps.setString(6, user.getPass());
-			rs=ps.executeQuery();
-			while(rs.next()) {
-				if(rs.rowInserted()) {
-					return true;
+			risultatoInserimento=ps.executeUpdate();
+			
+				if(risultatoInserimento == 1) {
+					con.commit();
+					return "Registrazione eseguita";
+					
 				}
-			}
-
+			
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 		}
 		DBConnection.releseConnection(con);
 
-		return false;
+		return risultato;
 		
 	}
+	public synchronized String loadNameById(int id) {
+		con=DBConnection.getConnection();
+		String query = "SELECT Utente.nome FROM UTENTE WHERE idUtente = ?";
+		ResultSet rs = null;
+		String utente = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, id);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				utente = rs.getString("nome");
+			}
+			DBConnection.releseConnection(con);
+
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return utente;
+		
+	}
+	
+	
 }

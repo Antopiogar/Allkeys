@@ -7,7 +7,13 @@
 <title>Registrazione</title>
 </head>
 <body>
+<%@ include file="NavBar.jsp" %>
 	<h1>Registrati</h1>
+	<%
+	boolean registrazioneFallita = Boolean.TRUE.equals(session.getAttribute("LoginFallito"));
+	if(registrazioneFallita)
+		out.print("Registrazione Fallita, riprova");
+	%>
 	<form action="registerServlet" method = "POST">
 		<label for="nome">Nome</label>
 		<input type="text" name = "nome" required id ="nome">

@@ -7,7 +7,7 @@ create table Utente(
 	nome varchar(50) not null,
 	cognome varchar(50) not null,
 	dataNascita date not null,
-	email varchar(50) not null,
+	email varchar(50) not null unique,
 	cf char(16) not null,
 	password char (64) not null
 );

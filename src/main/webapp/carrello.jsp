@@ -9,6 +9,7 @@
 <title>Carrello</title>
 </head>
 <body>
+	<%@ include file="NavBar.jsp" %>
 	<h1>Carrello</h1>
 	<% Carrello cart = (Carrello) request.getSession().getAttribute("cart");%>
 	<%!BeanArticolo articolo = null; %>
@@ -36,8 +37,9 @@
 	</form>
 	<% }%>
 	<%} %>
-	
-	<h2> totale = <%= cart.prezzoTotale() %> €</h2>
+	<%if(cart != null){ %>
+		<h2> totale = <%= cart.prezzoTotale() %> €</h2>
+	<%} %>
 	<br><a href="ViewCatalog">Torna al catalogo</a>
 </body>
 </html>

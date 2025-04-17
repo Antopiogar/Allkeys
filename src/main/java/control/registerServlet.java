@@ -29,9 +29,10 @@ public class registerServlet extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		BeanUtente user = new BeanUtente();
 		String nome,cognome,cf,email,pass,dataHTML;
-		boolean result;
+		String result;
 		nome = request.getParameter("nome");
 		cognome = request.getParameter("cognome");
 		cf = request.getParameter("cf");
@@ -44,15 +45,22 @@ public class registerServlet extends HttpServlet {
 		user.setCf(cf);
 		user.setDataNascita(data);
 		user.setEmail(email);
-		user.setPass(pass);
+		user.setPass(UtenteDAO.toSHA256(pass));
 		UtenteDAO uDao = new UtenteDAO();
 		result = uDao.register(user); 
-		if(result) {
+		if(result.equalsIgnoreCase("Utente gia registrato")) {
+			request.getSession().setAttribute("Email", "esitente");
+			response.sendRedirect("login.jsp");
+		}
+		else if(result.equalsIgnoreCase("Registrazione eseguita")) {
+			request.getSession().setAttribute("Email", "non esistente");
 			response.sendRedirect("login.jsp");
 		}
 		else {
+			request.getSession().setAttribute("LoginFallito", true);
 			response.sendRedirect("regiser.jsp");
 		}
+		
 	}
 
 }
