@@ -4,7 +4,7 @@
 <%
 	String nome = (String) request.getSession().getAttribute("Nome");
 %>
-<link rel="stylesheet" href="css/NavBar.css">
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/NavBar.css">
 <div class="navbar">
     <div class="logo">
     	<a href="index.jsp">Allkeys</a>
