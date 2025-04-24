@@ -14,7 +14,7 @@
 	      <button class="dropbtn"><%= nome %></button>
 	      <div class="dropdown-content">
 	        <a href="userLogged/profilo.jsp">Profilo</a>
-	        <a href="logout">Logout</a>
+	        <a href="<%= request.getContextPath() %>/logout">Logout</a>
 	      </div>
 	    </div>
 	<%}else { %>

@@ -9,6 +9,8 @@
 	<jsp:include page="verificaLogin.jsp" />
 </head>
 <body>
+<%@ include file="../NavBar.jsp" %>
+
 <%
 	boolean redirect = Boolean.TRUE.equals(session.getAttribute("redirect"));
 	if(redirect){

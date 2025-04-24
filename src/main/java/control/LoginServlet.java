@@ -36,12 +36,15 @@ public class LoginServlet extends HttpServlet {
 		email = request.getParameter("email");
 		pass = UtenteDAO.toSHA256(request.getParameter("password"));
 		idUser = uDao.login(email, pass);
-		nomeUser = uDao.loadNameById(idUser);
-		if(nomeUser.equalsIgnoreCase("login fallito")) {
-			request.getSession().setAttribute("Login", false);
+		if(idUser == -1) {
+			System.out.println("idUser = "+ idUser);
+
+			request.getSession().setAttribute("LoginFallito", true);
 			response.sendRedirect("login.jsp");
 		}
 		else {
+			nomeUser = uDao.loadNameById(idUser);
+
 			request.getSession().setAttribute("idUser", idUser);
 			request.getSession().setAttribute("Nome", nomeUser);
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("userLogged/profilo.jsp");

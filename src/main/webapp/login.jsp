@@ -10,16 +10,22 @@
 <%@ include file="NavBar.jsp" %>
 	<%
 	String emailEsistente = (String)session.getAttribute("EmailEsistente");
-	boolean loginFallito = Boolean.TRUE.equals(session.getAttribute("RisultatoLogin"));
-	
+	boolean loginFallito = Boolean.TRUE.equals(session.getAttribute("LoginFallito"));
+	System.out.print(loginFallito);
 	if(emailEsistente!=null &&  emailEsistente.equalsIgnoreCase("esistente")){
 		out.print("Email già registrata<br>");
 		session.setAttribute("RisultatoLogin",null);
 
 	}
-	else if(emailEsistente!=null && emailEsistente.equalsIgnoreCase("non esistente"))
+	else if(emailEsistente!=null && emailEsistente.equalsIgnoreCase("non esistente")){
 		out.print("Registrazione riuscita<br>");
 		session.setAttribute("RisultatoLogin",null);
+	}
+	else if(loginFallito){
+		out.print("Email o password errati <br>");
+
+	}
+	
 	%> 
 	<h1>Accedi</h1>
 	<form action="loginServlet" method = "POST">

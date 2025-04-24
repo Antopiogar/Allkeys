@@ -25,3 +25,10 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+DROP VIEW IF EXISTS ViewCatalogo;
+CREATE VIEW ViewCatalogo AS
+SELECT DISTINCT a.*, c.*
+FROM articolo AS a
+JOIN chiave AS c ON a.idArticolo = c.fkArticolo
+WHERE c.fkOrdine IS NULL;

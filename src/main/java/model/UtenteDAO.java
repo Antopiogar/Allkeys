@@ -47,6 +47,7 @@ public class UtenteDAO {
 	
 	public synchronized int login(String email, String pass) {
 		con=DBConnection.getConnection();
+		System.out.println("pass"+ pass);
 		String query = "SELECT * FROM UTENTE WHERE email = ? and password = ?";
 		ResultSet rs = null;
 		int id =-1;

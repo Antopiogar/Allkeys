@@ -45,7 +45,7 @@ public class ArticoloDAO {
 	public synchronized ArrayList<BeanArticolo> loadAllAvailableArticles() {
 		con=DBConnection.getConnection();
 
-		String query = "select distinct * from articolo as a join chiave as c on a.idArticolo = c.fkArticolo where c.fkOrdine is null";
+		String query = "SELECT * FROM VIEWCATALOGO";
 		ResultSet rs = null;
 		ArrayList<BeanArticolo> articoli = new ArrayList<BeanArticolo>();
 		try {
