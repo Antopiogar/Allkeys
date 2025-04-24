@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -9,11 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.ArticoliCarrello;
 import model.ArticoloDAO;
 import model.BeanArticolo;
+import model.BeanCartaPagamento;
 import model.BeanUtente;
 
 import model.Carrello;
+import model.CartaPagamentoDAO;
+import model.OrdineDAO;
 import model.UtenteDAO;
 
 /**
@@ -65,14 +70,50 @@ public class TestingServlet extends HttpServlet {
 		
 		
 	}
+	@SuppressWarnings("unused")
 
 	private void testLogin() {
 		UtenteDAO uDao = new UtenteDAO();
 		System.out.println(uDao.login("mario.rossi@email.com", "admin"));
 	}
 	
+	
+	@SuppressWarnings("unused")
+
+	private void testCreazioneOrdine() {
+		boolean ris = false;
+		ArrayList<ArticoliCarrello> carrello = new ArrayList<ArticoliCarrello>();
+		carrello.add(new ArticoliCarrello(ArticoloDAO.getArticoloById("1")));
+		UtenteDAO uDao = new UtenteDAO();
+		BeanUtente user = uDao.loadUserById(1);
+		ris = OrdineDAO.CreateOrder(carrello, user);
+		if(ris)
+			System.out.println("Creazione a buon fine");
+		else
+			System.out.println("BOOM");
+	}
+	
+	@SuppressWarnings("unused")
+
+	private void testAggiuntaCarta() {
+		boolean ris = false;
+		BeanCartaPagamento carta = new BeanCartaPagamento();
+		carta.setIdCarta(1001);
+        carta.setTitolare("Antonio Rossi");
+        carta.setnCarta("1234567812345678");
+        carta.setScadenza(LocalDate.of(2026, 5, 20)); 
+        carta.setCodiceCVC("123");
+		UtenteDAO uDao = new UtenteDAO();
+		BeanUtente user = uDao.loadUserById(1);
+		ris = CartaPagamentoDAO.AddCartaPagamento(user, carta);
+		if(ris)
+			System.out.println("Carta creata");
+		else
+			System.out.println("BOOM");
+	}
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		testLogin();
+		testAggiuntaCarta();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

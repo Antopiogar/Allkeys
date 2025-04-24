@@ -17,8 +17,8 @@ INSERT INTO Articolo (logo, nome, prezzo, piattaforma) VALUES
 
 -- Inserimento Ordini
 INSERT INTO Ordine (dataAcquisto, conferma, fkUtente, fkCarta) VALUES 
-('2024-04-10', true, 1, 1),
-('2024-04-12', true, 2, 2);
+(now(), true, 1, 1),
+(now(), true, 2, 2);
 
 -- Inserimento Chiavi, alcune con fkOrdine NULL
 INSERT INTO Chiave (codice, FkOrdine, FkArticolo) VALUES 

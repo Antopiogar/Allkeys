@@ -1,12 +1,12 @@
 package model;
 
-import java.time.LocalTime;
+import java.time.LocalDate;
 
 public class BeanCartaPagamento {
 	private int idCarta;
 	private String titolare;
 	private String nCarta;
-	private LocalTime scadenza;
+	private LocalDate scadenza;
 	private String codiceCVC;
 	private BeanUtente fkUtente;
 	
@@ -31,10 +31,10 @@ public class BeanCartaPagamento {
 	public void setnCarta(String nCarta) {
 		this.nCarta = nCarta;
 	}
-	public LocalTime getScadenza() {
+	public LocalDate getScadenza() {
 		return scadenza;
 	}
-	public void setScadenza(LocalTime scadenza) {
+	public void setScadenza(LocalDate scadenza) {
 		this.scadenza = scadenza;
 	}
 	public String getCodiceCVC() {

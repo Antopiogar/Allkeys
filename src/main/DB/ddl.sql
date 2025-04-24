@@ -33,7 +33,7 @@ create table Articolo(
 
 create table Ordine(
 	idOrdine int auto_increment primary key,
-	dataAcquisto date not null,
+	dataAcquisto datetime not null,
 	conferma boolean not null,
 
 	fkUtente int not null,

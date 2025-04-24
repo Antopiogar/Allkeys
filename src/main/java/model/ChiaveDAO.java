@@ -12,26 +12,7 @@ public class ChiaveDAO {
 	}
 	
 	
-	public static float getPriceByIdArticolo(String id) {
-		con=DBConnection.getConnection();
-		String query = "SELECT c.prezzo FROM CHIAVE WHERE FKArticolo = ? AND FkOrdine = null ORDER BY PREZZO ASC LIMIT 1";
-		ResultSet rs = null;
-		float prezzo=0;
-		try {
-			con = DBConnection.getConnection();
-			PreparedStatement ps = con.prepareStatement(query);
-			ps.setInt(1, Integer.parseInt(id));
-			rs=ps.executeQuery();
-			while(rs.next()) {
-				prezzo = rs.getFloat("prezzo");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		DBConnection.releseConnection(con);
-		return prezzo;
-	}
+	
 
 	
 
