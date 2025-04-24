@@ -57,4 +57,27 @@ public class BeanArticolo {
 		return "Articolo: nome= %s, piattaforma = %s, srcLogo = %s , prezzo = %s €"
 				.formatted(this.nome,this.piattaforma,this.logo, this.prezzo);
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + IdArticolo;
+		result = prime * result + ((logo == null) ? 0 : logo.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((piattaforma == null) ? 0 : piattaforma.hashCode());
+		result = prime * result + Float.floatToIntBits(prezzo);
+		return result;
+	}
+
+
+	
+	public boolean equalsById(BeanArticolo bean) {
+		if(this.IdArticolo == bean.IdArticolo)
+			return true;
+		return false;
+	}
+	
+	
 }

@@ -97,6 +97,28 @@ public class Carrello {
 	public String toString() {
 		return "Carrello [articoli=" + articoli + "]";
 	}
+	//TODO
+	public boolean isInCarrello (Carrello c,BeanArticolo art) {
+		for(ArticoliCarrello prodotto : c.getArticoli()) {
+			if(prodotto.getArticolo().equalsById(art))
+				return true;
+		}
+		return false;
+	}
+	
+	public Carrello MergeCarrelli(Carrello c1, Carrello c2) {
+		Carrello ris = new Carrello();
+		for(ArticoliCarrello art : c1.getArticoli() ) {
+			ris.AddArticolo(art.getArticolo());
+			ris.setQta(art.getArticolo(), art.getQta());			
+		}
+		for(ArticoliCarrello art : c2.getArticoli() ) {
+			if(isInCarrello(ris, art.getArticolo())) {
+				ris.setQta(art.getArticolo(), ris.getQta(art.getArticolo())+art.getQta());
+			}
+		}
+		return ris;
+	}
 	
 	
 	

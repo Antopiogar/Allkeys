@@ -54,7 +54,7 @@ private static Connection con;
 		try {
 			int idOrdine = -1;
 			con = DBConnection.getConnection();
-			String query ="SELECT o.idOrdine from Ordine as o where o.conferma = false and o.fkUtente = ?";
+			String query ="SELECT o.idOrdine from Ordine as o where o.conferma = false and o.fkUtente = ? limit 1";
 			PreparedStatement ps = con.prepareStatement(query);
 			BeanArticolo art;
 			ps.setInt(1, idUser);
@@ -96,10 +96,44 @@ private static Connection con;
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
-		}
+		}finally {
+	        DBConnection.releseConnection(con);
+	    }
+		
 		return c;
 		
 	}
 	
+	//BOMBA!
+	public static synchronized boolean ConfirmOrder(int IdUtente, int IdCartaPagamento) {
+		String query = "SELECT o.idOrdine from Ordine as o where o.conferma = false and o.fkUtente = ? limit 1";
+	    int idOrder = 0;
+	    boolean controlloErroriComposizione = false;
+	    try {
+			con=DBConnection.getConnection();
+
+	        CallableStatement cs = con.prepareCall(query);
+	        //cs.setInt(1, user.getIdUtente());
+	        cs.registerOutParameter(2, Types.INTEGER);
+
+	        cs.execute();
+	        idOrder = cs.getInt(2);
+	        //controlloErroriComposizione = ComposizioneDAO.CreateComposizione(con, articoli, idOrder);
+	        if(controlloErroriComposizione) {
+	        	return false;
+	        }
+	        
+	        con.commit();
+	        return true;
+
+	    } catch (SQLException e) {
+	    	System.out.println("MORTO IN ORDINE");
+	        e.printStackTrace();
+	        try { con.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+	    } finally {
+	        DBConnection.releseConnection(con);
+	    }
+	    return false;
+	}
 	
 }
