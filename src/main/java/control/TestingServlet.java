@@ -94,7 +94,6 @@ public class TestingServlet extends HttpServlet {
 	}
 	
 	@SuppressWarnings("unused")
-
 	private void testAggiuntaCarta() {
 		boolean ris = false;
 		BeanCartaPagamento carta = new BeanCartaPagamento();
@@ -112,8 +111,21 @@ public class TestingServlet extends HttpServlet {
 			System.out.println("BOOM");
 	}
 	
+	@SuppressWarnings("unused")
+	private void testCarrelloUtente() {
+		Carrello c = OrdineDAO.LoadCarrelByUser(1);
+		if(c.isEmpty())
+			System.out.println("Carrello vuoto/BOOOM");
+		else if(c == null)
+			System.out.println("BOOM");
+		else
+			System.out.println(c);
+	}
+	
+	
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		testAggiuntaCarta();
+		testCarrelloUtente();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
