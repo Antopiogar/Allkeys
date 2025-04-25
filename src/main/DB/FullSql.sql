@@ -33,7 +33,7 @@ create table Articolo(
 
 create table Ordine(
 	idOrdine int auto_increment primary key,
-	dataAcquisto date not null,
+	dataAcquisto datetime not null,
 	conferma boolean not null,
 
 	fkUtente int not null,
@@ -61,6 +61,8 @@ create table Chiave(
 create table Composizione(
 	idComposizione int auto_increment primary key,
 	prezzoPagato decimal(10,2) not null check(prezzoPagato >= 0),
+	
+	qta int,
 	FkArticolo int null,
 	FkOrdine int null,
 
@@ -104,8 +106,8 @@ INSERT INTO Articolo (logo, nome, prezzo, piattaforma) VALUES
 
 -- Inserimento Ordini
 INSERT INTO Ordine (dataAcquisto, conferma, fkUtente, fkCarta) VALUES 
-('2024-04-10', true, 1, 1),
-('2024-04-12', true, 2, 2);
+(now(), true, 1, 1),
+(now(), true, 2, 2);
 
 -- Inserimento Chiavi, alcune con fkOrdine NULL
 INSERT INTO Chiave (codice, FkOrdine, FkArticolo) VALUES 
@@ -116,9 +118,9 @@ INSERT INTO Chiave (codice, FkOrdine, FkArticolo) VALUES
 ('KEY-TLOU-PS5-005', NULL, 2);
 
 -- Inserimento Composizione
-INSERT INTO Composizione (prezzoPagato, FkArticolo, FkOrdine) VALUES 
-(59.99, 1, 1),
-(69.99, 2, 2);
+INSERT INTO Composizione (prezzoPagato,qta, FkArticolo, FkOrdine) VALUES 
+(59.99,1, 1, 1),
+(69.99,1, 2, 2);
 
 -- Inserimento Recensioni
 INSERT INTO Recensione (testo, voto, dataRecensione, FkUtente, FkArticolo) VALUES 
@@ -126,32 +128,22 @@ INSERT INTO Recensione (testo, voto, dataRecensione, FkUtente, FkArticolo) VALUE
 ('Trama coinvolgente e grafica top!', 4, '2024-04-13', 2, 2);
 
 
+DELIMITER //
 
-DELIMITER $$
-
-CREATE PROCEDURE Create_Order (
-    IN p_IdUtente INT,
-    IN p_dataAcquisto date,
-    IN p_conferma boolean,
-    IN p_IdArticolo INT,
-    OUT last_Id INT
+CREATE PROCEDURE createOrdine (
+    IN p_IdUtente INT
 )
 BEGIN
-    DECLARE exit handler for sqlexception
-        ROLLBACK;  -- Effettua il rollback in caso di errore
-    
-    START TRANSACTION;  -- Inizia la transazione
+    START TRANSACTION;
 
-    INSERT INTO Ordine (dataAcquisto, conferma, fkUtente) value(
-    	p_dataAcquisto,p_conferma,p_IdUtente
-    );
-   	    -- Recupera l'ID generato
-    SET p_last_Id = LAST_INSERT_ID();
+    INSERT INTO Ordine (dataAcquisto, conferma, fkUtente) 
+    VALUES (NOW(), FALSE, p_IdUtente);
 
-    
-    COMMIT;  -- Esegui il commit al termine
+    SELECT LAST_INSERT_ID() AS last_Id;
 
-END $$
+    COMMIT;
+END;
+//
 
 DELIMITER ;
 

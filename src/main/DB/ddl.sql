@@ -33,7 +33,7 @@ create table Articolo(
 
 create table Ordine(
 	idOrdine int auto_increment primary key,
-	dataAcquisto date not null,
+	dataAcquisto datetime not null,
 	conferma boolean not null,
 
 	fkUtente int not null,
@@ -61,6 +61,7 @@ create table Chiave(
 create table Composizione(
 	idComposizione int auto_increment primary key,
 	prezzoPagato decimal(10,2) not null check(prezzoPagato >= 0),
+	qta int,
 	FkArticolo int null,
 	FkOrdine int null,
 

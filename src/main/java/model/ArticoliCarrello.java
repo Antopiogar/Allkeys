@@ -38,6 +38,11 @@ public class ArticoliCarrello {
 		this.qta = qta;
 	}
 
+	@Override
+	public String toString() {
+		return "ArticoliCarrello [articolo=" + articolo + ", qta=" + qta + "]";
+	}
+
 	
 	
 }

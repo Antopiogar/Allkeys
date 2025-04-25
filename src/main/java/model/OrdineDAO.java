@@ -1,15 +1,12 @@
 package model;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.time.LocalTime;
 import java.util.ArrayList;
-
-import com.mysql.cj.jdbc.CallableStatement;
 
 public class OrdineDAO {
 
@@ -19,60 +16,202 @@ private static Connection con;
 	public OrdineDAO() {
 	}
 	
-	//NON TESTATO
+	
 	public static synchronized boolean CreateOrder(ArrayList<ArticoliCarrello> articoli, BeanUtente user) {
-		con=DBConnection.getConnection();
+		String query = "{call createOrdine(?)}";
+	    int idOrder = 0;
+	    boolean controlloErroriComposizione = false;
+	    try {
+			con=DBConnection.getConnection();
 
-		String query = "call {createOrder(?,?,?)};";
-		int idOrder=0;
-		ResultSet rs = null;
+	        CallableStatement cs = con.prepareCall(query);
+	        cs.setInt(1, user.getIdUtente());
+	        ResultSet rs = cs.executeQuery();
+	        if(rs.next()) {
+		        idOrder = rs.getInt("last_Id");
+
+	        }
+	        controlloErroriComposizione = ComposizioneDAO.AggiungiProdotti(con, articoli, idOrder,user.getIdUtente());
+	        if(controlloErroriComposizione) {
+	        	return false;
+	        }
+	        
+	        con.commit();
+	        return true;
+
+	    } catch (SQLException e) {
+	    	System.out.println("MORTO IN ORDINE");
+	        e.printStackTrace();
+	        try { con.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+	    } finally {
+	        DBConnection.releseConnection(con);
+	    }
+	    return false;
+	}
+	
+	public static synchronized Carrello LoadCarrelByUser(int idUser){
+		Carrello c = new Carrello();
+		
 		try {
-			LocalTime localTime = LocalTime.now();
-	        // Converte in java.util.Date
-	        Date date = Date.valueOf(localTime.toString());
+			int idOrdine = -1;
 			con = DBConnection.getConnection();
-			//creazione dell'ordine
-			CallableStatement procedureCreation = (CallableStatement) con.prepareCall(query);
-			PreparedStatement ps = null;
-			procedureCreation.setInt(1,user.getIdUtente());
-			procedureCreation.setDate(2,date);
-			procedureCreation.setInt(3,0);
-			procedureCreation.registerOutParameter(4, Types.INTEGER);
-			rs=procedureCreation.executeQuery();
-			if(rs.rowInserted()) {
-				idOrder = rs.getInt(4);
-				//inserimento elementi in composizione
-				for (ArticoliCarrello articolo : articoli) {
-					query ="""
-							INSERT INTO Composizione (prezzoPagato,FkArticolo,FKOrdine) value
-						   (
-						   			(select c.prezzo from Chiave as c where (c.FkArticolo = p_IdArticlo) and Fk_ordine is NULL order by c.id asc limit 1),
-						   			?,?
-						   	)
-							""";
-					for(int i = 0; i< articolo.getQta();i++) {
-						ps = (CallableStatement) con.prepareCall(query);
-						ps.setInt(1, articolo.getArticolo().getIdArticolo());
-						ps.setInt(2, idOrder);
-						rs = ps.executeQuery();
-						if(!rs.rowInserted()) {
-							con.rollback();
-							DBConnection.releseConnection(con);
-							return false;
-						}
-					}
-					
-				}
+			String query ="SELECT o.idOrdine from Ordine as o where o.conferma = false and o.fkUtente = ? limit 1";
+			PreparedStatement ps = con.prepareStatement(query);
+			BeanArticolo art;
+			ps.setInt(1, idUser);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				idOrdine = rs.getInt("idOrdine");
 			}
-			con.commit();
-		} catch (SQLException e) {
+			if(idOrdine == -1) {
+				return null;
+			}
+			
+			query = """
+					SELECT 
+					    a.idArticolo,
+					    a.logo,
+					    a.nome,
+					    a.piattaforma, 
+					    a.prezzo,
+					    c.qta 
+					FROM composizione AS c
+					JOIN articolo AS a ON c.FkArticolo = a.idArticolo 
+					where c.FkOrdine = ?
+					GROUP BY 
+					    a.idArticolo, a.logo, a.nome, a.piattaforma, a.prezzo
+					""";
+			ps = con.prepareStatement(query);
+			ps.setInt(1, idOrdine);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				art = new BeanArticolo();
+				art.setIdArticolo(rs.getInt("idArticolo"));
+				art.setLogo(rs.getString("logo"));
+				art.setNome(rs.getString("nome"));
+				art.setPiattaforma(rs.getString("piattaforma"));
+				art.setPrezzo(rs.getFloat("prezzo"));
+				c.AddArticolo(art);
+				c.setQta(art, rs.getInt("qta"));
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+	        DBConnection.releseConnection(con);
+	    }
+		
+		return c;
+		
+	}
+	
+	//BOMBA!
+	public static synchronized boolean ConfirmOrder(int IdUtente, int IdCartaPagamento) {
+		String query = "SELECT o.idOrdine from Ordine as o where o.conferma = false and o.fkUtente = ? limit 1";
+	    int idOrder = 0;
+	    boolean controlloErroriComposizione = false;
+	    try {
+			con=DBConnection.getConnection();
+
+	        CallableStatement cs = con.prepareCall(query);
+	        //cs.setInt(1, user.getIdUtente());
+	        cs.registerOutParameter(2, Types.INTEGER);
+
+	        cs.execute();
+	        idOrder = cs.getInt(2);
+	        //controlloErroriComposizione = ComposizioneDAO.CreateComposizione(con, articoli, idOrder);
+	        if(controlloErroriComposizione) {
+	        	return false;
+	        }
+	        
+	        con.commit();
+	        return true;
+
+	    } catch (SQLException e) {
+	    	System.out.println("MORTO IN ORDINE");
+	        e.printStackTrace();
+	        try { con.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+	    } finally {
+	        DBConnection.releseConnection(con);
+	    }
+	    return false;
+	}
+	
+	public static synchronized boolean addArticoloToCarrelloDB(int idUser,ArticoliCarrello art) {
+		
+		try {
+			int idOrdine = -1,risultatoInserimento=-1;
+			con = DBConnection.getConnection();
+			String query ="SELECT o.idOrdine from Ordine as o where o.conferma = false and o.fkUtente = ? limit 1";
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, idUser);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				idOrdine = rs.getInt("idOrdine");
+			}
+			if(idOrdine == -1) {
+				return false;
+			}
+			query = """
+					Insert into 
+						composizione (prezzoPagato, qta,FkArticolo,FkOrdine) 
+						value(
+							(Select prezzo from Articolo where idArticolo =?),
+							?,?,?
+						);
+					""";
+			ps = con.prepareStatement(query);
+			ps.setInt(1, art.getArticolo().getIdArticolo());
+			ps.setInt(2, art.getQta());
+			ps.setInt(3, art.getArticolo().getIdArticolo());
+			ps.setInt(4, idOrdine);
+			risultatoInserimento = ps.executeUpdate();
+			if(risultatoInserimento == 1) {
+				con.commit();
+				DBConnection.releseConnection(con);
+				return true;
+			}
+			
+		}catch (Exception e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
+		}finally {
+			DBConnection.releseConnection(con);
 		}
-		DBConnection.releseConnection(con);
+		
 		return false;
+	}
+
+
+	public static synchronized int getIdCarrello(int idUser) {
+		int idOrdine = 0;
+		Connection con = DBConnection.getConnection();
+		String query ="SELECT o.idOrdine from Ordine as o where o.conferma = false and o.fkUtente = ? limit 1";
+		try {
+	        PreparedStatement ps = con.prepareStatement(query);
+	        ps.setInt(1, idUser);
+	        ResultSet rs = ps.executeQuery();
+	        while(rs.next()) {
+	        	idOrdine = rs.getInt("idOrdine");
+	        }
+	        //se non ha ancora il carrello DB lo crea e restituisce quello
+	        if(idOrdine == 0){
+	        	CreateOrder(null, UtenteDAO.loadUserById(idUser));
+	        	idOrdine = getIdCarrello(idUser);
+	        }
+	    } catch (SQLException e) {
+	    	System.out.println("MORTO IN OTTIENI ID CARRELLO");
+	        e.printStackTrace();
+
+	    } finally {
+	        DBConnection.releseConnection(con);
+	    }
+		return idOrdine;
 	}
 	
 	
 }
-
-

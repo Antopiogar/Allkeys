@@ -1,6 +1,11 @@
 package control;
 
 import java.io.IOException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -9,11 +14,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.ArticoliCarrello;
 import model.ArticoloDAO;
 import model.BeanArticolo;
+import model.BeanCartaPagamento;
 import model.BeanUtente;
 
 import model.Carrello;
+import model.CartaPagamentoDAO;
+import model.ComposizioneDAO;
+import model.DBConnection;
+import model.OrdineDAO;
 import model.UtenteDAO;
 
 /**
@@ -65,14 +76,78 @@ public class TestingServlet extends HttpServlet {
 		
 		
 	}
+	@SuppressWarnings("unused")
 
 	private void testLogin() {
 		UtenteDAO uDao = new UtenteDAO();
 		System.out.println(uDao.login("mario.rossi@email.com", "admin"));
 	}
 	
+	
+	@SuppressWarnings("unused")
+
+	private void testCreazioneOrdine() {
+		boolean ris = false;
+		ArrayList<ArticoliCarrello> carrello = new ArrayList<ArticoliCarrello>();
+		carrello.add(new ArticoliCarrello(ArticoloDAO.getArticoloById("1")));
+		BeanUtente user = UtenteDAO.loadUserById(1);
+		ris = OrdineDAO.CreateOrder(carrello, user);
+		if(ris)
+			System.out.println("Creazione a buon fine");
+		else
+			System.out.println("BOOM");
+	}
+	
+	@SuppressWarnings("unused")
+	private void testAggiuntaCarta() {
+		boolean ris = false;
+		BeanCartaPagamento carta = new BeanCartaPagamento();
+		carta.setIdCarta(1001);
+        carta.setTitolare("Antonio Rossi");
+        carta.setnCarta("1234567812345678");
+        carta.setScadenza(LocalDate.of(2026, 5, 20)); 
+        carta.setCodiceCVC("123");
+		BeanUtente user = UtenteDAO.loadUserById(1);
+		ris = CartaPagamentoDAO.AddCartaPagamento(user, carta);
+		if(ris)
+			System.out.println("Carta creata");
+		else
+			System.out.println("BOOM");
+	}
+	
+	@SuppressWarnings("unused")
+	private void testCarrelloUtente() {
+
+		
+		Carrello c = OrdineDAO.LoadCarrelByUser(1);
+		if(c.isEmpty())
+			System.out.println("Carrello vuoto/BOOOM");
+		else if(c == null)
+			System.out.println("BOOM");
+		else
+			System.out.println(c);
+	}
+	
+	@SuppressWarnings("unused")
+	private void testErroriGetIdCarrello() {
+		int idUtente = 1;
+		int idCarrello = OrdineDAO.getIdCarrello(idUtente);
+		
+		System.out.println(idCarrello);
+		Carrello c2 = new Carrello();
+		c2.AddArticolo(ArticoloDAO.getArticoloById("1"));
+		Connection con = DBConnection.getConnection();
+		ComposizioneDAO.AggiungiProdotti(con, c2.getArticoli(), idCarrello,idUtente);
+		Carrello c = OrdineDAO.LoadCarrelByUser(1);
+
+		DBConnection.releseConnection(con);
+		System.out.println(c);
+	
+	}
+		
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		testLogin();
+		testErroriGetIdCarrello();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
