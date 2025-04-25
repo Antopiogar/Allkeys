@@ -29,9 +29,9 @@ INSERT INTO Chiave (codice, FkOrdine, FkArticolo) VALUES
 ('KEY-TLOU-PS5-005', NULL, 2);
 
 -- Inserimento Composizione
-INSERT INTO Composizione (prezzoPagato, FkArticolo, FkOrdine) VALUES 
-(59.99, 1, 1),
-(69.99, 2, 2);
+INSERT INTO Composizione (prezzoPagato,qta, FkArticolo, FkOrdine) VALUES 
+(59.99, 1, 1, 1),
+(69.99, 1, 2, 2);
 
 -- Inserimento Recensioni
 INSERT INTO Recensione (testo, voto, dataRecensione, FkUtente, FkArticolo) VALUES 

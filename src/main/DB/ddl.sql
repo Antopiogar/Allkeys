@@ -61,6 +61,7 @@ create table Chiave(
 create table Composizione(
 	idComposizione int auto_increment primary key,
 	prezzoPagato decimal(10,2) not null check(prezzoPagato >= 0),
+	qta int,
 	FkArticolo int null,
 	FkOrdine int null,
 

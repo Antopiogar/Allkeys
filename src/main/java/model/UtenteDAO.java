@@ -16,7 +16,7 @@ public class UtenteDAO {
 	public UtenteDAO() {
 	}
 	
-	public synchronized BeanUtente loadUserById(int id) {
+	public static synchronized BeanUtente loadUserById(int id) {
 		con=DBConnection.getConnection();
 		String query = "SELECT * FROM UTENTE WHERE idUtente = ?";
 		ResultSet rs = null;
@@ -47,7 +47,6 @@ public class UtenteDAO {
 	
 	public synchronized int login(String email, String pass) {
 		con=DBConnection.getConnection();
-		System.out.println("pass"+ pass);
 		String query = "SELECT * FROM UTENTE WHERE email = ? and password = ?";
 		ResultSet rs = null;
 		int id =-1;

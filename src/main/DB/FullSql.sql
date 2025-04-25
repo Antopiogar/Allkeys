@@ -61,6 +61,8 @@ create table Chiave(
 create table Composizione(
 	idComposizione int auto_increment primary key,
 	prezzoPagato decimal(10,2) not null check(prezzoPagato >= 0),
+	
+	qta int,
 	FkArticolo int null,
 	FkOrdine int null,
 
@@ -116,9 +118,9 @@ INSERT INTO Chiave (codice, FkOrdine, FkArticolo) VALUES
 ('KEY-TLOU-PS5-005', NULL, 2);
 
 -- Inserimento Composizione
-INSERT INTO Composizione (prezzoPagato, FkArticolo, FkOrdine) VALUES 
-(59.99, 1, 1),
-(69.99, 2, 2);
+INSERT INTO Composizione (prezzoPagato,qta, FkArticolo, FkOrdine) VALUES 
+(59.99,1, 1, 1),
+(69.99,1, 2, 2);
 
 -- Inserimento Recensioni
 INSERT INTO Recensione (testo, voto, dataRecensione, FkUtente, FkArticolo) VALUES 
@@ -126,31 +128,24 @@ INSERT INTO Recensione (testo, voto, dataRecensione, FkUtente, FkArticolo) VALUE
 ('Trama coinvolgente e grafica top!', 4, '2024-04-13', 2, 2);
 
 
+DELIMITER //
 
-DELIMITER $$
-
-CREATE PROCEDURE CreazioneOrdine (
-    IN p_IdUtente INT,
-    INOUT last_Id INT
+CREATE PROCEDURE createOrdine (
+    IN p_IdUtente INT
 )
 BEGIN
-    DECLARE exit handler for SQLEXCEPTION 
-        BEGIN 
-            ROLLBACK;
-        END;
-
     START TRANSACTION;
 
     INSERT INTO Ordine (dataAcquisto, conferma, fkUtente) 
-    VALUES (now(),false, p_IdUtente);
+    VALUES (NOW(), FALSE, p_IdUtente);
 
-    SET last_Id = LAST_INSERT_ID();
+    SELECT LAST_INSERT_ID() AS last_Id;
 
     COMMIT;
-END $$
+END;
+//
 
 DELIMITER ;
-
 
 DROP VIEW IF EXISTS ViewCatalogo;
 CREATE VIEW ViewCatalogo AS

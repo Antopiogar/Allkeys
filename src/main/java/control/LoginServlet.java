@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Carrello;
+import model.ComposizioneDAO;
+import model.OrdineDAO;
 import model.UtenteDAO;
 
 /**
@@ -43,8 +46,19 @@ public class LoginServlet extends HttpServlet {
 			response.sendRedirect("login.jsp");
 		}
 		else {
-			nomeUser = uDao.loadNameById(idUser);
+			Carrello c= (Carrello) request.getSession().getAttribute("cart");
+			Carrello DB = OrdineDAO.LoadCarrelByUser(idUser);
 
+			if(c == null) {
+				c = DB;
+			}
+			else {
+				c= Carrello.MergeCarrelli(DB,c);
+				ComposizioneDAO.SincronizzaCarrelli(idUser, c);
+			}
+			request.getSession().setAttribute("cart", c);
+			
+			nomeUser = uDao.loadNameById(idUser);
 			request.getSession().setAttribute("idUser", idUser);
 			request.getSession().setAttribute("Nome", nomeUser);
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("userLogged/profilo.jsp");

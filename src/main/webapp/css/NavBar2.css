@@ -19,13 +19,13 @@ body {
 }
 
 .logo a {
-  color: white; /* Mantieni il colore bianco per il link del logo */
-  text-decoration: none; /* Rimuovi la sottolineatura */
+  color: white;
+  text-decoration: none;
 }
 
 .logo a:focus,
 .logo a:active {
-  color: white; /* Assicurati che il colore rimanga bianco anche quando il link è cliccato o in focus */
+  color: white; /* Mantiene il colore bianco anche quando cliccato */
 }
 
 .dropdown {
@@ -68,5 +68,34 @@ body {
 }
 
 .dropdown:hover .dropbtn {
+  background-color: #444;
+}
+
+/* Stile per Registrati e Login */
+.item {
+  display: inline-block;
+  margin-right: 15px; /* Spazio tra Registrati e Login */
+}
+
+.item:last-child {
+  margin-right: 0; /* Rimuove il margine dall'ultimo elemento */
+}
+
+.item a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 16px;
+  background-color: #444;
+  border-radius: 5px;
+}
+
+.item a:hover {
+  background-color: #555;
+}
+
+/* Impedisce il cambio di colore quando cliccato */
+.item a:focus,
+.item a:active {
+  color: white;
   background-color: #444;
 }

@@ -11,7 +11,6 @@
 	<%
 	String emailEsistente = (String)session.getAttribute("EmailEsistente");
 	boolean loginFallito = Boolean.TRUE.equals(session.getAttribute("LoginFallito"));
-	System.out.print(loginFallito);
 	if(emailEsistente!=null &&  emailEsistente.equalsIgnoreCase("esistente")){
 		out.print("Email già registrata<br>");
 		session.setAttribute("RisultatoLogin",null);
