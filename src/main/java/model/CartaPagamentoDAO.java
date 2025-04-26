@@ -3,7 +3,9 @@ package model;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CartaPagamentoDAO {
 	private static Connection con;
@@ -47,6 +49,68 @@ public class CartaPagamentoDAO {
 		return false;
 	}
 	
+	public static synchronized ArrayList<BeanCartaPagamento> loadCartaPagamentoByIdUtente(int idUtente){
+		ArrayList<BeanCartaPagamento> carte = new ArrayList<BeanCartaPagamento>();
+		Connection con = DBConnection.getConnection();
+		try {
+			BeanCartaPagamento bc;
+			String query="""
+					SELECT *
+					FROM Carta_Pagamento
+					WHERE
+						FkUtente = ?
+					""";
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, idUtente);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				bc = new BeanCartaPagamento(); 
+				bc.setIdCarta(rs.getInt("idCarta"));
+				bc.setTitolare(rs.getString("Titolare"));
+				bc.setnCarta(rs.getString("numeroCarta"));
+				bc.setScadenza(rs.getDate("scadenza").toLocalDate());
+				bc.setCodiceCVC(rs.getString("codiceCVC"));
+				carte.add(bc);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("MORTO IN LOAD CARTE");
+		}
+		DBConnection.releseConnection(con);
+		return carte;
+	}
+	
+	public static synchronized BeanCartaPagamento loadCartaById(int idCarta){
+		BeanCartaPagamento bc = null;
+		Connection con = DBConnection.getConnection();
+		try {
+			String query="""
+					SELECT *
+					FROM Carta_Pagamento
+					WHERE
+						IdCarta = ?
+					""";
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, idCarta);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				bc = new BeanCartaPagamento(); 
+				bc.setIdCarta(rs.getInt("idCarta"));
+				bc.setTitolare(rs.getString("Titolare"));
+				bc.setnCarta(rs.getString("numeroCarta"));
+				bc.setScadenza(rs.getDate("scadenza").toLocalDate());
+				bc.setCodiceCVC(rs.getString("codiceCVC"));
+				
+			}
+			ps.close();
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("MORTO IN LOAD CARTE");
+		}
+		DBConnection.releseConnection(con);
+		return bc;
+	}
 	
 
 	

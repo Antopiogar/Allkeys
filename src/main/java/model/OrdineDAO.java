@@ -105,27 +105,44 @@ private static Connection con;
 		
 	}
 	
-	//BOMBA!
-	public static synchronized boolean ConfirmOrder(int IdUtente, int IdCartaPagamento) {
-		String query = "SELECT o.idOrdine from Ordine as o where o.conferma = false and o.fkUtente = ? limit 1";
-	    int idOrder = 0;
-	    boolean controlloErroriComposizione = false;
+	
+	//SE VA A BUON FINE RITORNA 0
+	//SE MANCANO PRODOTTI SUL DB RITORNA ID DI QUEL PRODOTTO
+	//SE CI SONO ALTRI ERRORI RITORNA -1
+	public static synchronized int ConfirmOrder(int IdUtente, int IdCartaPagamento) {
+		String query = """
+				UPDATE 
+					Ordine
+				Set conferma = True, fkCarta= ?
+				where
+				idOrdine = ?
+					
+				""";
+	    con = DBConnection.getConnection();
+		int idOrder = getIdCarrello(IdUtente);
+	    boolean risultato = false;
+	    int risultatoUpdateChiavi = -2;
 	    try {
-			con=DBConnection.getConnection();
-
-	        CallableStatement cs = con.prepareCall(query);
-	        //cs.setInt(1, user.getIdUtente());
-	        cs.registerOutParameter(2, Types.INTEGER);
-
-	        cs.execute();
-	        idOrder = cs.getInt(2);
-	        //controlloErroriComposizione = ComposizioneDAO.CreateComposizione(con, articoli, idOrder);
-	        if(controlloErroriComposizione) {
-	        	return false;
-	        }
-	        
+	    	PreparedStatement ps = con.prepareStatement(query);
+	    	ps.setInt(2, idOrder);
+	    	ps.setInt(1, IdCartaPagamento);
+	    	risultato = ps.executeUpdate() == 1 ? true : false;
+	    	if(risultato) {
+	    		System.out.println("QUI VA");
+	    		risultatoUpdateChiavi = ChiaveDAO.confermaChiaviOrdinate(con, IdUtente, idOrder);
+	    		System.out.println("risultatoUpdateChiavi"+risultatoUpdateChiavi);
+	    		if(risultatoUpdateChiavi != 0) {
+	    			return risultatoUpdateChiavi;
+	    		}
+	    	}
+	    	ps.close();
+			
+    		System.out.println("QUI VA");
+    		
 	        con.commit();
-	        return true;
+	        System.out.println("COMMIT?");
+    		
+	        return 0;
 
 	    } catch (SQLException e) {
 	    	System.out.println("MORTO IN ORDINE");
@@ -134,21 +151,31 @@ private static Connection con;
 	    } finally {
 	        DBConnection.releseConnection(con);
 	    }
-	    return false;
+	    return -1;
 	}
 	
 	public static synchronized boolean addArticoloToCarrelloDB(int idUser,ArticoliCarrello art) {
-		
+		System.out.println("ARRIVA QUI");
+
 		try {
+
 			int idOrdine = -1,risultatoInserimento=-1;
 			con = DBConnection.getConnection();
 			String query ="SELECT o.idOrdine from Ordine as o where o.conferma = false and o.fkUtente = ? limit 1";
+			
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, idUser);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
+			if(rs.next()) {
 				idOrdine = rs.getInt("idOrdine");
+				System.out.println("idOrdine add articolo" + idOrdine);
 			}
+			else {
+				CreateOrder(null, UtenteDAO.loadUserById(idUser));
+				System.out.println("entra qui");
+			}
+			System.out.println("ARRIVA QUI");
+
 			if(idOrdine == -1) {
 				return false;
 			}
@@ -171,7 +198,8 @@ private static Connection con;
 				DBConnection.releseConnection(con);
 				return true;
 			}
-			
+			ps.close();
+
 		}catch (Exception e) {
 			try {
 				con.rollback();
@@ -179,6 +207,8 @@ private static Connection con;
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
+			System.out.println("BOOOOM");
+
 		}finally {
 			DBConnection.releseConnection(con);
 		}
@@ -203,6 +233,8 @@ private static Connection con;
 	        	CreateOrder(null, UtenteDAO.loadUserById(idUser));
 	        	idOrdine = getIdCarrello(idUser);
 	        }
+	        ps.close();
+	        rs.close();
 	    } catch (SQLException e) {
 	    	System.out.println("MORTO IN OTTIENI ID CARRELLO");
 	        e.printStackTrace();
@@ -213,5 +245,35 @@ private static Connection con;
 		return idOrdine;
 	}
 	
-	
+	//CONTROLLARE
+	public static synchronized ArrayList<BeanOrdine> loadAllOrdersByIdUtente(int idUtente){
+		ArrayList<BeanOrdine> ordini = new ArrayList<BeanOrdine>();
+		Connection con = DBConnection.getConnection();
+		try {
+			BeanOrdine ordine;
+			String query="""
+					SELECT *
+					FROM Ordine
+					WHERE
+						FkUtente = ? and
+						conferma = True
+					""";
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, idUtente);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ordine = new BeanOrdine();
+				ordine.setConferma(true);
+				ordine.setDataAcquisto(rs.getTimestamp("dataAcquisto").toLocalDateTime());
+				ordine.setIdOrdine(rs.getInt("IdOrdine"));
+				ordine.setPagamento(CartaPagamentoDAO.loadCartaById(rs.getInt("fkCarta")));
+				ordini.add(ordine);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("MORTO IN LOAD CARTE");
+		}
+		DBConnection.releseConnection(con);
+		return ordini;
+	}
 }

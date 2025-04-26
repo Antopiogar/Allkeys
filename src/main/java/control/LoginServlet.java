@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
 		else {
 			Carrello c= (Carrello) request.getSession().getAttribute("cart");
 			Carrello DB = OrdineDAO.LoadCarrelByUser(idUser);
-
+			System.out.println(DB);
 			if(c == null) {
 				c = DB;
 			}

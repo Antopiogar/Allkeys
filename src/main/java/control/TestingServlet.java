@@ -144,10 +144,20 @@ public class TestingServlet extends HttpServlet {
 		System.out.println(c);
 	
 	}
-		
+	
+	
+	private void testConfermaOrdine() {
+		int ris = OrdineDAO.ConfirmOrder(1,1);
+		if(ris==0)
+			System.out.println("Conferma a buon fine");
+		else if(ris>0)
+			System.out.println("prodotto con id " +ris + " NON DISPONIBILE IN QUEESTA QUANTITA");
+		else
+			System.out.println("BOOM");
+	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		testErroriGetIdCarrello();
+		testConfermaOrdine();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

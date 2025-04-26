@@ -32,6 +32,8 @@ public class ArticoloDAO {
 				articolo.setPiattaforma(rs.getString("piattaforma"));
 				articoli.add(articolo);
 			}
+			ps.close();
+
 			DBConnection.releseConnection(con);
 
 		} catch (SQLException e) {
@@ -42,7 +44,7 @@ public class ArticoloDAO {
 		return articoli;
 	}
 	
-	public synchronized ArrayList<BeanArticolo> loadAllAvailableArticles() {
+	public static synchronized ArrayList<BeanArticolo> loadAllAvailableArticles() {
 		con=DBConnection.getConnection();
 
 		String query = "SELECT * FROM VIEWCATALOGO";
@@ -64,10 +66,14 @@ public class ArticoloDAO {
 				articoli.add(articolo);
 				
 			}
+			ps.close();
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+
 		DBConnection.releseConnection(con);
 		return articoli;
 	}
@@ -89,6 +95,8 @@ public class ArticoloDAO {
 				articolo.setPiattaforma(rs.getString("piattaforma"));
 				articolo.setPrezzo(rs.getFloat("prezzo"));
 			}
+			ps.close();
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

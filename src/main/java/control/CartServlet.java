@@ -28,8 +28,13 @@ public class CartServlet extends HttpServlet {
 
     	cart.AddArticolo(articolo);
 		ac = cart.getArticoloById(articolo.getIdArticolo());
-    	if(id!= null) {
+		System.out.println(id);
+    	if(id!= null) {		
+    		System.out.println(id);
+
     		OrdineDAO.addArticoloToCarrelloDB((int)id, ac);
+    		System.out.println(id);
+
     	}
     	
 		//serve per ottenere anche la quantità dal carrello sessione per poterla inserire in DB

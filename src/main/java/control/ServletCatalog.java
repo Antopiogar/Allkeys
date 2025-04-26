@@ -23,9 +23,9 @@ public class ServletCatalog extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArticoloDAO adao = new ArticoloDAO();
+		
 
-		ArrayList<BeanArticolo> articoli = adao.loadAllAvailableArticles();
+		ArrayList<BeanArticolo> articoli = ArticoloDAO.loadAllAvailableArticles();
 
 		request.setAttribute("result", articoli);
 		RequestDispatcher view = request.getRequestDispatcher("result.jsp");
