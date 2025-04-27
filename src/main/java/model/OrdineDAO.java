@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 
 public class OrdineDAO {
@@ -241,53 +240,149 @@ private static Connection con;
 		return idOrdine;
 	}
 	
-	//CONTROLLARE
-	public static synchronized ArrayList<BeanOrdine> loadAllOrdersByIdUtente(int idUtente){
-		ArrayList<BeanOrdine> ordini = new ArrayList<BeanOrdine>();
+	public static synchronized ArrayList<Acquisto> loadAllOrdersByIdUtente(int idUtente){
+		ArrayList<Acquisto> acquisti = new ArrayList<>();
 		Connection con = DBConnection.getConnection();
 		try {
-			BeanOrdine ordine;
 			String query="""
 					SELECT *
-					FROM Ordine
-					WHERE
-						FkUtente = ? and
-						conferma = True
+					FROM 
+						Chiave as c
+					    join Articolo as a on c.fkArticolo = a.idArticolo
+					    join Ordine as o on o.IdOrdine = c.fkOrdine
+					    join Utente as u on u.IdUtente = o.fkUtente
+					    join carta_pagamento as cp on o.fkCarta = cp.idCarta
+					where u.idUtente = ?
 					""";
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, idUtente);
 			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				ordine = new BeanOrdine();
-				ordine.setConferma(true);
-				ordine.setDataAcquisto(rs.getTimestamp("dataAcquisto").toLocalDateTime());
-				ordine.setIdOrdine(rs.getInt("IdOrdine"));
-				ordine.setPagamento(CartaPagamentoDAO.loadCartaById(rs.getInt("fkCarta")));
-				ordini.add(ordine);
-			}
+			Acquisto acquisto = new Acquisto();
+	        
+	        while (rs.next()) {
+
+	            BeanUtente utente = new BeanUtente();
+	            utente.setIdUtente(rs.getInt(15));
+	            utente.setNome(rs.getString(16));
+	            utente.setCognome(rs.getString(17));
+	            utente.setDataNascita(rs.getDate(18).toLocalDate());
+	            utente.setEmail(rs.getString(19));
+	            utente.setCf(rs.getString(20));
+	            utente.setPass(rs.getString(21));
+
+	            BeanCartaPagamento carta = new BeanCartaPagamento();
+	            carta.setIdCarta(rs.getInt(22));
+	            carta.setTitolare(rs.getString(23));
+	            carta.setnCarta(rs.getString(24));
+	            carta.setScadenza(rs.getDate(25).toLocalDate());
+	            carta.setCodiceCVC(rs.getString(26));
+	            carta.setFkUtente(utente);
+
+	            BeanOrdine ordine = new BeanOrdine();
+	            ordine.setIdOrdine(rs.getInt(10));
+	            ordine.setDataAcquisto(rs.getTimestamp(11).toLocalDateTime());
+	            ordine.setConferma(rs.getInt(12) == 1);
+	            ordine.setUtente(utente);
+	            ordine.setPagamento(carta);
+
+	            BeanArticolo articolo = new BeanArticolo();
+	            articolo.setIdArticolo(rs.getInt(5));
+	            articolo.setLogo(rs.getString(6));
+	            articolo.setNome(rs.getString(7));
+	            articolo.setPrezzo(rs.getFloat(8));
+	            articolo.setPiattaforma(rs.getString(9));
+
+	            BeanChiave chiave = new BeanChiave();
+	            chiave.setIdChiave(rs.getInt(1));
+	            chiave.setCodice(rs.getString(2));
+	            chiave.setFkOrdine(ordine);
+	            chiave.setFkArticolo(articolo);
+
+	            acquisto.setUtente(utente);
+	            acquisto.setCarta(carta);
+	            acquisto.setOrdine(ordine);
+	            acquisto.AddProdottto(articolo, chiave);
+	            acquisti.add(acquisto);
+	        }
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("MORTO IN LOAD CARTE");
 		}
 		DBConnection.releseConnection(con);
-		return ordini;
+		return acquisti;
 	}
 	
-	public static synchronized ArrayList<Acquisto> loadAllOrders(int idUtente){
-		return null;
-	}
 	
-	public static synchronized Acquisto loadOrderByIdOrder(int idOrder) {
+	public static synchronized Acquisto loadOrderByIdOrder(int idOrdine){
+		Acquisto acquisto = null;
+
 		Connection con = DBConnection.getConnection();
 		try {
-			
+			String query="""
+					SELECT *
+					FROM 
+						Chiave as c
+					    join Articolo as a on c.fkArticolo = a.idArticolo
+					    join Ordine as o on o.IdOrdine = c.fkOrdine
+					    join Utente as u on u.IdUtente = o.fkUtente
+					    join carta_pagamento as cp on o.fkCarta = cp.idCarta
+					where o.idOrdine = ?
+					""";
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, idOrdine);
+			ResultSet rs = ps.executeQuery();
+	        
+	        if (rs.next()) {
+	        	acquisto = new Acquisto();
+	            BeanUtente utente = new BeanUtente();
+	            utente.setIdUtente(rs.getInt(15));
+	            utente.setNome(rs.getString(16));
+	            utente.setCognome(rs.getString(17));
+	            utente.setDataNascita(rs.getDate(18).toLocalDate());
+	            utente.setEmail(rs.getString(19));
+	            utente.setCf(rs.getString(20));
+	            utente.setPass(rs.getString(21));
+
+	            BeanCartaPagamento carta = new BeanCartaPagamento();
+	            carta.setIdCarta(rs.getInt(22));
+	            carta.setTitolare(rs.getString(23));
+	            carta.setnCarta(rs.getString(24));
+	            carta.setScadenza(rs.getDate(25).toLocalDate());
+	            carta.setCodiceCVC(rs.getString(26));
+	            carta.setFkUtente(utente);
+
+	            BeanOrdine ordine = new BeanOrdine();
+	            ordine.setIdOrdine(rs.getInt(10));
+	            ordine.setDataAcquisto(rs.getTimestamp(11).toLocalDateTime());
+	            ordine.setConferma(rs.getInt(12) == 1);
+	            ordine.setUtente(utente);
+	            ordine.setPagamento(carta);
+
+	            BeanArticolo articolo = new BeanArticolo();
+	            articolo.setIdArticolo(rs.getInt(5));
+	            articolo.setLogo(rs.getString(6));
+	            articolo.setNome(rs.getString(7));
+	            articolo.setPrezzo(rs.getFloat(8));
+	            articolo.setPiattaforma(rs.getString(9));
+
+	            BeanChiave chiave = new BeanChiave();
+	            chiave.setIdChiave(rs.getInt(1));
+	            chiave.setCodice(rs.getString(2));
+	            chiave.setFkOrdine(ordine);
+	            chiave.setFkArticolo(articolo);
+
+	            acquisto.setUtente(utente);
+	            acquisto.setCarta(carta);
+	            acquisto.setOrdine(ordine);
+	            acquisto.AddProdottto(articolo, chiave);
+	        }
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("MORTO IN CARICA ORDINE BY ID");
-		}finally {
-			DBConnection.releseConnection(con);
+			System.out.println("MORTO IN LOAD CARTE");
 		}
-		return null;
+		DBConnection.releseConnection(con);
+		return acquisto;
 	}
+	
 	
 }

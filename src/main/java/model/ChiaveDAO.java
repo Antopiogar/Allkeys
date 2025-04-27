@@ -113,6 +113,52 @@ public class ChiaveDAO {
 		return disp;
 	}
 	
+	//RESTITUISCE UN ARRAYLIST DI BEANCHIAVE CHE A LORO VOLTA CONTENGONO GLI ARTICOLI ASSOCIATI
+	public static synchronized ArrayList<BeanChiave> loadKeysByOrderId(int idOrder){
+		ArrayList<BeanChiave> ris = new ArrayList<>();
+		BeanArticolo art = null;
+		BeanChiave chiave = null;
+		String query="""
+				SELECT
+				c.*,a.*
+				from
+					chiave as c
+				    join articolo as a on c.fkArticolo = a.idArticolo
+				where c.fkOrdine = ?
+				""";
+		Connection con = DBConnection.getConnection();
+		try {
+			PreparedStatement ps= con.prepareStatement(query);
+			ps.setInt(1, idOrder);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				art = new BeanArticolo();
+				chiave = new BeanChiave();
+				
+				art.setIdArticolo(rs.getInt("idArticolo"));
+				art.setLogo(rs.getString("logo"));
+				art.setNome(rs.getString("nome"));
+				art.setPiattaforma(rs.getString("piattaforma"));
+				art.setPrezzo(rs.getFloat("prezzo"));
+				
+				
+				chiave.setCodice(rs.getString("codice"));
+				chiave.setIdChiave(rs.getInt("idChiave"));
+				chiave.setFkArticolo(art);
+				
+				ris.add(chiave);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("MORTO IN CARICA CHIAVE DA ID ORDINE");
+		}finally {
+			DBConnection.releseConnection(con);
+		}
+		
+		return ris;
+	}
+	
 	public static class ChiaviDisponibili {
 		int idArticolo,idChiave,disponibilita;
 		String nome;
@@ -186,8 +232,12 @@ public class ChiaveDAO {
 		
 		
 		
+		
+		
 	}
 
+	
+	
 
 	
 

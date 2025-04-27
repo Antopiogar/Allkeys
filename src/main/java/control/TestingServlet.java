@@ -1,10 +1,7 @@
 package control;
 
 import java.io.IOException;
-import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -14,14 +11,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Acquisto;
 import model.ArticoliCarrello;
 import model.ArticoloDAO;
 import model.BeanArticolo;
 import model.BeanCartaPagamento;
+import model.BeanChiave;
 import model.BeanUtente;
 
 import model.Carrello;
 import model.CartaPagamentoDAO;
+import model.ChiaveDAO;
 import model.ComposizioneDAO;
 import model.DBConnection;
 import model.OrdineDAO;
@@ -44,7 +44,7 @@ public class TestingServlet extends HttpServlet {
 
 	private void testUserById() {
 		UtenteDAO utenteDao = new UtenteDAO();
-		BeanUtente user = utenteDao.loadUserById(1);
+		BeanUtente user = UtenteDAO.loadUserById(1);
 		System.out.println(user);
 	}
 	
@@ -52,7 +52,7 @@ public class TestingServlet extends HttpServlet {
 
 	private void testAllArticles() {
 		ArticoloDAO articoloDao= new ArticoloDAO();
-		ArrayList<BeanArticolo> articoli = articoloDao.loadAllDistinctArticles();
+		ArrayList<BeanArticolo> articoli = ArticoloDAO.loadAllDistinctArticles();
 		System.out.println(articoli);
 	}
 
@@ -145,7 +145,7 @@ public class TestingServlet extends HttpServlet {
 	
 	}
 	
-	
+	@SuppressWarnings("unused")
 	private void testConfermaOrdine() {
 		int ris = OrdineDAO.ConfirmOrder(1,1);
 		if(ris==0)
@@ -155,9 +155,23 @@ public class TestingServlet extends HttpServlet {
 		else
 			System.out.println("BOOM");
 	}
+	@SuppressWarnings("unused")
+
+	private void TestCaricaAcquisti() {
+		ArrayList<Acquisto> acquisti = OrdineDAO.loadAllOrdersByIdUtente(1);
+		System.out.println(acquisti);
+	}
+	
+	@SuppressWarnings("unused")
+	private void TestCaricaChiave() {
+		ArrayList<BeanChiave> chiavi = new ArrayList<>();
+		chiavi = ChiaveDAO.loadKeysByOrderId(1);
+		System.out.println(chiavi);
+	}
+	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		testConfermaOrdine();
+		TestCaricaChiave();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
