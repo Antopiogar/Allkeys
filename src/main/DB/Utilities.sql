@@ -19,12 +19,12 @@ DELIMITER ;
 
 
 DROP VIEW IF EXISTS ViewCatalogo;
-CREATE VIEW ViewCatalogo AS
-SELECT 
+CREATE VIEW ViewCatalogo as 
+SELECT DISTINCT 
 	a.*
-from articolo as a
-	join n_chiavi_disponibili as c on a.idArticolo = c.idArticolo
-where c.qta >= 1
+FROM
+	articolo as a
+	join chiave as c on a.idArticolo = c.fkArticolo where c.fkOrdine is null
 
 
 DROP VIEW IF EXISTS N_Chiavi_Disponibili;

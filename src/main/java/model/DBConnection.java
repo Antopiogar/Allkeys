@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class DBConnection {
 	private static final String URL = "jdbc:mysql://localhost:3306/AllKeys"; // Modifica con il tuo database
     private static final String USER = "root"; // Modifica con il tuo username
-    private static final String PASSWORD = "AccessoDB04@"; // Modifica con la tua password
+    private static final String PASSWORD = "root"; // Modifica con la tua password
     
  // Oggetto statico per la connessione
     private static ArrayList<Connection> connectionList = new ArrayList<Connection>();

@@ -78,10 +78,10 @@ public class CartServlet extends HttpServlet {
     
     private void delete(HttpServletRequest request, Carrello cart) {
     	BeanArticolo articolo = (BeanArticolo) ArticoloDAO.getArticoloById(request.getParameter("idArticolo"));
-    	int idUser= (int) request.getSession().getAttribute("idUser");
+    	Object idUser=  request.getSession().getAttribute("idUser");
     	cart.removeArticolo(articolo);
-    	if(idUser > 0) {
-    		int idOrdine = OrdineDAO.getIdCarrello(idUser);
+    	if(idUser != null) {
+    		int idOrdine = OrdineDAO.getIdCarrello((int)idUser);
     		ComposizioneDAO.removeArticolo(idOrdine, articolo);
     	}
     }
