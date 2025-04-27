@@ -9,5 +9,6 @@
 <body>
 <%@ include file="NavBar.jsp" %>
 
+<%@ include file="footer.jsp" %>
 </body>
 </html>

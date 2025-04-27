@@ -4,9 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>footer</title>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/footer.css">
 </head>
 <body>
-
+	<div class="footer">
+	&copy; 2025 - Allkeys - Tutti i diritti riservati
+	</div>
 </body>
 </html>

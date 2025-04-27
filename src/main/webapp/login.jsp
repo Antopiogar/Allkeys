@@ -7,6 +7,7 @@
 <title>Login</title>
 </head>
 <body>
+
 <%@ include file="NavBar.jsp" %>
 	<%
 	String emailEsistente = (String)session.getAttribute("EmailEsistente");
@@ -34,5 +35,6 @@
 		<input type="password" name = "password" required id ="password">
 		<br><br><input type="submit" value="Accedi">
 	</form>
+	<%@ include file="footer.jsp" %>
 </body>
 </html>

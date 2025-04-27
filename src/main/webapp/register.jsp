@@ -29,5 +29,6 @@
 		<input type="password" name = "password" required id ="password">
 		<br><br><input type="submit" value="Registrati ora">
 	</form>
+	<%@ include file="footer.jsp" %>
 </body>
 </html>

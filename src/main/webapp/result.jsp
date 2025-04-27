@@ -24,7 +24,7 @@
     <% for (BeanArticolo articolo : articoli) { %>
     <div class="articolo-card">
     <img src="<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>" alt="Immagine articolo" style="max-width: 100%; height: auto;">
-    <p><%= articolo.toString() %></p>
+    <p><%= articolo.getInfo() %></p>
     <form action="CartServlet" method="POST">
         <input type="hidden" value="<%= articolo.getIdArticolo() %>" name="idArticolo">
         <input type="hidden" value="add" name="action">
@@ -38,9 +38,7 @@
 <% } %>
 </main>
 
-<div class="footer">
-    &copy; 2025 - Allkeys - Tutti i diritti riservati
-</div>
+<%@ include file="footer.jsp" %>
 
 </body>
 </html>

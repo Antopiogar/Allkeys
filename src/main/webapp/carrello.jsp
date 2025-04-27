@@ -26,7 +26,7 @@
 %>
     <div class="articolo-card">
     	<img src="<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>" alt="Immagine articolo" style="max-width: 100%; height: auto;">
-        <p><%= articolo.toString() %></p>
+        <p><%= articolo.getInfo() %></p>
         <form action="CartServlet" method="POST">
             <input type="hidden" value="<%= articolo.getIdArticolo() %>" name="idArticolo">
             <input type="number" value="<%= i.getQta() %>" min="0" max="99" name="quantita">
@@ -49,9 +49,7 @@
 <br><a href="ViewCatalog">Torna al catalogo</a>
 </main>
 
-<div class="footer">
-    &copy; 2025 - Allkeys - Tutti i diritti riservati
-</div>
+<%@ include file="footer.jsp" %>
 
 </body>
 </html>
