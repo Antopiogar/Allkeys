@@ -54,33 +54,28 @@ private static Connection con;
 		
 		try {
 			int idOrdine = -1;
+			System.out.println("ARRIVA?");
+
 			con = DBConnection.getConnection();
-			String query ="SELECT o.idOrdine from Ordine as o where o.conferma = false and o.fkUtente = ? limit 1";
-			PreparedStatement ps = con.prepareStatement(query);
-			BeanArticolo art;
-			ps.setInt(1, idUser);
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				idOrdine = rs.getInt("idOrdine");
-			}
-			if(idOrdine == -1) {
-				return null;
-			}
+			idOrdine = getIdCarrello(idUser);
 			
-			query = """
+			String query = """
 					SELECT 
 					    a.idArticolo,
 					    a.logo,
 					    a.nome,
 					    a.piattaforma, 
 					    a.prezzo,
-					    c.qta 
+					    c.qta
 					FROM composizione AS c
 					JOIN articolo AS a ON c.FkArticolo = a.idArticolo 
-					where c.FkOrdine = ?
+					WHERE c.FkOrdine = ?
 					GROUP BY 
-					    a.idArticolo, a.logo, a.nome, a.piattaforma, a.prezzo
+					    a.idArticolo, a.logo, a.nome, a.piattaforma, a.prezzo, c.qta
 					""";
+			PreparedStatement ps;
+			ResultSet rs;
+			BeanArticolo art;
 			ps = con.prepareStatement(query);
 			ps.setInt(1, idOrdine);
 			rs = ps.executeQuery();
@@ -92,11 +87,12 @@ private static Connection con;
 				art.setNome(rs.getString("nome"));
 				art.setPiattaforma(rs.getString("piattaforma"));
 				art.setPrezzo(rs.getFloat("prezzo"));
+				System.out.println(art);
 				c.AddArticolo(art);
 				c.setQta(art, rs.getInt("qta"));
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}finally {
 	        DBConnection.releseConnection(con);
 	    }
