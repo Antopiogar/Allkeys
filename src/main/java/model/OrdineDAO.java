@@ -276,4 +276,22 @@ private static Connection con;
 		DBConnection.releseConnection(con);
 		return ordini;
 	}
+	
+	public static synchronized ArrayList<Acquisto> loadAllOrders(int idUtente){
+		return null;
+	}
+	
+	public static synchronized Acquisto loadOrderByIdOrder(int idOrder) {
+		Connection con = DBConnection.getConnection();
+		try {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("MORTO IN CARICA ORDINE BY ID");
+		}finally {
+			DBConnection.releseConnection(con);
+		}
+		return null;
+	}
+	
 }
