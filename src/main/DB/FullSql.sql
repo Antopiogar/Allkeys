@@ -148,8 +148,9 @@ END;
 DELIMITER ;
 
 DROP VIEW IF EXISTS ViewCatalogo;
-CREATE VIEW ViewCatalogo AS
-SELECT DISTINCT a.*, c.*
-FROM articolo AS a
-JOIN chiave AS c ON a.idArticolo = c.fkArticolo
-WHERE c.fkOrdine IS NULL;
+CREATE VIEW ViewCatalogo as 
+SELECT DISTINCT 
+	a.*
+FROM
+	articolo as a
+	join chiave as c on a.idArticolo = c.fkArticolo where c.fkOrdine is null
