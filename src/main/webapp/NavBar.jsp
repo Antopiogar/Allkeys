@@ -16,7 +16,7 @@
     
     <div class="navbar">
         <div class="logo">
-            <a href="index.jsp">Allkeys</a>
+            <a href="<%= request.getContextPath()%>/index.jsp"><img src="<%= request.getContextPath() %>/IMG/Logo.png" width="35%" height="35%" alt="AllKeys"></a>
         </div>
         <div class="item">
             <a href="<%= request.getContextPath()%>/carrello.jsp">Carrello</a>
