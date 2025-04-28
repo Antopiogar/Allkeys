@@ -26,7 +26,7 @@
         
         
         int status = OrdineDAO.ConfirmOrder(id, idCarta);
-
+		
         if (status == 0) {
     %>
         <h1>Ordine effettuato con successo!</h1>
@@ -38,7 +38,7 @@
     <%
         } else if (status < 0) {
     %>
-        <h1>Ordine non effettuato correttamente!</h1>
+        <h1>Ordine non effettuato!</h1>
     <%
         }
     %>

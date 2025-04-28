@@ -27,7 +27,7 @@
 	<% carte = CartaPagamentoDAO.loadCartaPagamentoByIdUtente(id);%>
 	<%if(carte.size() == 0){
 		%><h1>Nessuna carta memorizzata!</h1>
-		  <form action ="<%= request.getContextPath() %>/addNewPaymentMethod.jsp" method ="POST">
+		  <form action ="<%= request.getContextPath() %>/userLogged/addNewPaymentMethod.jsp" method ="POST">
 		  	<input type="submit" value="Aggiungi nuova carta">
 		  </form>
 	<%} else{
