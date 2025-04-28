@@ -8,7 +8,8 @@
 </head>
 <body>
 	<div class="footer">
-	&copy; 2025 - Allkeys - Tutti i diritti riservati
+	&copy; 2025 - Allkeys - Tutti i diritti riservati<BR>
+	Autori: Di Perna Saverio e Gargiulo Antonio Pio	
 	</div>
 </body>
 </html>

@@ -21,6 +21,8 @@ public class CartServlet extends HttpServlet {
         
     }
     
+    //ADD
+    
     private void addArticolo(HttpServletRequest request, Carrello cart) {
     	Object id= request.getSession().getAttribute("idUser");
     	BeanArticolo articolo = (BeanArticolo) ArticoloDAO.getArticoloById(request.getParameter("idArticolo"));

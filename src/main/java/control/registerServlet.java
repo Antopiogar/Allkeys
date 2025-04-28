@@ -58,7 +58,7 @@ public class registerServlet extends HttpServlet {
 		}
 		else {
 			request.getSession().setAttribute("LoginFallito", true);
-			response.sendRedirect("regiser.jsp");
+			response.sendRedirect("register.jsp");
 		}
 		
 	}

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page session="true" %>
 <%@ page import="model.*" %>
+<%@ page session = "true" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,20 +33,26 @@
             <input type="number" value="<%= i.getQta() %>" min="0" max="99" name="quantita">
             <input type="hidden" value="changeQta" name="action">
             <input type="submit" value="Modifica">
-        </form>
+        </form><br>
         <form action="CartServlet" method="POST">
             <input type="hidden" value="delete" name="action">
             <input type="hidden" value="<%= articolo.getIdArticolo() %>" name="idArticolo">
             <input type="submit" value="Elimina">
         </form>
     </div>
+    <br>
 <% 
         }
     }
     if (cart != null) { 
 %>
     <h2>Totale = <%= cart.prezzoTotale() %> €</h2>
-<% } %>
+    <br><%if(session.getAttribute("Nome")!= null){
+    	%><form action="ConfermaOrdine.jsp" method = "GET">
+    		<input type = "submit" value ="Acquista">
+   		  </form>
+   <% }
+ }%>
 <br><a href="ViewCatalog">Torna al catalogo</a>
 </main>
 

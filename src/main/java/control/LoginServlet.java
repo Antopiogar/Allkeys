@@ -25,8 +25,8 @@ public class LoginServlet extends HttpServlet {
     public LoginServlet() {
         super();
     }
-
-
+    
+    //ADD
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
@@ -43,7 +43,7 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("idUser = "+ idUser);
 
 			request.getSession().setAttribute("LoginFallito", true);
-			response.sendRedirect("login.jsp");
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 		}
 		else {
 			Carrello c= (Carrello) request.getSession().getAttribute("cart");
