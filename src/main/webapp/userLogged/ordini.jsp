@@ -5,7 +5,7 @@
 <%@ page import="java.time.format.DateTimeFormatter" %>
 
 <%
-    ArrayList<Acquisto> ordini = (ArrayList<Acquisto>) request.getAttribute("ordini");
+    ArrayList<Acquisto> ordini = (ArrayList<Acquisto>) session.getAttribute("ordini");
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 %>
 
@@ -49,7 +49,7 @@
                     <td><%= acquisto.getOrdine().getDataAcquisto().format(formatter) %></td>
                     <td><%= String.format("%.2f €", totale) %></td>
                     <td>
-                        <form action="DettagliOrdineServlet" method="POST">
+                        <form action="<%= request.getContextPath()%>/DettagliOrdineServlet" method="POST">
                             <input type="hidden" name="idOrdine" value="<%= acquisto.getOrdine().getIdOrdine() %>">
                             <input type="submit" value="Dettagli">
                         </form>

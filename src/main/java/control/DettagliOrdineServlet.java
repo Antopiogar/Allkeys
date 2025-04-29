@@ -1,6 +1,8 @@
 package control;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.*;
 
-import java.io.IOException;
 
 @WebServlet("/DettagliOrdineServlet")
 public class DettagliOrdineServlet extends HttpServlet {
@@ -32,7 +33,13 @@ public class DettagliOrdineServlet extends HttpServlet {
         }
 
         int idOrdine = Integer.parseInt(idOrdineStr);
-        Acquisto acquisto = OrdineDAO.loadOrderByIdOrder(idOrdine);
+        @SuppressWarnings("unchecked")
+        ArrayList<Acquisto> ordini = (ArrayList<Acquisto>) request.getSession().getAttribute("ordini");
+        
+        Acquisto acquisto = Acquisto.getAcquistoByIdOrder(ordini, idOrdine);
+        System.out.println("Acquisto "+acquisto);
+        if(acquisto == null)
+        	response.sendRedirect("VisualizzaOrdiniServlet");
         request.setAttribute("acquisto", acquisto);
         RequestDispatcher dispatcher = request.getRequestDispatcher("userLogged/dettagliOrdine.jsp");
         dispatcher.forward(request, response);

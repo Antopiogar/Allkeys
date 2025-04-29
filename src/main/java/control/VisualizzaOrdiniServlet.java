@@ -42,10 +42,10 @@ public class VisualizzaOrdiniServlet extends HttpServlet {
         }
 
         ArrayList<Acquisto> ordini = OrdineDAO.loadAllOrdersByIdUtente(utente.getIdUtente());
-        request.setAttribute("ordini", ordini);
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("userLogged/ordini.jsp");
-        dispatcher.forward(request, response);
+        System.out.println("ordini " +ordini);
+        request.getSession().setAttribute("ordini", ordini);
+        
+        response.sendRedirect("userLogged/ordini.jsp");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

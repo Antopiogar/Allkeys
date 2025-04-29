@@ -10,7 +10,9 @@ public class Acquisto {
 	private ArrayList<BeanChiave> chiavi;
 	
 	
-	public Acquisto() {
+	public Acquisto(int idUtente) {
+		
+		this.utente = UtenteDAO.loadUserById(idUtente);
 		
 	}
 	
@@ -27,8 +29,8 @@ public class Acquisto {
 		return utente;
 	}
 
-	public void setUtente(BeanUtente utente) {
-		this.utente = utente;
+	public void setUtente(int idUtente) {
+		this.utente = UtenteDAO.loadUserById(idUtente);
 	}
 
 	public BeanCartaPagamento getCarta() {
@@ -63,11 +65,31 @@ public class Acquisto {
 		this.chiavi = chiavi;
 	}
 
+	public int getIdOrdine() {
+		return ordine.getIdOrdine();
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("Acquisto [utente=%s, carta=%s, ordine=%s, articoli=%s, chiavi=%s]", utente, carta, ordine,
 				articoli, chiavi);
 	}
 	
+	public static int existsOrder(ArrayList <Acquisto> acquisti, int idOrdine) {
+		for(int i=0;i<acquisti.size();i++) {
+			if(acquisti.get(i).getIdOrdine() == idOrdine) {
+				return i;
+			}
+		}
+		return -1;
+	}
 	
+	public static Acquisto getAcquistoByIdOrder(ArrayList <Acquisto> acquisti, int idOrdine) {
+		for(int i=0;i<acquisti.size();i++) {
+			if(acquisti.get(i).getIdOrdine() == idOrdine) {
+				return acquisti.get(i);
+			}
+		}
+		return null;
+	}
 }

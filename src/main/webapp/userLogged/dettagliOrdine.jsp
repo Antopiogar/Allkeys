@@ -9,6 +9,8 @@
         response.sendRedirect("../VisualizzaOrdiniServlet"); // Redirige alla servlet degli ordini
         return; // Evita ulteriori elaborazioni della pagina
     }
+    BeanArticolo art;
+    BeanChiave chiave;
 %>
 <html>
 <head>
@@ -27,10 +29,16 @@
 %>
     <h2>Ordine #<%= acquisto.getOrdine().getIdOrdine() %></h2>
     <ul>
-        <% for (BeanArticolo art : acquisto.getArticoli()) { %>
+        <% for (int i = 0 ; i < acquisto.getArticoli().size(); i++) { 
+        	art = acquisto.getArticoli().get(i);
+        	chiave = acquisto.getChiavi().get(i);
+        %>
             <li>
-                <img src="IMG/loghi/<%= art.getLogo() %>" width="100">
-                <strong><%= art.getNome() %></strong> - <%= art.getPrezzo() %> € - <%= art.getPiattaforma() %>
+                <img src="IMG/loghi/<%= art.getLogo()%>" width="100">
+                <strong><%= art.getNome() %></strong> - <%= art.getPrezzo() %> € - <%= art.getPiattaforma() %> - 
+                <%
+                out.print(chiave.getCodice());
+                %>
             </li>
         <% } %>
     </ul>
