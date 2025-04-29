@@ -139,6 +139,45 @@ button:hover, input[type="submit"]:hover {
     color: #ededed;
 }
 
+/* Stile per le tabelle */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #1a1a1a; /* Colore di sfondo delle tabelle */
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #444; /* Bordo tra le righe */
+}
+
+th {
+    background-color: #333; /* Colore di sfondo per le intestazioni */
+    color: #f65d0f; /* Colore del testo delle intestazioni */
+}
+
+tr:hover {
+    background-color: #2c2c2c; /* Colore di sfondo per le righe in hover */
+}
+
+/* Stile per gli elenchi puntati */
+ul {
+    list-style-type: disc; /* Puntini per gli elenchi */
+    padding-left: 20px; /*
+}
+
+li {
+    margin: 10px 0; /* 
+    color: #ededed; /* Colore del testo */
+}
+
+li img {
+    margin-right: 10px; /* Spazio tra l'immagine e il testo */
+}
+
+
 
 /* Responsive miglioramenti */
 @media (max-width: 768px) {

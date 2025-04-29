@@ -1,10 +1,12 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <title>Esito Ordine</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
+    <jsp:include page="verificaLogin.jsp" />
 </head>
 <body>
 
@@ -12,6 +14,10 @@
 
 <main>
     <%
+    boolean redirect = Boolean.TRUE.equals(session.getAttribute("redirect"));
+	if(redirect){
+		out.println("Errore, stai per essere reindirizzato al login...");
+	}else{
         Integer status = (Integer) request.getAttribute("status");
 
         if (status == null) {
@@ -43,7 +49,7 @@
     <%
         }
     %>
-    <br><a href="<%= request.getContextPath() %>/ViewCatalog">Torna al catalogo</a>
+    <br><a href="<%= request.getContextPath() %>/ViewCatalog">Torna al catalogo</a><%} %>
 </main>
 
 <%@ include file="../footer.jsp" %>

@@ -240,6 +240,9 @@ private static Connection con;
 		return idOrdine;
 	}
 	
+
+	
+	
 	public static synchronized ArrayList<Acquisto> loadAllOrdersByIdUtente(int idUtente){
 		ArrayList<Acquisto> acquisti = new ArrayList<>();
 		Connection con = DBConnection.getConnection();

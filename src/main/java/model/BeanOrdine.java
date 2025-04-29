@@ -13,6 +13,10 @@ public class BeanOrdine {
 	public BeanUtente getUtente() {
 		return utente;
 	}
+	
+	public double getTotale() {
+		return 0.0;
+	}
 
 	public void setUtente(BeanUtente utente) {
 		this.utente = utente;

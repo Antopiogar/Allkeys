@@ -5,7 +5,7 @@
  	String nome = (String) request.getSession().getAttribute("Nome");
 	System.out.print(nome);	
  	if(nome == null){
- 		out.print("<meta http-equiv='refresh' content='5;url=/login.jsp' />");
+ 		out.print("<meta http-equiv='refresh' content='5;url=../login.jsp' />");
  		request.getSession().setAttribute("redirect", true);
  	}
  	else{

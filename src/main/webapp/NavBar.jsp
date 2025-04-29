@@ -27,6 +27,7 @@
                 <button class="dropbtn"><%= nome %></button>
                 <div class="dropdown-content">
                     <a href="<%= request.getContextPath() %>/userLogged/profilo.jsp">Profilo</a>
+                    <a href="<%= request.getContextPath() %>/VisualizzaOrdiniServlet">I miei ordini</a>
                     <a href="<%= request.getContextPath() %>/userLogged/addNewPaymentMethod.jsp">Aggiungi nuova carta</a>
                     <a href="<%= request.getContextPath() %>/logout">Logout</a>
                 </div>
