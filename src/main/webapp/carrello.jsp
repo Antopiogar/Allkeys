@@ -48,7 +48,7 @@
 %>
     <h2>Totale = <%= cart.prezzoTotale() %> €</h2>
     <br><%if(cart.prezzoTotale()>0){
-    	%><form action="ConfermaOrdine.jsp" method = "POST">
+    	%><form action="AcquistaServlet" method = "POST">
     		<input type = "submit" value ="Acquista">
    		  </form>
    <% }
