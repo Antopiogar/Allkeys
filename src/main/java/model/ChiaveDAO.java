@@ -50,14 +50,17 @@ public class ChiaveDAO {
 
 
 	private static synchronized boolean ordinaChiavi(Connection con,Carrello c, int idOrdine) {
-		String query = "Update chiave set fkOrdine = ? where fkArticolo = ? and fkOrdine is null limit ? ";
+		//Update chiave set fkOrdine = 5 where fkArticolo = 3 and fkOrdine is null order by idChiave desc limit 1
+		String query = "Update chiave set fkOrdine = ? where fkArticolo = ? and fkOrdine is null order by idChiave desc limit ? ";
 		try {
+			System.out.println("ORDINA CHIAVE");
 			int r=0;
 			for(ArticoliCarrello ac : c.getArticoli()) {
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setInt(1, idOrdine);
 				ps.setInt(2,ac.getArticolo().getIdArticolo());
 				ps.setInt(3, ac.getQta());
+				System.out.println("Update chiave set fkOrdine = %s where fkArticolo = %s and fkOrdine is null order by idChiave desc limit %s".formatted(idOrdine,ac.getArticolo().getIdArticolo(),ac.getQta()));
 				r= ps.executeUpdate();
 				System.out.println("r = "+r +"qta"+ac.getQta());
 				if(r != ac.getQta()) {
@@ -100,7 +103,6 @@ public class ChiaveDAO {
 				cd = new ChiaviDisponibili();
 				cd.setDisponibilita(rs.getInt("qta"));
 				cd.setIdArticolo(rs.getInt("idArticolo"));
-				cd.setIdChiave(rs.getInt("IdChiave"));
 				cd.setNome(rs.getString("nome"));
 				disp.add(cd);
 			}
@@ -223,10 +225,12 @@ public class ChiaveDAO {
 			for(int i = 1; i <= cd.size(); i++) {
 				if(cd.get(i-1).getIdArticolo() == art.getArticolo().getIdArticolo()) {
 					if(cd.get(i-1).getDisponibilita() < art.getQta()){
+						System.out.println("i = "+i);
 						return i;
 					}		
 				}
 			}
+		
 			return -1;
 		}
 		

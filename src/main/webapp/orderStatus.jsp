@@ -26,6 +26,7 @@
         
         
         int status = OrdineDAO.ConfirmOrder(id, idCarta);
+		session.setAttribute("cart", new Carrello());
 		
         if (status == 0) {
     %>

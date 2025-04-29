@@ -169,9 +169,18 @@ public class TestingServlet extends HttpServlet {
 		System.out.println(chiavi);
 	}
 	
+	@SuppressWarnings("unused")
+	private void TestOrdinaChiave() {
+		Connection con  = DBConnection.getConnection();
+		int idOrdine = OrdineDAO.getIdCarrello(1);
+		int ris = ChiaveDAO.confermaChiaviOrdinate(con, 1, idOrdine);
+		DBConnection.releseConnection(con);
+		System.out.println(ris);
+	}
+	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		TestCaricaChiave();
+		TestOrdinaChiave();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
