@@ -1,18 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Allkeys Navbar</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/NavBar2.css">
-</head>
-<body>
     <%
         String nome = (String) request.getSession().getAttribute("Nome");
     %>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/Navbar.css">
     
     <div class="navbar">
         <div class="logo">
@@ -41,5 +31,4 @@
             </div>    
         <% } %>
     </div>
-</body>
-</html>
+

@@ -2,29 +2,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page session="true" %>
+	<%@ include file="verificaLogin.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>Profilo</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
-	<jsp:include page="verificaLogin.jsp" />
 </head>
 <body>
-<%@ include file="../NavBar.jsp" %>
+<jsp:include page="../NavBar.jsp" />
 <main>
 
 <%
-	boolean redirect = Boolean.TRUE.equals(session.getAttribute("redirect"));
-	
-	
+
 	BeanUtente user = (BeanUtente)session.getAttribute("User");
-	if(redirect || user == null){
+	if(user == null){
 		out.println("Errore, stai per essere reindirizzato al login...");
+		out.print("<meta http-equiv='refresh' content='5';url="+request.getContextPath()+"./login.jsp' >");
+ 		request.getSession().setAttribute("redirect", true);
 	}
-	else{
-		out.println("Benvenuto/a " + user.getNome() + "<br>");
-	}
+	
 	String risultatoUpdate = (String) session.getAttribute("risultatoModifica");
 	java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	String dataFormattata = user.getDataNascita().format(formatter);
