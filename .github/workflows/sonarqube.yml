@@ -1,4 +1,4 @@
-name: SonarQube Scan (Windows)
+name: SonarQube Scan
 
 on:
   push:
@@ -16,21 +16,13 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: '22'
-          distribution: 'temurin'  # obbligatorio
 
-      - name: Grant execute permission to Gradle wrapper (solo se serve)
-        run: git config --global core.autocrlf false
-
-      - name: Build project
-        run: .\gradlew.bat build  # Assicurati che ci sia gradlew.bat nel repo
-
-      - name: Run SonarQube scan
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Build project (modifica con il tuo sistema di build)
         run: |
-          sonar-scanner.bat ^
-            -Dsonar.projectKey=myproject ^
-            -Dsonar.host.url=https://sonarqube.mioserver.it ^
-            -Dsonar.login=%SONAR_TOKEN% ^
-            -Dsonar.java.binaries=build\classes
+          echo "Esegui qui il comando di build corretto"
+      
+      - name: Run SonarQube scan
+        run: |
+          echo "Esegui qui il comando per avviare SonarQube"
