@@ -7,6 +7,14 @@
     flex-wrap: wrap;
 }
 
+
+.navbar .logo img {
+    height: 10px;
+    width: auto;
+    object-fit: contain;
+}
+
+
 .navbar .logo a {
     color: #ededed;
     font-size: 24px;

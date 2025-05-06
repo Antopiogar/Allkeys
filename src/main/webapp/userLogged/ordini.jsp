@@ -8,7 +8,7 @@
     ArrayList<Acquisto> ordini = (ArrayList<Acquisto>) session.getAttribute("ordini");
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 %>
-
+<!DOCTYPE html>
 <html>
 <head>
     <title>I miei ordini</title>
