@@ -1,0 +1,37 @@
+name: SonarQube Scan (Windows)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sonar:
+    runs-on: windows-latest  # <-- Windows runner
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+
+      - name: Grant execute permission to Gradle wrapper (solo se serve)
+        run: |
+          git config --global core.autocrlf false
+          chmod +x gradlew
+        shell: bash
+
+      - name: Build project
+        run: .\gradlew.bat build  # Usa .bat su Windows
+
+      - name: SonarQube Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          sonar-scanner.bat ^
+            -Dsonar.projectKey=myproject ^
+            -Dsonar.host.url=https://sonarqube.mioserver.it ^
+            -Dsonar.login=%SONAR_TOKEN% ^
+            -Dsonar.java.binaries=build\classes
