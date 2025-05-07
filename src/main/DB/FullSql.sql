@@ -115,7 +115,11 @@ INSERT INTO Chiave (codice, FkOrdine, FkArticolo) VALUES
 ('KEY-TLOU-PS5-002', 2, 2),
 ('KEY-HALO-XBOX-003', NULL, 3),
 ('KEY-CP2077-PC-004', NULL, 1),
-('KEY-TLOU-PS5-005', NULL, 2);
+('KEY-TLOU-PS5-005', NULL, 2),
+('KEY-CP2077-PC-006', NULL, 1),
+('KEY-CP2077-PC-007', NULL, 1),
+('KEY-CP2077-PC-008', NULL, 1),
+('KEY-CP2077-PC-009', NULL, 1);
 
 -- Inserimento Composizione
 INSERT INTO Composizione (prezzoPagato,qta, FkArticolo, FkOrdine) VALUES 
@@ -153,4 +157,17 @@ SELECT DISTINCT
 	a.*
 FROM
 	articolo as a
-	join chiave as c on a.idArticolo = c.fkArticolo where c.fkOrdine is null
+	join chiave as c on a.idArticolo = c.fkArticolo where c.fkOrdine is null;
+	
+DROP VIEW IF EXISTS N_Chiavi_Disponibili;
+CREATE VIEW N_Chiavi_Disponibili AS
+SELECT 
+    c.FkArticolo AS idArticolo,
+    a.nome AS nome,
+    COUNT(*) AS qta
+FROM
+    allkeys.chiave c
+JOIN allkeys.articolo a ON c.FkArticolo = a.idArticolo
+WHERE
+    c.FkOrdine IS NULL
+GROUP BY c.FkArticolo, a.nome;

@@ -47,7 +47,7 @@ public class UtenteDAO {
 	
 	public synchronized int login(String email, String pass) {
 		con=DBConnection.getConnection();
-		String query = "SELECT * FROM UTENTE WHERE email = ? and password = ?";
+		String query = "SELECT idUtente, email FROM UTENTE WHERE email = ? and password = ?";
 		ResultSet rs = null;
 		int id =-1;
 		try {
@@ -162,6 +162,49 @@ public class UtenteDAO {
 		}
 		return utente;
 		
+	}
+
+	public static synchronized String modificaUtenteById(BeanUtente user) {
+		con = DBConnection.getConnection();
+		int risQuery = 0;
+		String result = "";
+		String query ="""
+				UPDATE UTENTE 
+				SET nome = ?,cognome = ?, dataNascita = ?, email = ?, cf = ?
+				WHERE idUtente = ?
+				""";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, user.getNome());
+			ps.setString(2, user.getCognome());
+			ps.setDate(3, Date.valueOf(user.getDataNascita()));
+			ps.setString(4, user.getEmail());
+			ps.setString(5, user.getCf());
+			ps.setInt(6, user.getIdUtente());
+			risQuery = ps.executeUpdate();
+			if(risQuery == 1) {
+				result = "Modifica Eseguita!";
+			}
+			else {
+				result = "Errore nella modifica";
+			}
+			con.commit();
+
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println("MORTO IN MODIFICA UTENTE");
+		}
+		
+		DBConnection.releseConnection(con);
+		return result;
 	}
 	
 	

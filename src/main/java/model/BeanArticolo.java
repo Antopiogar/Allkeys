@@ -54,8 +54,13 @@ public class BeanArticolo {
 	@Override
 	public String toString() {
 
-		return "Articolo: nome= %s, piattaforma = %s, srcLogo = %s , prezzo = %s €"
-				.formatted(this.nome,this.piattaforma,this.logo, this.prezzo);
+		return "Articolo: id=%s nome= %s, piattaforma = %s, srcLogo = %s , prezzo = %s €"
+				.formatted(this.IdArticolo,this.nome,this.piattaforma,this.logo, this.prezzo);
+	}
+	
+	public String getInfo() {
+		return "<strong>%s</strong><br>%s<br>%s €"
+				.formatted(this.nome,this.piattaforma,this.prezzo);
 	}
 
 

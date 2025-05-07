@@ -21,6 +21,8 @@ public class CartServlet extends HttpServlet {
         
     }
     
+    //ADD
+    
     private void addArticolo(HttpServletRequest request, Carrello cart) {
     	Object id= request.getSession().getAttribute("idUser");
     	BeanArticolo articolo = (BeanArticolo) ArticoloDAO.getArticoloById(request.getParameter("idArticolo"));
@@ -28,8 +30,13 @@ public class CartServlet extends HttpServlet {
 
     	cart.AddArticolo(articolo);
 		ac = cart.getArticoloById(articolo.getIdArticolo());
-    	if(id!= null) {
+		System.out.println(id);
+    	if(id!= null) {		
+    		System.out.println(id);
+
     		OrdineDAO.addArticoloToCarrelloDB((int)id, ac);
+    		System.out.println(id);
+
     	}
     	
 		//serve per ottenere anche la quantità dal carrello sessione per poterla inserire in DB
@@ -73,10 +80,10 @@ public class CartServlet extends HttpServlet {
     
     private void delete(HttpServletRequest request, Carrello cart) {
     	BeanArticolo articolo = (BeanArticolo) ArticoloDAO.getArticoloById(request.getParameter("idArticolo"));
-    	int idUser= (int) request.getSession().getAttribute("idUser");
+    	Object idUser=  request.getSession().getAttribute("idUser");
     	cart.removeArticolo(articolo);
-    	if(idUser > 0) {
-    		int idOrdine = OrdineDAO.getIdCarrello(idUser);
+    	if(idUser != null) {
+    		int idOrdine = OrdineDAO.getIdCarrello((int)idUser);
     		ComposizioneDAO.removeArticolo(idOrdine, articolo);
     	}
     }

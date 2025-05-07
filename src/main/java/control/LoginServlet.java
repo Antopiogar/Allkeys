@@ -1,7 +1,6 @@
 package control;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,10 +24,10 @@ public class LoginServlet extends HttpServlet {
     public LoginServlet() {
         super();
     }
-
-
+    
+    //ADD
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request,response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,12 +42,13 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("idUser = "+ idUser);
 
 			request.getSession().setAttribute("LoginFallito", true);
-			response.sendRedirect("login.jsp");
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 		}
 		else {
 			Carrello c= (Carrello) request.getSession().getAttribute("cart");
 			Carrello DB = OrdineDAO.LoadCarrelByUser(idUser);
-
+			
+			System.out.println("DB"+DB);
 			if(c == null) {
 				c = DB;
 			}
@@ -59,15 +59,14 @@ public class LoginServlet extends HttpServlet {
 			request.getSession().setAttribute("cart", c);
 			
 			nomeUser = uDao.loadNameById(idUser);
+			
 			request.getSession().setAttribute("idUser", idUser);
 			request.getSession().setAttribute("Nome", nomeUser);
-		    RequestDispatcher dispatcher = request.getRequestDispatcher("userLogged/profilo.jsp");
-		    dispatcher.forward(request, response);
+			request.getSession().setAttribute("User", UtenteDAO.loadUserById(idUser));
+		    
+			
 		}
-	
-		
-		
-		doGet(request, response);
+		response.sendRedirect("userLogged/profilo.jsp");
 	}
 
 }

@@ -46,6 +46,8 @@ public class registerServlet extends HttpServlet {
 		user.setDataNascita(data);
 		user.setEmail(email);
 		user.setPass(UtenteDAO.toSHA256(pass));
+		
+		
 		UtenteDAO uDao = new UtenteDAO();
 		result = uDao.register(user); 
 		if(result.equalsIgnoreCase("Utente gia registrato")) {
@@ -58,7 +60,7 @@ public class registerServlet extends HttpServlet {
 		}
 		else {
 			request.getSession().setAttribute("LoginFallito", true);
-			response.sendRedirect("regiser.jsp");
+			response.sendRedirect("register.jsp");
 		}
 		
 	}

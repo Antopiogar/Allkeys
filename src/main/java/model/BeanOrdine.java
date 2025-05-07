@@ -1,10 +1,10 @@
 package model;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 public class BeanOrdine {
 	private int idOrdine;
-	private LocalTime dataAcquisto;
+	private LocalDateTime dataAcquisto;
 	private Boolean conferma;
 	private BeanCartaPagamento pagamento;
 
@@ -12,6 +12,10 @@ public class BeanOrdine {
 	
 	public BeanUtente getUtente() {
 		return utente;
+	}
+	
+	public double getTotale() {
+		return 0.0;
 	}
 
 	public void setUtente(BeanUtente utente) {
@@ -30,11 +34,11 @@ public class BeanOrdine {
 		this.idOrdine = idOrdine;
 	}
 
-	public LocalTime getDataAcquisto() {
+	public LocalDateTime getDataAcquisto() {
 		return dataAcquisto;
 	}
 
-	public void setDataAcquisto(LocalTime dataAcquisto) {
+	public void setDataAcquisto(LocalDateTime dataAcquisto) {
 		this.dataAcquisto = dataAcquisto;
 	}
 

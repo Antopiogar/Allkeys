@@ -5,9 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 </head>
 <body>
+
 <%@ include file="NavBar.jsp" %>
+<main>
 	<%
 	String emailEsistente = (String)session.getAttribute("EmailEsistente");
 	boolean loginFallito = Boolean.TRUE.equals(session.getAttribute("LoginFallito"));
@@ -34,5 +37,7 @@
 		<input type="password" name = "password" required id ="password">
 		<br><br><input type="submit" value="Accedi">
 	</form>
+</main>
+	<%@ include file="footer.jsp" %>
 </body>
 </html>

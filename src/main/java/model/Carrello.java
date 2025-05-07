@@ -110,15 +110,22 @@ public class Carrello {
 	//DA OTTIMIZZARE
 	public static Carrello MergeCarrelli(Carrello c1, Carrello c2) {
 		Carrello ris = new Carrello();
-		
-		for(ArticoliCarrello art : c1.getArticoli() ) {
-			ris.AddArticolo(art.getArticolo());
-			ris.setQta(art.getArticolo(), art.getQta());			
+		if(c1 ==null && c2!=null) {
+			ris = c2;
 		}
-		for(ArticoliCarrello art : c2.getArticoli() ) {
-			for(int i =0;i<art.getQta();i++)
+		else if(c1!=null && c2==null) {
+			ris = c1;
+		}
+		else if(c1 != null && c2 != null){
+			for(ArticoliCarrello art : c1.getArticoli() ) {
 				ris.AddArticolo(art.getArticolo());
-						
+				ris.setQta(art.getArticolo(), art.getQta());			
+			}
+			for(ArticoliCarrello art : c2.getArticoli() ) {
+				for(int i =0;i<art.getQta();i++)
+					ris.AddArticolo(art.getArticolo());
+							
+			}
 		}
 		
 		return ris;

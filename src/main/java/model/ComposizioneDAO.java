@@ -25,7 +25,6 @@ public class ComposizioneDAO {
 	
 			if(articoli != null) {
 				for(ArticoliCarrello ac : articoli) {
-					System.out.println(ac);
 					//se non cè nel carrello lo inserisce
 					if(Carrello.isInCarrello(DB,ac.getArticolo())==-1) {
 						PreparedStatement ps = con.prepareStatement(insertQuery);
@@ -41,9 +40,7 @@ public class ComposizioneDAO {
 					//se c'è aggiunge quantita
 					else {
 						int newQta = (DB.getArticoloById(ac.getArticolo().getIdArticolo()).getQta())+1;
-						System.out.println("AGGIUNTA PRODOTTO");
 						PreparedStatement ps = con.prepareStatement(updateQuery);
-						System.out.println("Qta" + DB.getArticoloById(ac.getArticolo().getIdArticolo()).getQta());
 						ps.setInt(1, newQta);
 						ps.setInt(2, ac.getArticolo().getIdArticolo());
 						ps.setInt(3, FkOrdine);
@@ -51,7 +48,6 @@ public class ComposizioneDAO {
 						if(risultatoInserimento != 1) {
 				        	con.rollback();
 						}
-						System.out.println("RISULTATO AGGIUNTA "+ risultatoInserimento);
 
 					}
 
@@ -157,7 +153,6 @@ public class ComposizioneDAO {
 		boolean ris = true;
 		Carrello old = OrdineDAO.LoadCarrelByUser(idUtente);
 		int idOrdine = OrdineDAO.getIdCarrello(idUtente);
-		System.out.println("SINCRONIZZAZIONE");
 		//METODI DA CONTROLLARE
 		Carrello newProductToSave = Carrello.differenzaCarrelli(newCarrello,old);
 		Carrello productToUpdate = Carrello.intersezioneConQuantita(old, newProductToSave);
