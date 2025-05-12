@@ -29,7 +29,7 @@
 	}
 	
 	%> 
-	<h1>Accedi</h1>
+	<h1>Accedi</h1><br>
 	<form action="loginServlet" method = "POST">
 		<label for="email">Email</label>
 		<input type="email" name = "email" required id ="email">

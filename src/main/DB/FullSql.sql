@@ -103,7 +103,13 @@ INSERT INTO Carta_Pagamento (titolare, numeroCarta, scadenza, codiceCVC, FkUtent
 INSERT INTO Articolo (logo, nome, prezzo, piattaforma) VALUES 
 ('logo1.png', 'Cyberpunk 2077', 59.99, 'PC'),
 ('logo2.png', 'The Last of Us', 69.99, 'PS5'),
-('logo3.png', 'Halo Infinite', 49.99, 'Xbox');
+('logo3.png', 'Halo Infinite', 49.99, 'Xbox'),
+('logo4.png', 'Elden Ring', 59.99, 'PC'),
+('logo5.png', 'God of War: Ragnarok', 69.99, 'PS5'),
+('logo6.png', 'Forza Horizon 5', 49.99, 'Xbox'),
+('logo7.png', 'Red Dead Redemption 2', 39.99, 'PC'),
+('logo8.png', 'Spider-Man: Miles Morales', 44.99, 'PS5'),
+('logo9.png', 'Gears 5', 29.99, 'Xbox');
 
 -- Inserimento Ordini
 INSERT INTO Ordine (dataAcquisto, conferma, fkUtente, fkCarta) VALUES 
@@ -120,7 +126,25 @@ INSERT INTO Chiave (codice, FkOrdine, FkArticolo) VALUES
 ('KEY-CP2077-PC-006', NULL, 1),
 ('KEY-CP2077-PC-007', NULL, 1),
 ('KEY-CP2077-PC-008', NULL, 1),
-('KEY-CP2077-PC-009', NULL, 1);
+('KEY-CP2077-PC-009', NULL, 1),
+('KEY-CP2077-PC-010', NULL, 1),
+('KEY-CP2077-PC-011', NULL, 1),
+('KEY-CP2077-PC-012', NULL, 1),
+('KEY-TLOU-PS5-006', NULL, 2),
+('KEY-TLOU-PS5-007', NULL, 2),
+('KEY-HALO-XBOX-004', NULL, 3),
+('KEY-ELDEN-PC-001', NULL, 4),
+('KEY-ELDEN-PC-002', NULL, 4),
+('KEY-GOWR-PS5-001', NULL, 5),
+('KEY-GOWR-PS5-002', NULL, 5),
+('KEY-FH5-XBOX-001', NULL, 6),
+('KEY-FH5-XBOX-002', NULL, 6),
+('KEY-RDR2-PC-001', NULL, 7),
+('KEY-RDR2-PC-002', NULL, 7),
+('KEY-SMM-PS5-001', NULL, 8),
+('KEY-SMM-PS5-002', NULL, 8),
+('KEY-GEARS5-XBOX-001', NULL, 9),
+('KEY-GEARS5-XBOX-002', NULL, 9);
 
 -- Inserimento Composizione
 INSERT INTO Composizione (prezzoPagato,qta, FkArticolo, FkOrdine) VALUES 
