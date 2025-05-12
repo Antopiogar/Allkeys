@@ -9,7 +9,8 @@ create table Utente(
 	dataNascita date not null,
 	email varchar(50) not null unique,
 	cf char(16) not null,
-	password char (64) not null
+	password char (64) not null,
+	isAdmin boolean not null default 0
 );
 
 create table Carta_Pagamento(

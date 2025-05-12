@@ -9,7 +9,8 @@ create table Utente(
 	dataNascita date not null,
 	email varchar(50) not null unique,
 	cf char(16) not null,
-	password char (64) not null
+	password char (64) not null,
+	isAdmin boolean not null default 0
 );
 
 create table Carta_Pagamento(
@@ -61,6 +62,7 @@ create table Chiave(
 create table Composizione(
 	idComposizione int auto_increment primary key,
 	prezzoPagato decimal(10,2) not null check(prezzoPagato >= 0),
+	
 	qta int,
 	FkArticolo int null,
 	FkOrdine int null,
@@ -85,3 +87,4 @@ create table Recensione(
 	foreign key (FkArticolo) references Articolo(idArticolo)
 	on delete restrict on update cascade
 );
+
