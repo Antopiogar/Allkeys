@@ -188,11 +188,10 @@ DROP VIEW IF EXISTS N_Chiavi_Disponibili;
 CREATE VIEW N_Chiavi_Disponibili AS
 SELECT 
     c.FkArticolo AS idArticolo,
-    a.nome AS nome,
     COUNT(*) AS qta
 FROM
-    allkeys.chiave c
-JOIN allkeys.articolo a ON c.FkArticolo = a.idArticolo
+   chiave as c
+JOIN articolo as a ON c.FkArticolo = a.idArticolo
 WHERE
     c.FkOrdine IS NULL
 GROUP BY c.FkArticolo, a.nome;

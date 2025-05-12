@@ -117,18 +117,28 @@ private static Connection con;
 		int idOrder = getIdCarrello(IdUtente);
 	    boolean risultato = false;
 	    int risultatoUpdateChiavi = -2;
+	    
+	    
 	    try {
+	    	
+	    	risultatoUpdateChiavi = ChiaveDAO.confermaChiaviOrdinate(con, IdUtente, idOrder);
+			System.out.println("risultato chiavi " + risultatoUpdateChiavi);
+
+    		if(risultatoUpdateChiavi != 0) {
+    			con.rollback();
+    			DBConnection.releseConnection(con);
+    			return risultatoUpdateChiavi;
+    		}
+	    	
+	    	
 	    	PreparedStatement ps = con.prepareStatement(query);
 	    	ps.setInt(2, idOrder);
 	    	ps.setInt(1, IdCartaPagamento);
 	    	risultato = ps.executeUpdate() == 1 ? true : false;
-	    	if(risultato) {
-	    		System.out.println("QUI VA");
-	    		risultatoUpdateChiavi = ChiaveDAO.confermaChiaviOrdinate(con, IdUtente, idOrder);
-	    		System.out.println("risultatoUpdateChiavi"+risultatoUpdateChiavi);
-	    		if(risultatoUpdateChiavi != 0) {
-	    			return risultatoUpdateChiavi;
-	    		}
+	    	if(!risultato) {
+	    		ps.close();
+	    		DBConnection.releseConnection(con);
+	    		return -1;
 	    	}
 	    	ps.close();
 			
@@ -142,7 +152,6 @@ private static Connection con;
 	    } catch (SQLException e) {
 	    	System.out.println("MORTO IN ORDINE");
 	        e.printStackTrace();
-	        try { con.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
 	    } finally {
 	        DBConnection.releseConnection(con);
 	    }

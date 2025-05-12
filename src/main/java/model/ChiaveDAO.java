@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 
@@ -19,10 +20,14 @@ public class ChiaveDAO {
 	//SE MANCANO PRODOTTI SUL DB RITORNA ID DI QUEL PRODOTTO
 	//SE CI SONO ALTRI ERRORI RITORNA -1
 	public static int confermaChiaviOrdinate(Connection con, int idUtente, int idOrdine){
+		
 		Carrello c = OrdineDAO.LoadCarrelByUser(idUtente);
-		ArrayList<ChiaviDisponibili> disp = loadDisponibilita();
+		if(c == null || c.isEmpty()) {
+			return -1;
+		}
+		HashMap<Integer, Integer> disp = loadDisponibilita();
 		boolean acquistoEffettuato = false;
-		int idErrore=-1;
+		int idArt= 1;
 		//controlla se è possibile acquistare tutte le chiavi dell'ordine
 		//se non è possibile acquistare indica l'id del primo articolo non acquistabile
 		
@@ -30,12 +35,18 @@ public class ChiaveDAO {
 			System.out.println("\ndisp");
 			System.out.println(disp);
 			for(ArticoliCarrello art : c.getArticoli()) {
+				
 				System.out.println(c.getArticoli());
-				idErrore = ChiaviDisponibili.canBeBuy(disp, art);
-				//se da un id valido seganla problema su quel prodotto
-				if(idErrore != -1) {
-					return idErrore;
+				
+				idArt = art.getArticolo().getIdArticolo();
+				Integer disponibilita = disp.get(idArt);
+				System.out.println("idArt " + idArt);
+				if (disponibilita == null || art.getQta() > disponibilita) {
+					System.out.println("idArt " + idArt );
+
+				    return idArt;
 				}
+				
 			}
 
 		acquistoEffettuato = ordinaChiavi(con,c,idOrdine);
@@ -89,29 +100,30 @@ public class ChiaveDAO {
 
 
 
-	private static synchronized ArrayList<ChiaviDisponibili> loadDisponibilita() {
-		ArrayList<ChiaviDisponibili> disp = new ArrayList<ChiaviDisponibili>();
+	private static synchronized HashMap<Integer, Integer> loadDisponibilita() {
 		Connection con = DBConnection.getConnection();
+		HashMap<Integer,Integer> disp = new HashMap<>();
 		try {
-			ChiaviDisponibili cd = new ChiaveDAO.ChiaviDisponibili();
 			String query="""
 					SELECT * FROM N_CHIAVI_DISPONIBILI
 					""";
 			PreparedStatement ps = con.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				cd = new ChiaviDisponibili();
-				cd.setDisponibilita(rs.getInt("qta"));
-				cd.setIdArticolo(rs.getInt("idArticolo"));
-				cd.setNome(rs.getString("nome"));
-				disp.add(cd);
+				int idArt =rs.getInt("idArticolo");
+				int qta= rs.getInt("qta");
+				disp.put(idArt, qta);
 			}
+			ps.close();
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("ERRORE IN CARICAMENTO DISPONIBILITA");
+			DBConnection.releseConnection(con);
 		}
 		
 		System.out.println("DISP = " + disp);
+		DBConnection.releseConnection(con);
 		return disp;
 	}
 	
@@ -161,88 +173,4 @@ public class ChiaveDAO {
 		return ris;
 	}
 	
-	public static class ChiaviDisponibili {
-		int idArticolo,idChiave,disponibilita;
-		String nome;
-
-		
-		public String getNome() {
-			return nome;
-		}
-
-		public void setNome(String nome) {
-			this.nome = nome;
-		}
-
-		public ChiaviDisponibili() {
-			
-		}
-		
-		public ChiaviDisponibili(int idArticolo, int idChiave, int disponibilita) {
-			this.idArticolo = idArticolo;
-			this.idChiave = idChiave;
-			this.disponibilita = disponibilita;
-		}
-
-		public int getIdArticolo() {
-			return idArticolo;
-		}
-
-		public void setIdArticolo(int idArticolo) {
-			this.idArticolo = idArticolo;
-		}
-
-		public int getIdChiave() {
-			return idChiave;
-		}
-
-		public void setIdChiave(int idChiave) {
-			this.idChiave = idChiave;
-		}
-
-		public int getDisponibilita() {
-			return disponibilita;
-		}
-
-		public void setDisponibilita(int disponibilita) {
-			this.disponibilita = disponibilita;
-		}
-
-	
-		
-		
-	
-
-		@Override
-		public String toString() {
-			return String.format("ChiaviDisponibili [idArticolo=%s, nome=%s, idChiave=%s, disponibilita=%s]",
-					idArticolo, nome, idChiave, disponibilita);
-		}
-
-		//controlla se è possibile acquistare tutte le chiavi dell'ordine
-		//se non è possibile acquistare indica l'id del primo articolo non acquistabile
-		public static synchronized int canBeBuy(ArrayList<ChiaviDisponibili> cd, ArticoliCarrello art){
-			for(int i = 1; i <= cd.size(); i++) {
-				if(cd.get(i-1).getIdArticolo() == art.getArticolo().getIdArticolo()) {
-					if(cd.get(i-1).getDisponibilita() < art.getQta()){
-						System.out.println("i = "+i);
-						return i;
-					}		
-				}
-			}
-		
-			return -1;
-		}
-		
-		
-		
-		
-		
-	}
-
-	
-	
-
-	
-
 }

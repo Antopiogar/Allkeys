@@ -180,7 +180,7 @@ public class TestingServlet extends HttpServlet {
 	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		TestOrdinaChiave();
+		testCarrelloUtente();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
