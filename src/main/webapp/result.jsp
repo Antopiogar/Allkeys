@@ -23,13 +23,14 @@
 <div class="catalogo">
     <% for (BeanArticolo articolo : articoli) { %>
     <div class="articolo-card">
+    <a href="DettagliArticoloServlet?articolo=<%= articolo.getIdArticolo() %>" class="articolo-link">
     <img src="<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>" alt="Immagine articolo" style="max-width: 100%; height: auto;">
     <p><%= articolo.getInfo() %></p>
     <form action="CartServlet" method="POST">
         <input type="hidden" value="<%= articolo.getIdArticolo() %>" name="idArticolo">
         <input type="hidden" value="add" name="action">
         <input type="submit" value="Aggiungi al carrello">
-    </form>
+    </form></a>
 </div>
     <% } %>
 </div>

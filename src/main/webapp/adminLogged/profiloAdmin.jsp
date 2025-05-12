@@ -2,13 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page session="true" %>
-	<%@ include file="verificaLogin.jsp" %>
+<%@ include file="../userLogged/verificaLogin.jsp" %> <%//DA SISTEMARE %>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Profilo</title>
+	<title>Profilo Amministratore</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 </head>
 <body>
@@ -33,8 +33,10 @@
 	if(risultatoUpdate != null)
 		out.print(risultatoUpdate);
 %>
-		<h1>I tuoi dati</h1><br>
-		<form action="<%= request.getContextPath() %>/ModificaUtenteServlet" method = "POST">
+		
+		<h1>I tuoi dati</h1>
+
+		<br><form action="<%= request.getContextPath() %>/ModificaUtenteServlet" method = "POST">
 			
 		<label for="nome">Nome</label>
 		<input type="text" name = "nome" required id ="nome" value= "<% out.print(user.getNome());%>">
@@ -49,10 +51,18 @@
 		<input type="text" name = "action" value="modifica" hidden="true">
 		
 		<br><br><input type="submit" value="Modifica informazioni">
-	</form>
+	</form><br>
+	<br><h1>Gestione Admin</h1><br>
+	
+		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method = "POST">
+			<input type="hidden" value="addKey" name="AdminAction">
+			<input type="submit" value="Aggiungi chiave di gioco">
+		</form><br>
+		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method = "POST">
+			<input type="hidden" value="addArticolo" name="AdminAction">
+			<input type="submit" value="Aggiungi un nuovo articolo">
+		</form>
 </main>
-
-
 <%@ include file="../footer.jsp" %>
 </body>
 </html>

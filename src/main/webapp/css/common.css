@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-* {
+* {/*reset iniziale*/
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,46 +10,66 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #363636;
     color: #ededed;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 a {
     color: #f65d0f;
     text-decoration: none;
+    /*transition: color 0.3s ease;*/
 }
 
 a:hover {
     color: #d94e0b;
 }
 
-a:visited,
-a:active {
+a:visited {
     color: #f65d0f;
 }
 
+a:active {
+    color: #d94e0b;
+}
+
+
 main {
+    flex: 1;
     padding: 20px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .catalogo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
     width: 100%;
-    max-width: 800px;
-    margin: 20px auto;
+    max-width: 1200px;
+    margin-top: 20px;
 }
 
 .articolo-card {
-    background-color: #0b0b0b;
-    border: 2px solid #0b0b0b;
+    background-color: #0b0b0b; 
+    border: 2px solid #0b0b0b; 
     border-radius: 8px;
     padding: 15px;
-    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
+    /*transition: transform 0.3s ease, background-color 0.3s ease;*/
+}
+
+.articolo-card:hover {
+    transform: scale(1.02); 
+    background-color: #181818;
 }
 
 .articolo-card img {
     border-radius: 8px;
     margin-bottom: 10px;
     max-height: 200px;
-    width: 100%;
     object-fit: cover;
 }
 
@@ -58,8 +78,8 @@ main {
     margin-bottom: 10px;
 }
 
-button,
-input[type="submit"] {
+
+button, input[type="submit"] {
     background-color: #f65d0f;
     color: #ffffff;
     border: none;
@@ -67,17 +87,23 @@ input[type="submit"] {
     border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
+    /*transition: background-color 0.3s ease;*/
 }
 
-button:hover,
-input[type="submit"]:hover {
+button:hover, input[type="submit"]:hover {
     background-color: #d94e0b;
 }
 
 .payment-form {
     width: 100%;
     max-width: 600px;
-    margin: 0 auto;
+}
+
+.payment-card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
 }
 
 .payment-card {
@@ -85,15 +111,25 @@ input[type="submit"]:hover {
     border: 2px solid #f65d0f;
     border-radius: 8px;
     padding: 15px 20px;
-    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    /*transition: background-color 0.3s ease, transform 0.2s ease;*/
+}
+
+.payment-card:hover {
+    background-color: #181818;
+    transform: scale(1.01);
 }
 
 .payment-card input[type="radio"] {
-    margin-right: 10px;
+    margin-right: 15px;
+    accent-color: #f65d0f;
+    transform: scale(1.3);
 }
 
 .card-content {
-    font-size: 1em;
+    font-size: 1.1em;
     color: #ededed;
 }
 
@@ -104,21 +140,21 @@ table {
     background-color: #1a1a1a;
 }
 
-th,
-td {
-    padding: 10px;
+th, td {
+    padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid #444; 
 }
 
 th {
-    background-color: #333;
-    color: #f65d0f;
+    background-color: #333; 
+    color: #f65d0f; 
 }
 
 tr:hover {
-    background-color: #2c2c2c;
+    background-color: #2c2c2c; 
 }
+
 
 ul {
     list-style-type: disc;
@@ -127,8 +163,84 @@ ul {
 
 li {
     margin: 10px 0;
+    color: #ededed;
 }
 
 li img {
     margin-right: 10px;
+}
+
+.dettagli-wrapper {
+    max-width: 1000px;
+    margin: 30px auto 0;
+    background-color: #0b0b0b;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: row;
+    padding: 25px;
+    gap: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    align-items: center;
+}
+
+.dettagli-img {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dettagli-img img {
+    width: 100%;
+    max-width: 350px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    background-color: #1a1a1a;
+    border: 2px solid #222;
+}
+
+.dettagli-info {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    color: #ededed;
+}
+
+.dettagli-info p {
+    font-size: 1.1em;
+    margin: 5px 0;
+}
+
+.dettagli-info form {
+    margin-top: 10px;
+}
+
+.descrizione, .recensioni {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px 30px;
+    background-color: #0b0b0b;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.descrizione h2, .recensioni h2 {
+    color: #f65d0f;
+    margin-bottom: 12px;
+    font-size: 1.4em;
+}
+
+.descrizione p, .recensioni p {
+    color: #ededed;
+    line-height: 1.6;
+    font-size: 1em;
+}
+
+
+@media (max-width: 768px) {
+    .catalogo {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
 }
