@@ -7,9 +7,12 @@
     flex-wrap: wrap;
 }
 
+
 .navbar .logo img {
-    height: 40px;
+    max-height: 50px;
     width: auto;
+    height: auto;
+    display: block;
 }
 
 .navbar .logo a {
@@ -18,6 +21,8 @@
     font-weight: bold;
     text-decoration: none;
     margin-left: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .navbar .item a,
@@ -71,10 +76,20 @@
     .navbar {
         flex-direction: column;
         align-items: flex-start;
+        padding: 10px 20px;
+    }
+
+    .navbar .logo {
+        margin-bottom: 10px;
     }
 
     .navbar .item,
     .dropdown {
-        margin-top: 10px;
+        margin: 5px 0;
+    }
+
+    .navbar .item a,
+    .dropdown .dropbtn {
+        font-size: 16px;
     }
 }
