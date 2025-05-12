@@ -268,7 +268,7 @@ private static Connection con;
 					        join articolo as a on a.idArticolo = c.FkArticolo
 					        join composizione as co on co.FkOrdine = o.idOrdine
 							join carta_pagamento as cp on cp.idCarta = o.fkCarta
-					where o.fkUtente = ?
+					where o.fkUtente = ? and o.conferma = 1 and a.idArticolo = co.FkArticolo
 					""";
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, idUtente);
