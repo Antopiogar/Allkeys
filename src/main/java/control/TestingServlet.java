@@ -17,6 +17,7 @@ import model.ArticoloDAO;
 import model.BeanArticolo;
 import model.BeanCartaPagamento;
 import model.BeanChiave;
+import model.BeanRecensione;
 import model.BeanUtente;
 
 import model.Carrello;
@@ -25,6 +26,7 @@ import model.ChiaveDAO;
 import model.ComposizioneDAO;
 import model.DBConnection;
 import model.OrdineDAO;
+import model.RecensioneDAO;
 import model.UtenteDAO;
 
 /**
@@ -200,10 +202,31 @@ public class TestingServlet extends HttpServlet {
 		boolean ris = ChiaveDAO.saveKey(art, chiave);
 		System.out.println(ris);
 	}
+	@SuppressWarnings("unused")
+	private void TestAggiungiRecensione() {
+		BeanUtente user = UtenteDAO.loadUserById(1);
+		
+		
+		BeanChiave chiave = new BeanChiave();
+		BeanRecensione rec = new BeanRecensione();
+		rec.setData(LocalDate.now());
+		rec.setVoto(1);
+		rec.setTesto("GIOCO MAI PROVATO MA VOLEVO METTERE COMUNQUE IL VOTO MINIMO");
+		rec.setUtenteRecensione(user);
+		boolean ris = RecensioneDAO.saveRecensione(rec, 5);
+		System.out.println(ris);
+	}
+	
+	@SuppressWarnings("unused")
+	private void TestVisualizzaRecensioniByIdArticolo() {
+		ArrayList<BeanRecensione> rec = RecensioneDAO.getRecensioniByIdArticolo("1");
+		
+		System.out.println(rec);
+	}
 	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		TestAggiungiChiaveNuovoArticolo();
+		testAllArticles();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

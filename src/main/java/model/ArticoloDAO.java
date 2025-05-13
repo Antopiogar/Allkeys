@@ -30,7 +30,7 @@ public class ArticoloDAO {
 	        e.printStackTrace();
 	    }
 
-	    return result;
+	    return result+".png";
 	}
 
 	

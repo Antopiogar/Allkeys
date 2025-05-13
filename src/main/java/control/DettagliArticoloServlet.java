@@ -1,6 +1,8 @@
 package control;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import model.*;
 
 import javax.servlet.RequestDispatcher;
@@ -24,9 +26,12 @@ public class DettagliArticoloServlet extends HttpServlet {
 		String idArticolo = request.getParameter("articolo");
 		if(idArticolo == null) response.sendRedirect(request.getContextPath() + "/index.jsp"); //se la servlet non viene usata correttamente.
 		BeanArticolo articolo = null;
+		ArrayList<BeanRecensione> recensioni = null;
 		if(idArticolo != null) {
 			articolo = ArticoloDAO.getArticoloById(idArticolo);
+			recensioni = RecensioneDAO.getRecensioniByIdArticolo(idArticolo);
 			request.setAttribute("articoloInfo", articolo);
+			request.setAttribute("recensioni", recensioni);
 			RequestDispatcher view = request.getRequestDispatcher("dettagliArticolo.jsp");
 			view.forward(request, response);
 		}
