@@ -28,7 +28,8 @@ create table Articolo(
 	logo varchar(50),
 	nome varchar(50) not null,
 	prezzo decimal(10,2) not null check (prezzo>=0),
-	piattaforma varchar(20) not null
+	piattaforma varchar(20) not null,
+    descrizione text 
 );
 
 
@@ -100,16 +101,16 @@ INSERT INTO Carta_Pagamento (titolare, numeroCarta, scadenza, codiceCVC, FkUtent
 ('Luca Verdi', '5555666677778888', '2027-04-15', '456', 2);
 
 -- Inserimento Articoli
-INSERT INTO Articolo (logo, nome, prezzo, piattaforma) VALUES 
-('logo1.png', 'Cyberpunk 2077', 59.99, 'PC'),
-('logo2.png', 'The Last of Us', 69.99, 'PS5'),
-('logo3.png', 'Halo Infinite', 49.99, 'Xbox'),
-('logo4.png', 'Elden Ring', 59.99, 'PC'),
-('logo5.png', 'God of War: Ragnarok', 69.99, 'PS5'),
-('logo6.png', 'Forza Horizon 5', 49.99, 'Xbox'),
-('logo7.png', 'Red Dead Redemption 2', 39.99, 'PC'),
-('logo8.png', 'Spider-Man: Miles Morales', 44.99, 'PS5'),
-('logo9.png', 'Gears 5', 29.99, 'Xbox');
+INSERT INTO Articolo (logo, nome, prezzo, piattaforma,descrizione) VALUES 
+('logo1.png', 'Cyberpunk 2077', 59.99, 'PC','Un vasto RPG ambientato in una futuristica e decadente Night City, dove ogni scelta cambia il destino del protagonista in un mondo aperto e pieno di tecnologia.'),
+('logo2.png', 'The Last of Us', 69.99, 'PS5','Un avventura emozionante e toccante in un mondo post-apocalittico, in cui Joel ed Ellie combattono per sopravvivere tra pericoli umani e infetti.'),
+('logo3.png', 'Halo Infinite', 49.99, 'Xbox',"Master Chief torna in una battaglia decisiva per salvare l’umanità, con un gameplay rinnovato e un mondo semi-aperto ricco di azione e misteri."),
+('logo4.png', 'Elden Ring', 59.99, 'PC',"Un epico gioco di ruolo fantasy creato da FromSoftware, con un mondo oscuro e sconfinato da esplorare, ricco di boss impegnativi e lore affascinante."),
+('logo5.png', 'God of War: Ragnarok', 69.99, 'PS5',"Kratos e Atreus intraprendono un viaggio mitologico per affrontare divinità norrene, in un'avventura intensa tra emozioni, battaglie e rivelazioni."),
+('logo6.png', 'Forza Horizon 5', 49.99, 'Xbox',"Corri attraverso paesaggi mozzafiato del Messico con centinaia di auto in gare spettacolari e libere, in uno dei migliori racing open-world mai creati."),
+('logo7.png', 'Red Dead Redemption 2', 39.99, 'PC',"Vivi la vita di un fuorilegge in un western realistico e profondo, con una trama coinvolgente, ambientazioni curate e personaggi memorabili."),
+('logo8.png', 'Spider-Man: Miles Morales', 44.99, 'PS5',"Indossa il costume di Miles in un’avventura urbana adrenalinica, tra acrobazie spettacolari, nemici unici e una New York innevata da proteggere."),
+('logo9.png', 'Gears 5', 29.99, 'Xbox',"Un intenso sparatutto in terza persona con una trama emozionante, cooperativa online e combattimenti dinamici in un universo sci-fi devastato dalla guerra.");
 
 -- Inserimento Ordini
 INSERT INTO Ordine (dataAcquisto, conferma, fkUtente, fkCarta) VALUES 

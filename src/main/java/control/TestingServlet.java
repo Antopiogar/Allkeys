@@ -59,8 +59,7 @@ public class TestingServlet extends HttpServlet {
 	
 	@SuppressWarnings("unused")
 	private void testCarrello() {
-		ArticoloDAO articoloDao= new ArticoloDAO();
-		ArrayList<BeanArticolo> articoli = articoloDao.loadAllDistinctArticles();
+		ArrayList<BeanArticolo> articoli = ArticoloDAO.loadAllDistinctArticles();
 		int qta;
 		
 		Carrello carrello = new Carrello();
@@ -178,9 +177,33 @@ public class TestingServlet extends HttpServlet {
 		System.out.println(ris);
 	}
 	
+	@SuppressWarnings("unused")
+	private void TestAggiungiChiaveEsistente() {
+		BeanArticolo art = ArticoloDAO.getArticoloById("7");
+		BeanChiave chiave = new BeanChiave();
+		chiave.setCodice("PIPPO FORTE SEMPRE");
+		boolean ris = ChiaveDAO.saveKey(art, chiave);
+		System.out.println(ris);
+	}
+	
+	@SuppressWarnings("unused")
+	private void TestAggiungiChiaveNuovoArticolo() {
+		BeanArticolo art = new BeanArticolo();
+		art.setLogo(ArticoloDAO.getNextLogo());
+		art.setDescrizione("DESCRIZIONE ACCURATA");
+		art.setNome("GIOCO BELLOOO");
+		art.setPiattaforma("PC");
+		art.setPrezzo((float) 10.99);
+		
+		BeanChiave chiave = new BeanChiave();
+		chiave.setCodice("PIPPO FORTE SEMPRE!!");
+		boolean ris = ChiaveDAO.saveKey(art, chiave);
+		System.out.println(ris);
+	}
+	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		testCarrelloUtente();
+		TestAggiungiChiaveNuovoArticolo();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

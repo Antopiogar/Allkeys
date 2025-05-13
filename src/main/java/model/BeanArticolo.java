@@ -6,11 +6,10 @@ public class BeanArticolo {
 	private String nome;
 	private String descrizione;
 	private String piattaforma;
-
 	private float prezzo;
 	
 	public BeanArticolo() {
-		// TODO Auto-generated constructor stub
+		IdArticolo =-1;
 	}
 	
 	

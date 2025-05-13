@@ -173,4 +173,54 @@ public class ChiaveDAO {
 		return ris;
 	}
 	
+	
+	public static synchronized boolean saveKey(BeanArticolo art,BeanChiave chiave) {
+		int idArticolo = -1;
+		Connection con = DBConnection.getConnection();
+
+		//articolo non ancora esistente
+		if(art.getIdArticolo() ==-1) {
+			idArticolo = ArticoloDAO.createArticolo(con,art);
+			//morto qualcosa
+			if(idArticolo<0) {
+				DBConnection.releseConnection(con);
+				return false;
+			}
+		}
+		else {
+			idArticolo = art.getIdArticolo();
+		}
+		String query= """
+				INSERT INTO CHIAVE (codice,fkArticolo) value(?,?);
+				""";
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, chiave.getCodice());
+			ps.setInt(2, idArticolo);
+			int risultato = ps.executeUpdate();
+			ps.close();
+			//verifica che sia andato tutto bene
+			if(risultato < 0) {
+				con.rollback();
+				DBConnection.releseConnection(con);
+				return false;
+			}
+			con.commit();
+		
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			try {
+				con.rollback();
+				System.out.println("ROLLBACK IN CREAZIONE CHIAVI");
+			}
+			catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+
+		}
+		
+		DBConnection.releseConnection(con);
+		return true;
+	}
 }

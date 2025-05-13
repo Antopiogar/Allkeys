@@ -24,19 +24,16 @@ SELECT DISTINCT
 	a.*
 FROM
 	articolo as a
-	join chiave as c on a.idArticolo = c.fkArticolo where c.fkOrdine is null
-
-
+	join chiave as c on a.idArticolo = c.fkArticolo where c.fkOrdine is null;
+	
 DROP VIEW IF EXISTS N_Chiavi_Disponibili;
-create view N_Chiavi_Disponibili as
-    SELECT 
-        COUNT(0) AS qta,
-        c.idChiave AS idChiave,
-        c.fKArticolo as idArticolo,
-        a.nome AS nome
-    FROM
-        (allkeys.chiave c
-        JOIN allkeys.articolo a ON (c.FkArticolo = a.idArticolo))
-    WHERE
-        c.FkOrdine IS NULL
-    GROUP BY c.FkArticolo
+CREATE VIEW N_Chiavi_Disponibili AS
+SELECT 
+    c.FkArticolo AS idArticolo,
+    COUNT(*) AS qta
+FROM
+   chiave as c
+JOIN articolo as a ON c.FkArticolo = a.idArticolo
+WHERE
+    c.FkOrdine IS NULL
+GROUP BY c.FkArticolo, a.nome;

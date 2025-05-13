@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class ArticoloDAO {
@@ -12,6 +13,27 @@ public class ArticoloDAO {
 	
 	public ArticoloDAO() {
 	}
+	
+	public static synchronized String getNextLogo() {
+	    String query = "SELECT CONCAT('logo', MAX(idArticolo) + 1) AS nextLogo FROM Articolo";
+	    String result = null;
+
+	    try (Connection con = DBConnection.getConnection();
+	         PreparedStatement ps = con.prepareStatement(query);
+	         ResultSet rs = ps.executeQuery()) {
+
+	        if (rs.next()) {
+	            result = rs.getString("nextLogo"); // può essere null se la tabella è vuota
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return result;
+	}
+
+	
 	
 	public static synchronized ArrayList<BeanArticolo> loadAllDistinctArticles() {
 		con=DBConnection.getConnection();
@@ -30,6 +52,7 @@ public class ArticoloDAO {
 				articolo.setNome(rs.getString("nome"));
 				articolo.setLogo(rs.getString("logo"));
 				articolo.setPiattaforma(rs.getString("piattaforma"));
+				articolo.setDescrizione(rs.getString("descrizione"));
 				articoli.add(articolo);
 			}
 			ps.close();
@@ -62,7 +85,8 @@ public class ArticoloDAO {
 				articolo.setLogo(rs.getString("logo"));
 				articolo.setPiattaforma(rs.getString("piattaforma"));
 				articolo.setPrezzo(rs.getFloat("prezzo"));
-				
+				articolo.setDescrizione(rs.getString("descrizione"));
+
 				articoli.add(articolo);
 				
 			}
@@ -94,6 +118,8 @@ public class ArticoloDAO {
 				articolo.setLogo(rs.getString("logo"));
 				articolo.setPiattaforma(rs.getString("piattaforma"));
 				articolo.setPrezzo(rs.getFloat("prezzo"));
+				articolo.setDescrizione(rs.getString("descrizione"));
+
 			}
 			ps.close();
 
@@ -103,6 +129,42 @@ public class ArticoloDAO {
 		}
 		DBConnection.releseConnection(con);
 		return articolo;
+	}
+
+	
+	//se non ci sono errori restituisce l'id dell'articolo creato
+	//se ci sono errori restituisce -1 come segnale d'errore
+	public static synchronized int createArticolo(Connection con, BeanArticolo art) {
+	    String query = """
+	        INSERT INTO Articolo (logo, nome, prezzo, piattaforma, descrizione)
+	        VALUES (?, ?, ?, ?, ?)
+	    """;
+
+	    int idArt = -1;
+
+	    try (PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+	        ps.setString(1, art.getLogo());
+	        ps.setString(2, art.getNome());
+	        ps.setFloat(3, art.getPrezzo());
+	        ps.setString(4, art.getPiattaforma());
+	        ps.setString(5, art.getDescrizione());
+
+	        int rowsAffected = ps.executeUpdate();
+
+	        if (rowsAffected == 1) {
+	            try (ResultSet rs = ps.getGeneratedKeys()) {
+	                if (rs.next()) {
+	                    idArt = rs.getInt(1);
+	                }
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        System.out.println("ERRORE NELL'INSERIMENTO ARTICOLO");
+	        e.printStackTrace();
+	    }
+
+	    return idArt;
 	}
 
 	

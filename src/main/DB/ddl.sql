@@ -28,7 +28,8 @@ create table Articolo(
 	logo varchar(50),
 	nome varchar(50) not null,
 	prezzo decimal(10,2) not null check (prezzo>=0),
-	piattaforma varchar(20) not null
+	piattaforma varchar(20) not null,
+    descrizione text 
 );
 
 
@@ -87,4 +88,3 @@ create table Recensione(
 	foreign key (FkArticolo) references Articolo(idArticolo)
 	on delete restrict on update cascade
 );
-
