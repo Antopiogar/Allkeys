@@ -2,7 +2,7 @@
     <%
         String nome = (String) request.getSession().getAttribute("Nome");
     %>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/navbar.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/navbar2.css">
     
     <div class="navbar">
         <div class="logo">

@@ -130,6 +130,26 @@ public class ArticoloDAO {
 		DBConnection.releseConnection(con);
 		return articolo;
 	}
+	
+	public static synchronized ArrayList<String> getPiattaforme(){
+		con=DBConnection.getConnection();
+		String query = "SELECT DISTINCT piattaforma FROM ARTICOLO";
+		ArrayList<String> piattaforme = new ArrayList<String>();
+		try {
+			con = DBConnection.getConnection();
+			PreparedStatement ps = con.prepareStatement(query);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				piattaforme.add(rs.getString("piattaforma"));
+			}
+			ps.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBConnection.releseConnection(con);
+		return piattaforme;
+	}
 
 	
 	//se non ci sono errori restituisce l'id dell'articolo creato

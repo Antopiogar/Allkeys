@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.*" %>
+<%@ page import="java.util.ArrayList" %>
+
 <%
     BeanArticolo articolo = (BeanArticolo) request.getAttribute("articoloInfo");
     if (articolo == null) {
@@ -7,12 +9,14 @@
         return;
     }
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title><%= articolo.getNome() %></title>
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 <%@ include file="NavBar.jsp" %>
@@ -37,12 +41,44 @@
 
     <div class="descrizione">
         <h2>Descrizione</h2>
-        <p>Non sono ancora presenti le descrizioni per gli articoli, riprovare più tardi!</p>
+        <p><%= articolo.getDescrizione() %></p>
     </div>
 
     <div class="recensioni">
-        <h2>Recensioni</h2>//TO DO
-        <p>Nessuna recensione disponibile al momento.</p>
+        <h2>Recensioni</h2>
+        <%
+            ArrayList<BeanRecensione> recensioni = RecensioneDAO.getRecensioniByIdArticolo(String.valueOf(articolo.getIdArticolo()));
+            if (recensioni != null && !recensioni.isEmpty()) {
+                for (BeanRecensione rec : recensioni) {
+        %>
+            <div class="recensione-card">
+                <div class="recensione-header">
+                    <span class="recensione-user"><i class="fa-solid fa-user"></i> <strong><%= rec.getUtenteRecensione().getNome() %></strong></span>
+                    <span class="recensione-data"><i class="fa-regular fa-calendar-days"></i> <%= rec.getData() %></span>
+                </div>
+                <div class="recensione-stelle">
+                    <%-- Mostra stelle --%>
+                    <%
+                        int voto = rec.getVoto();
+                        for (int i = 1; i <= 5; i++) {
+                            if (i <= voto) {
+                    %><i class="fa-solid fa-star"></i><%
+                            } else {
+                    %><i class="fa-regular fa-star"></i><%
+                            }
+                        }
+                    %>
+                </div>
+                <div class="recensione-testo"><%= rec.getTesto() %></div>
+            </div><br>
+        <%
+                }
+            } else {
+        %>
+            <p>Nessuna recensione disponibile per questo articolo.</p>
+        <%
+            }
+        %>
     </div>
 </main>
 
