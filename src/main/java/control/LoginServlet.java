@@ -38,6 +38,7 @@ public class LoginServlet extends HttpServlet {
 		email = request.getParameter("email");
 		pass = UtenteDAO.toSHA256(request.getParameter("password"));
 		idUser = uDao.login(email, pass);
+		System.out.println(idUser);
 		if(idUser == -1) {
 			System.out.println("idUser = "+ idUser);
 
@@ -63,10 +64,10 @@ public class LoginServlet extends HttpServlet {
 			request.getSession().setAttribute("idUser", idUser);
 			request.getSession().setAttribute("Nome", nomeUser);
 			request.getSession().setAttribute("User", UtenteDAO.loadUserById(idUser));
-		    
+			response.sendRedirect("userLogged/profilo.jsp");
+
 			
 		}
-		response.sendRedirect("userLogged/profilo.jsp");
 	}
 
 }
