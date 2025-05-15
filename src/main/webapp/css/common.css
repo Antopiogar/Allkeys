@@ -264,3 +264,65 @@ li img {
         max-width: 100%;
     }
 }
+
+.profilo-card {
+    background-color: #0b0b0b;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 600px;
+    margin: 30px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    color: #ededed;
+}
+
+.profilo-card h1 {
+    color: #f65d0f;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profilo-dato {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.profilo-dato span {
+    font-weight: bold;
+    color: #f65d0f;
+}
+
+.profilo-feedback {
+    text-align: center;
+    color: #f65d0f;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.profilo-bottone-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profilo-bottone {
+    background-color: #f65d0f;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.admin-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.profilo-bottone:hover {
+    background-color: #d94c00;
+    color: #fff;
+}
+

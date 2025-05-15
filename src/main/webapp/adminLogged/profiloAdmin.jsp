@@ -34,34 +34,35 @@
 		out.print(risultatoUpdate);
 %>
 		
-		<h1>I tuoi dati</h1>
+		<div class="profilo-card">
+	<h1>Il tuo profilo</h1>
 
-		<br><form action="<%= request.getContextPath() %>/ModificaUtenteServlet" method = "POST">
-			
-		<label for="nome">Nome</label>
-		<input type="text" name = "nome" required id ="nome" value= "<% out.print(user.getNome());%>">
-		<br><br><label for="cognome">Cognome</label>
-		<input type="text" name = "cognome" required id ="cognome" value= "<% out.print(user.getCognome());%>">
-		<br><br><label for="dataN">Data di nascita</label>
-		<input type="date" name = "dataN" required id ="dataN" value="<% out.print(dataFormattata); %>">
-		<br><br><label for="cf">Codice Fiscale</label>
-		<input type="text" name = "cf" required id ="cf" value="<% out.print(user.getCf()); %>">
-		<br><br><label for="email">Email</label>
-		<input type="email" name = "email" required id ="email" value="<%=user.getEmail()%>">
-		<input type="text" name = "action" value="modifica" hidden="true">
-		
-		<br><br><input type="submit" value="Modifica informazioni">
-	</form><br>
-	<br><h1>Gestione Admin</h1><br>
-	
-		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method = "POST">
-			<input type="hidden" value="addKey" name="AdminAction">
-			<input type="submit" value="Aggiungi chiave di gioco">
-		</form><br>
-		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method = "POST">
-			<input type="hidden" value="addArticolo" name="AdminAction">
-			<input type="submit" value="Aggiungi un nuovo articolo">
+	<p class="profilo-dato"><span>Nome:</span> <%= user.getNome() %></p>
+	<p class="profilo-dato"><span>Cognome:</span> <%= user.getCognome() %></p>
+	<p class="profilo-dato"><span>Data di nascita:</span> <%= dataFormattata %></p>
+	<p class="profilo-dato"><span>Codice Fiscale:</span> <%= user.getCf() %></p>
+	<p class="profilo-dato"><span>Email:</span> <%= user.getEmail() %></p>
+	<div class="profilo-bottone-container">
+	<a href="modificaProfilo.jsp" class="profilo-bottone">Modifica</a><%//DA CAMBIARE QUI.%>
+</div>
+
+</div>
+<div class="profilo-card">
+	<h1>Gestione Admin</h1>
+
+	<div class="admin-form-container">
+		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method="POST">
+			<input type="hidden" name="AdminAction" value="addKey">
+			<input type="submit" class="profilo-bottone" value="Aggiungi chiave di gioco">
 		</form>
+
+		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method="POST">
+			<input type="hidden" name="AdminAction" value="addArticolo">
+			<input type="submit" class="profilo-bottone" value="Aggiungi un nuovo articolo">
+		</form>
+	</div>
+</div>
+
 </main>
 <%@ include file="../footer.jsp" %>
 </body>
