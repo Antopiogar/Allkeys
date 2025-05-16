@@ -184,7 +184,7 @@ public class TestingServlet extends HttpServlet {
 		BeanArticolo art = ArticoloDAO.getArticoloById("7");
 		BeanChiave chiave = new BeanChiave();
 		chiave.setCodice("PIPPO FORTE SEMPRE");
-		boolean ris = ChiaveDAO.saveKey(art, chiave);
+		int ris = ChiaveDAO.saveKey(art, chiave);
 		System.out.println(ris);
 	}
 	
@@ -192,14 +192,14 @@ public class TestingServlet extends HttpServlet {
 	private void TestAggiungiChiaveNuovoArticolo() {
 		BeanArticolo art = new BeanArticolo();
 		art.setLogo(ArticoloDAO.getNextLogo());
-		art.setDescrizione("DESCRIZIONE ACCURATA");
-		art.setNome("GIOCO BELLOOO");
+		art.setDescrizione("DESCRIZIONE ACCURATA!!");
+		art.setNome("GIOCO BELLOOO!!");
 		art.setPiattaforma("PC");
 		art.setPrezzo((float) 10.99);
 		
 		BeanChiave chiave = new BeanChiave();
-		chiave.setCodice("PIPPO FORTE SEMPRE!!");
-		boolean ris = ChiaveDAO.saveKey(art, chiave);
+		chiave.setCodice("PIPPO FORTE!!a");
+		int ris = ChiaveDAO.saveKey(art, chiave);
 		System.out.println(ris);
 	}
 	@SuppressWarnings("unused")
@@ -258,9 +258,17 @@ public class TestingServlet extends HttpServlet {
 		
 		System.out.println(ArticoloDAO.deleteArticolo(3));
 	}
+	@SuppressWarnings("unused")
+	private void TestExistsArticolo() {
+		BeanArticolo art = ArticoloDAO.getArticoloById("2");
+		System.out.println(ArticoloDAO.ExistArticolo(art));
+	}
+	
+	
+	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		TestEliminaArticolo();
+		TestAggiungiChiaveNuovoArticolo();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

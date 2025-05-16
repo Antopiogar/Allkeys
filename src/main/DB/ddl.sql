@@ -48,7 +48,7 @@ create table Ordine(
 
 create table Chiave(
 	idChiave int auto_increment primary key,
-	codice varchar(24) not null,
+	codice varchar(24) not null unique,
 
 	FkOrdine int null,
 	FkArticolo int not null,

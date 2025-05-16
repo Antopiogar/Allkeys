@@ -207,5 +207,28 @@ public class UtenteDAO {
 		return result;
 	}
 	
+	public synchronized int loginAdmin(String email, String pass) {
+		con=DBConnection.getConnection();
+		String query = "SELECT idUtente, email FROM UTENTE WHERE email = ? and password = ? and isAdmin=1";
+		ResultSet rs = null;
+		int id =-1;
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, email);
+			ps.setString(2, pass);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				if(rs.getString("email").equalsIgnoreCase(email))
+					id= rs.getInt("idUtente");
+			}
+			DBConnection.releseConnection(con);
+
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return id;
+	}
+	
 	
 }

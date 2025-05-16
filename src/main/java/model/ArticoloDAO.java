@@ -169,6 +169,7 @@ public class ArticoloDAO {
 	            try (ResultSet rs = ps.getGeneratedKeys()) {
 	                if (rs.next()) {
 	                    idArt = rs.getInt(1);
+	                    System.out.println("newIdArticolo = "+idArt);
 	                }
 	            }
 	        }
@@ -245,6 +246,37 @@ public class ArticoloDAO {
 			e.printStackTrace();
 		}
 		return true;
+	}
+	
+	//ritorna -1 se l'articolo non esiste, l'id altrimenti
+	public static synchronized int ExistArticolo(BeanArticolo art) {
+		con=DBConnection.getConnection();
+
+		String query = "SELECT * FROM ARTICOLO where nome = ? and prezzo =? and piattaforma =? and descrizione = ?";
+		ResultSet rs = null;
+		con = DBConnection.getConnection();
+		int ris=-1;
+
+		try(PreparedStatement ps = con.prepareStatement(query);) {
+			ps.setString(1, art.getNome());
+			ps.setFloat(2, art.getPrezzo());
+			ps.setString(3, art.getPiattaforma());
+			ps.setString(4, art.getDescrizione());
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				if(rs.getString("descrizione").equalsIgnoreCase(art.getDescrizione())) {
+					ris = rs.getInt("idArticolo");
+				}
+			}
+			DBConnection.releseConnection(con);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBConnection.releseConnection(con);
+		return ris;
+	
 	}
 	
 }

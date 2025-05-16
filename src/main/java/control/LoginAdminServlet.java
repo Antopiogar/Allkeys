@@ -29,14 +29,13 @@ public class LoginAdminServlet extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//DOPOST TEMPORANEA DA SOSTITUIRE!!!
 		String email,pass;
 		int idUser =-1;
 		String nomeUser;
 		UtenteDAO uDao = new UtenteDAO();
 		email = request.getParameter("email");
 		pass = UtenteDAO.toSHA256(request.getParameter("password"));
-		idUser = uDao.login(email, pass);
+		idUser = uDao.loginAdmin(email, pass);
 		if(idUser == -1) {
 			System.out.println("idUser = "+ idUser);
 
@@ -62,6 +61,8 @@ public class LoginAdminServlet extends HttpServlet {
 			request.getSession().setAttribute("idUser", idUser);
 			request.getSession().setAttribute("Nome", nomeUser);
 			request.getSession().setAttribute("User", UtenteDAO.loadUserById(idUser));
+			request.getSession().setAttribute("isAdmin", true);
+
 		    
 			
 		}

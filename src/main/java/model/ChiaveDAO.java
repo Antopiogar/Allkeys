@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -173,22 +174,28 @@ public class ChiaveDAO {
 		return ris;
 	}
 	
-	
-	public static synchronized boolean saveKey(BeanArticolo art,BeanChiave chiave) {
-		int idArticolo = -1;
+	//ritorna: 
+	// 	1 se va tutto bene
+	// -1 se c'è un errore generico
+	// -2 se si vuole aggiungere una chiave duplicata
+	public static synchronized int saveKey(BeanArticolo art,BeanChiave chiave) {
+		int idArticolo = ArticoloDAO.ExistArticolo(art);
+		System.out.println("idArticolo = "+ idArticolo);
+
 		Connection con = DBConnection.getConnection();
 
 		//articolo non ancora esistente
-		if(art.getIdArticolo() ==-1) {
+		if(idArticolo== -1) {
 			idArticolo = ArticoloDAO.createArticolo(con,art);
 			//morto qualcosa
 			if(idArticolo<0) {
 				DBConnection.releseConnection(con);
-				return false;
+				return -1;
 			}
 		}
-		else {
-			idArticolo = art.getIdArticolo();
+		else{ 
+			
+			System.out.println("idArticolo = "+ idArticolo);
 		}
 		String query= """
 				INSERT INTO CHIAVE (codice,fkArticolo) value(?,?);
@@ -203,16 +210,25 @@ public class ChiaveDAO {
 			if(risultato < 0) {
 				con.rollback();
 				DBConnection.releseConnection(con);
-				return false;
+				return -1;
 			}
 			con.commit();
 		
+		}
+		catch(SQLIntegrityConstraintViolationException e1) {
+			System.out.println("ROLLBACK IN CREAZIONE CHIAVI, CHIAVE DUPLICATA");
+			DBConnection.releseConnection(con);
+			return -2;
+
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			try {
 				con.rollback();
 				System.out.println("ROLLBACK IN CREAZIONE CHIAVI");
+				DBConnection.releseConnection(con);
+				return -1;
+
 			}
 			catch (SQLException e1) {
 				e1.printStackTrace();
@@ -221,6 +237,6 @@ public class ChiaveDAO {
 		}
 		
 		DBConnection.releseConnection(con);
-		return true;
+		return 1;
 	}
 }

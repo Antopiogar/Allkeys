@@ -22,7 +22,7 @@ public class GestioneAdminServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        boolean aggiunta = false;
+        int aggiunta = -1;
         String AdminAction = request.getParameter("AdminAction");
         if (AdminAction == null) {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
@@ -46,9 +46,12 @@ public class GestioneAdminServlet extends HttpServlet {
                 articolo = ArticoloDAO.getArticoloById(idArticoloStr);
                 aggiunta = ChiaveDAO.saveKey(articolo,chiave);
                 
-                if (aggiunta) {
+                if (aggiunta ==1) {
                     response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?success=true");
-                } else {
+                } else if(aggiunta ==-2) {
+                    response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?error=true&duplicate=true");
+                }
+                else {
                     response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?error=true");
                 }
             }
@@ -63,9 +66,12 @@ public class GestioneAdminServlet extends HttpServlet {
                 chiave.setCodice(request.getParameter("codice"));
                 aggiunta = ChiaveDAO.saveKey(articolo, chiave);
                 
-                if (aggiunta) {
+                if (aggiunta == 1) {
                     response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?success=true");
-                } else {
+                } else if(aggiunta ==-2) {
+                    response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?error=true&duplicate=true");
+                }
+                else {
                     response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?error=true");
                 }
             }
