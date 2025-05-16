@@ -224,9 +224,43 @@ public class TestingServlet extends HttpServlet {
 		System.out.println(rec);
 	}
 	
+	@SuppressWarnings("unused")	private void TestModificaRecensione() {
+		ArrayList<BeanRecensione> rec = RecensioneDAO.getRecensioniByIdArticolo("1");
+		rec.get(0).setTesto("NON RECENSIONE");
+		rec.get(0).setVoto(2);
+		
+		RecensioneDAO.updateRecensione(rec.get(0));
+		
+		System.out.println(rec);
+	}
+	
+	@SuppressWarnings("unused")
+	private void TestEliminaRecensione() {
+		ArrayList<BeanRecensione> rec = RecensioneDAO.getRecensioniByIdArticolo("1");
+		RecensioneDAO.deleteRecensione(rec.get(0).getIdRecensione());
+		System.out.println(rec);
+	}
+	
+	@SuppressWarnings("unused")
+	private void TestModificaArticolo() {
+		BeanArticolo art = ArticoloDAO.getArticoloById("1");
+		art.setPrezzo((float)19.99 );
+		art.setNome("PIPPOPUNK");
+		
+		
+		ArticoloDAO.updateArticolo(art);
+		
+		System.out.println(art);
+	}
+	
+	@SuppressWarnings("unused")
+	private void TestEliminaArticolo() {
+		
+		System.out.println(ArticoloDAO.deleteArticolo(3));
+	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		testAllArticles();
+		TestEliminaArticolo();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

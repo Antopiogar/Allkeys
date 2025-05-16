@@ -15,7 +15,8 @@ public class RecensioneDAO {
 		int idArticolo = Integer.parseInt(idArt);
 		String query = """
 				
-				SELECT 
+				SELECT
+					r.idRecensione,
 					r.voto,
 					r.dataRecensione as data,
 					r.testo,
@@ -34,6 +35,7 @@ public class RecensioneDAO {
 				BeanUtente user = new BeanUtente();
 				BeanRecensione rec = new BeanRecensione();
 				user.setNome(rs.getString("nome"));
+				rec.setIdRecensione(rs.getInt("idRecensione"));
 				rec.setTesto(rs.getString("testo"));
 				rec.setVoto(rs.getInt("voto"));
 				rec.setData(rs.getDate("data").toLocalDate());
@@ -91,6 +93,64 @@ public class RecensioneDAO {
 		DBConnection.releseConnection(con);
 		return true;
 	}
-		
+	
+	public static synchronized boolean updateRecensione(BeanRecensione rec) {
+		if (rec == null) {
+			return false;
+		}
+		int result = -1;
+		String query = """
+				UPDATE Recensione set testo = ?, voto = ? where idRecensione = ?
+				""";
+		Connection con = DBConnection.getConnection();
+		try(PreparedStatement ps = con.prepareStatement(query)){
+			ps.setString(1, rec.getTesto());
+			ps.setInt(2, rec.getVoto());
+			ps.setInt(3, rec.getIdRecensione());
+			result = ps.executeUpdate();
+			
+			if(result !=1){
+				DBConnection.releseConnection(con);
+				return false;
+			}
+			else {
+				con.commit();
+				DBConnection.releseConnection(con);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public static synchronized boolean deleteRecensione(int idRec) {
+		if (idRec < 1 ) {
+			return false;
+		}
+		int result = -1;
+		String query = """
+				delete from Recensione where idRecensione = ?
+				""";
+		Connection con = DBConnection.getConnection();
+		try(PreparedStatement ps = con.prepareStatement(query)){
+			ps.setInt(1, idRec);
+			result = ps.executeUpdate();
+			if(result !=1){
+				con.rollback();
+				DBConnection.releseConnection(con);
+				return false;
+			}
+			else {
+				con.commit();
+				DBConnection.releseConnection(con);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
 	
 }

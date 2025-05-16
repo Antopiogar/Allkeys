@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDate;
 
 public class BeanRecensione {
+	private int idRecensione;
 	private int voto;
 	private String testo;
 	private LocalDate data;
@@ -39,10 +40,17 @@ public class BeanRecensione {
 	public void setUtenteRecensione(BeanUtente utenteRecensione) {
 		this.utenteRecensione = utenteRecensione;
 	}
+	public int getIdRecensione() {
+		return idRecensione;
+	}
 
+	public void setIdRecensione(int idRecensione) {
+		this.idRecensione = idRecensione;
+	}
+	
 	@Override
 	public String toString() {
-		return String.format("BeanRecensione [voto=%s, testo=%s, data=%s]", voto, testo, data);
+		return String.format("BeanRecensione [id=%s, voto=%s, testo=%s, data=%s]", idRecensione,voto, testo, data);
 	}
 	
 	
