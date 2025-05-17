@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.sql.Connection;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -264,11 +265,16 @@ public class TestingServlet extends HttpServlet {
 		System.out.println(ArticoloDAO.ExistArticolo(art));
 	}
 	
+	@SuppressWarnings("unused")
+	private void TestVisualizzaOrdiniFiltrato() {
+		ArrayList<Acquisto> acquisti = OrdineDAO.loadOrdersByIdUserAndTime(1, LocalDateTime.parse("2025-02-01T15:30:45"), LocalDateTime.now());
+		System.out.println(acquisti);
+	}
 	
 	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		TestAggiungiChiaveNuovoArticolo();
+		TestVisualizzaOrdiniFiltrato();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
