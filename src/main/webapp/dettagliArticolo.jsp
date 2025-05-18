@@ -85,6 +85,10 @@ if(session.getAttribute("idUser")!=null) idUser = (int) session.getAttribute("id
                 <br><button onclick="da_inserire()">🗑️</button>
                 <%} %>
             </div><br>
+            <form action="AddRecensioneServlet" method="POST">
+                <textarea rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+                <br><input type="submit" value="Aggiungi la recensione">
+            </form>
         <%
                 }
             } else {
