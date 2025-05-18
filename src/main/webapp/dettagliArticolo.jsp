@@ -1,13 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.*" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page session="true" %>
 
+<%int idUser = -1;
+if(session.getAttribute("idUser")!=null) idUser = (int) session.getAttribute("idUser");
+%>
+<%boolean isAdmin = false;
+    if(session.getAttribute("isAdmin") != null) isAdmin = (boolean) session.getAttribute("isAdmin");%>
 <%
     BeanArticolo articolo = (BeanArticolo) request.getAttribute("articoloInfo");
     if (articolo == null) {
         response.sendRedirect(request.getContextPath() + "/index.jsp");
         return;
     }
+    
+    
 %>
 
 <!DOCTYPE html>
@@ -70,6 +78,12 @@
                     %>
                 </div>
                 <div class="recensione-testo"><%= rec.getTesto() %></div>
+                <%if(rec.getUtenteRecensione().getIdUtente() == idUser && idUser!=-1) {%>
+                <br><button onclick="da_inserire()">✏️</button>
+                <%} %>
+                <%if(isAdmin == true || (rec.getUtenteRecensione().getIdUtente() == idUser && idUser!=-1)) {%>
+                <br><button onclick="da_inserire()">🗑️</button>
+                <%} %>
             </div><br>
         <%
                 }

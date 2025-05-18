@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page session="true" %>
 <%@ page import="java.util.*" %>
 <%@ page import="model.*" %>
 <% 
@@ -30,7 +31,13 @@
         <input type="hidden" value="<%= articolo.getIdArticolo() %>" name="idArticolo">
         <input type="hidden" value="add" name="action">
         <input type="submit" value="Aggiungi al carrello">
-    </form></a>
+    </form>
+    </a><br>
+    <%boolean isAdmin = false;
+    if(session.getAttribute("isAdmin") != null) isAdmin = (boolean) session.getAttribute("isAdmin");
+    if(isAdmin==true){ %><button onclick="da_inserire()">✏️</button>
+    <button onclick="da_inserire()">🗑️</button>
+    <%} %>
 </div>
     <% } %>
 </div>
