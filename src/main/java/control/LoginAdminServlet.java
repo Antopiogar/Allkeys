@@ -66,7 +66,7 @@ public class LoginAdminServlet extends HttpServlet {
 		    
 			
 		}
-		response.sendRedirect("userLogged/profilo.jsp");
+		response.sendRedirect("adminLogged/profiloAdmin.jsp");
 	}
 
 }
