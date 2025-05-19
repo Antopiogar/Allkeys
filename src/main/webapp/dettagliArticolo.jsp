@@ -18,6 +18,7 @@ if(session.getAttribute("idUser")!=null) idUser = (int) session.getAttribute("id
     
 %>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +32,13 @@ if(session.getAttribute("idUser")!=null) idUser = (int) session.getAttribute("id
 
 <main>
     <h1><%= articolo.getNome() %></h1>
+    <%boolean result = false;
+if(request.getAttribute("result") != null){
+	result = (boolean)request.getAttribute("result");
+	if(result == true){%><p>Recensione creata correttamente!</p><%} else{%>
+	<p>Recensione non creata!</p>
+	<%} %>
+<%}//non viene mostrato nulla se l'attributo è null anche se result = false%>
 
     <div class="dettagli-wrapper">
         <div class="dettagli-img">
@@ -85,15 +93,44 @@ if(session.getAttribute("idUser")!=null) idUser = (int) session.getAttribute("id
                 <br><button onclick="da_inserire()">🗑️</button>
                 <%} %>
             </div><br>
-            <form action="AddRecensioneServlet" method="POST">
-                <textarea rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
-                <br><input type="submit" value="Aggiungi la recensione">
-            </form>
+            
         <%
-                }
+                }%>
+               	<% if(idUser!=-1){ %>
+                <form action="AddRecensioneServlet" method="POST">
+                	<select name="voto" id="voto" required>
+            			<option value="" disabled selected>Seleziona un voto</option>
+            			<option value="1">1 - ⭐</option>
+            			<option value="2">2 - ⭐⭐</option>
+            			<option value="3">3 - ⭐⭐⭐</option>
+            			<option value="4">4 - ⭐⭐⭐⭐</option>
+            			<option value="5">5 - ⭐⭐⭐⭐⭐</option>
+        			</select><br>
+                    <textarea name="recensione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+                    <input type="hidden" name="idArticolo" value="<%=articolo.getIdArticolo()%>">
+                    <br><input type="submit" value="Aggiungi la recensione">
+                </form><%}else{%>
+                	<p>Per scrivere una recensione esegui il <a href="<%=request.getContextPath() %>/login.jsp">login</a></p>
+                <%}%><%
             } else {
         %>
             <p>Nessuna recensione disponibile per questo articolo.</p>
+            <% if(idUser!=-1){ %>
+                <form action="AddRecensioneServlet" method="POST">
+                	<select name="voto" id="voto" required>
+            			<option value="" disabled selected>Seleziona un voto</option>
+            			<option value="1">1 - ⭐</option>
+            			<option value="2">2 - ⭐⭐</option>
+            			<option value="3">3 - ⭐⭐⭐</option>
+            			<option value="4">4 - ⭐⭐⭐⭐</option>
+            			<option value="5">5 - ⭐⭐⭐⭐⭐</option>
+        			</select><br>
+                    <textarea name="recensione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+                    <input type="hidden" name="idArticolo" value="<%=articolo.getIdArticolo()%>">
+                    <br><input type="submit" value="Aggiungi la recensione">
+                </form><%}else{%>
+                	<p>Per scrivere una recensione esegui il <a href="<%=request.getContextPath() %>/login.jsp">login</a></p>
+                <%}%>
         <%
             }
         %>

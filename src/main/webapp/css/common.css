@@ -326,3 +326,21 @@ li img {
     color: #fff;
 }
 
+textarea, input[type="text"], input[type="file"], input[type="date"], input[type="number"], input[type="numeric"]{
+    background-color: #1a1a1a;
+    border: 1px solid #444;
+    color: #ededed;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 1em;
+    width: 100%;
+    max-width: 500px;
+}
+
+textarea:focus, input[type="text"]:focus, input[type="file"]:focus, input[type="date"]:focus, input[type="number"]:focus, input[type="numeric"]:focus {
+    outline: none;
+    border-color: #f65d0f;
+    box-shadow: 0 0 5px #f65d0f;
+}
+
+
