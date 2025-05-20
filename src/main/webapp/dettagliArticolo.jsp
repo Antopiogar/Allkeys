@@ -29,7 +29,6 @@ if(session.getAttribute("idUser")!=null) idUser = (int) session.getAttribute("id
 </head>
 <body>
 <%@ include file="NavBar.jsp" %>
-<%= "idUser = "+idUser %>
 <main>
     <h1><%= articolo.getNome() %></h1>
     <%boolean result = false;
@@ -69,7 +68,7 @@ if(request.getAttribute("result") != null){
         %>
             <div class="recensione-card">
                 <div class="recensione-header">
-                    <span class="recensione-user"><i class="fa-solid fa-user"></i> <strong><%= rec.getUtenteRecensione().getNome() +" idUtenteREcensione "+ rec.getUtenteRecensione().getIdUtente()%></strong></span>
+                    <span class="recensione-user"><i class="fa-solid fa-user"></i> <strong><%= rec.getUtenteRecensione().getNome()%></strong></span>
                     <span class="recensione-data"><i class="fa-regular fa-calendar-days"></i> <%= rec.getData() %></span>
                 </div>
                 <div class="recensione-stelle">
@@ -87,10 +86,10 @@ if(request.getAttribute("result") != null){
                 </div>
                 <div class="recensione-testo"><%= rec.getTesto() %></div>
                 <%if(rec.getUtenteRecensione().getIdUtente() == idUser && idUser!=-1) {%>
-                <br><button onclick="da_inserire()">✏️</button>
+                <button onclick="da_inserire()">✏️</button>
                 <%} %>
                 <%if(isAdmin == true || (rec.getUtenteRecensione().getIdUtente() == idUser && idUser!=-1)) {%>
-                <br><button onclick="da_inserire()">🗑️</button>
+                <button onclick="da_inserire()">🗑️</button>
                 <%} %>
             </div><br>
             
