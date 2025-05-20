@@ -20,7 +20,8 @@ public class RecensioneDAO {
 					r.voto,
 					r.dataRecensione as data,
 					r.testo,
-					u.nome
+					u.nome,
+					u.idUtente
 				FROM RECENSIONE as r
 					join Utente as u on r.FkUtente = u.idUtente 
 				WHERE r.FkArticolo = ?""";
@@ -34,11 +35,13 @@ public class RecensioneDAO {
 			while(rs.next()) {
 				BeanUtente user = new BeanUtente();
 				BeanRecensione rec = new BeanRecensione();
+				user.setIdUtente(rs.getInt("idUtente"));
 				user.setNome(rs.getString("nome"));
 				rec.setIdRecensione(rs.getInt("idRecensione"));
 				rec.setTesto(rs.getString("testo"));
 				rec.setVoto(rs.getInt("voto"));
 				rec.setData(rs.getDate("data").toLocalDate());
+				
 				rec.setUtenteRecensione(user);
 				recensioni.add(rec);
 			}
