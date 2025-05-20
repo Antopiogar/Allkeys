@@ -10,7 +10,8 @@
 	<meta charset="UTF-8">
 	<title>Profilo</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/profilo.css">
+	<!-- NON ESISTE IL FILE = <link rel="stylesheet" href="<%= request.getContextPath() %>/css/profilo.css"> -->
+	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/Profilo.js"></script>
 </head>
 <body>
 <jsp:include page="../NavBar.jsp" />
@@ -34,16 +35,25 @@
 	<div class="profilo-feedback"><%= risultatoUpdate %></div>
 <% } %>
 
-<div class="profilo-card">
+<div class="profilo-card" id="contenitore">
 	<h1>Il tuo profilo</h1>
 
-	<p class="profilo-dato"><span>Nome:</span> <%= user.getNome() %></p>
-	<p class="profilo-dato"><span>Cognome:</span> <%= user.getCognome() %></p>
-	<p class="profilo-dato"><span>Data di nascita:</span> <%= dataFormattata %></p>
-	<p class="profilo-dato"><span>Codice Fiscale:</span> <%= user.getCf() %></p>
-	<p class="profilo-dato"><span>Email:</span> <%= user.getEmail() %></p>
+	<div class="profilo-dato">
+		<span>Nome:</span> <p id="nome"> <%= user.getNome() %></p>
+	</div>
+	<div class="profilo-dato">
+		<span>Cognome:</span> <p id="cognome"><%= user.getCognome() %></p>
+	</div>
+	<div class="profilo-dato">
+		<span>Data di nascita:</span><p id="dataN"><%= dataFormattata %></p>
+	</div>
+	<div class="profilo-dato">
+		<span>Codice Fiscale:</span> <p id="cf"> <%= user.getCf() %></p>
+	</div>
+	<div class="profilo-dato">
+		<span>Email:</span> <p id="email"><%= user.getEmail() %></p></div>
 	<div class="profilo-bottone-container">
-	<a href="modificaProfilo.jsp" class="profilo-bottone">Modifica</a><%//DA CAMBIARE QUI.%>
+	<button type="button" class="profilo-bottone" onclick="modificaDati('<%= request.getContextPath() %>')">Modifica</button>
 </div>
 
 </div>
