@@ -48,7 +48,7 @@
 		<span>Data di nascita:</span><p id="dataN"><%= dataFormattata %></p>
 	</div>
 	<div class="profilo-dato">
-		<span>Codice Fiscale:</span> <p id="cf"> <%= user.getCf() %></p>
+		<span>Codice Fiscale:</span> <p id="cf"><%= user.getCf() %></p>
 	</div>
 	<div class="profilo-dato">
 		<span>Email:</span> <p id="email"><%= user.getEmail() %></p></div>
