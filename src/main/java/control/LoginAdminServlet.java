@@ -40,7 +40,8 @@ public class LoginAdminServlet extends HttpServlet {
 			System.out.println("idUser = "+ idUser);
 
 			request.getSession().setAttribute("LoginFallito", true);
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			System.out.println("password errata admin");
+			response.sendRedirect(request.getContextPath() + "/loginAdmin.jsp");
 		}
 		else {
 			Carrello c= (Carrello) request.getSession().getAttribute("cart");
@@ -62,11 +63,11 @@ public class LoginAdminServlet extends HttpServlet {
 			request.getSession().setAttribute("Nome", nomeUser);
 			request.getSession().setAttribute("User", UtenteDAO.loadUserById(idUser));
 			request.getSession().setAttribute("isAdmin", true);
+			response.sendRedirect("adminLogged/profiloAdmin.jsp");
 
 		    
 			
 		}
-		response.sendRedirect("adminLogged/profiloAdmin.jsp");
 	}
 
 }

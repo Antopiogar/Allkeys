@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+boolean loginFallito = Boolean.TRUE.equals(session.getAttribute("LoginFallito"));
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +16,12 @@
 <%@ include file="NavBar.jsp" %>
 <main>
 	<h1>Accedi come amministratore</h1><br>
+	<%
+	if(loginFallito){
+		out.print("Email o password errati <br>");
+
+	}
+	 %>
 	<form action="LoginAdminServlet" method = "POST">
 		<label for="email">Email</label>
 		<input type="email" name = "email" required id ="email">
