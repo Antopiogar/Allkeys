@@ -1,3 +1,4 @@
+
 DELIMITER //
 
 CREATE PROCEDURE createOrdine (
@@ -16,7 +17,6 @@ END;
 //
 
 DELIMITER ;
-
 
 DROP VIEW IF EXISTS ViewCatalogo;
 CREATE VIEW ViewCatalogo as 

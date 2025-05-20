@@ -25,7 +25,7 @@ create table Carta_Pagamento(
 
 create table Articolo(
 	idArticolo int auto_increment primary key,
-	logo varchar(50),
+	logo varchar(50) unique ,
 	nome varchar(50) not null,
 	prezzo decimal(10,2) not null check (prezzo>=0),
 	piattaforma varchar(20) not null,
@@ -37,7 +37,7 @@ create table Ordine(
 	idOrdine int auto_increment primary key,
 	dataAcquisto datetime not null,
 	conferma boolean not null,
-
+	fattura varchar(50) not null unique,
 	fkUtente int not null,
 	fkCarta int null,
 	foreign key (fkCarta) references Carta_Pagamento(idCarta) 
@@ -49,7 +49,6 @@ create table Ordine(
 create table Chiave(
 	idChiave int auto_increment primary key,
 	codice varchar(24) not null unique,
-
 	FkOrdine int null,
 	FkArticolo int not null,
 	foreign key (FkOrdine) references Ordine(idOrdine)
@@ -90,7 +89,7 @@ create table Recensione(
 );
 
 
--- Inserimento Utenti con password "admin"
+-- Inserimento Utenti con password "admin" e secondo utente amministratore
 INSERT INTO Utente (nome, cognome, dataNascita, email, cf, password,isAdmin) VALUES 
 ('Mario', 'Rossi', '1990-05-15', 'mario.rossi@email.com', 'RSSMRA90E15H501X', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',0),
 ('Luca', 'Verdi', '1985-11-20', 'luca.verdi@email.com', 'VRDLUC85S20H501T', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',1);
@@ -113,9 +112,9 @@ INSERT INTO Articolo (logo, nome, prezzo, piattaforma,descrizione) VALUES
 ('logo9.png', 'Gears 5', 29.99, 'Xbox',"Un intenso sparatutto in terza persona con una trama emozionante, cooperativa online e combattimenti dinamici in un universo sci-fi devastato dalla guerra.");
 
 -- Inserimento Ordini
-INSERT INTO Ordine (dataAcquisto, conferma, fkUtente, fkCarta) VALUES 
-(now(), true, 1, 1),
-(now(), true, 2, 2);
+INSERT INTO Ordine (dataAcquisto, conferma, fkUtente, fkCarta,fattura) VALUES 
+(now(), true, 1, 1,"fattura1.pdf"),
+(now(), true, 2, 2,"fattura2.pdf");
 
 -- Inserimento Chiavi, alcune con fkOrdine NULL
 INSERT INTO Chiave (codice, FkOrdine, FkArticolo) VALUES 

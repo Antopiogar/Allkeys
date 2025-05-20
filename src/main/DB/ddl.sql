@@ -25,7 +25,7 @@ create table Carta_Pagamento(
 
 create table Articolo(
 	idArticolo int auto_increment primary key,
-	logo varchar(50),
+	logo varchar(50) unique ,
 	nome varchar(50) not null,
 	prezzo decimal(10,2) not null check (prezzo>=0),
 	piattaforma varchar(20) not null,
@@ -37,7 +37,7 @@ create table Ordine(
 	idOrdine int auto_increment primary key,
 	dataAcquisto datetime not null,
 	conferma boolean not null,
-
+	fattura varchar(50) not null unique,
 	fkUtente int not null,
 	fkCarta int null,
 	foreign key (fkCarta) references Carta_Pagamento(idCarta) 
@@ -49,7 +49,6 @@ create table Ordine(
 create table Chiave(
 	idChiave int auto_increment primary key,
 	codice varchar(24) not null unique,
-
 	FkOrdine int null,
 	FkArticolo int not null,
 	foreign key (FkOrdine) references Ordine(idOrdine)
