@@ -16,7 +16,8 @@
 <jsp:include page="../NavBar.jsp" />
 <main>
 	<%
-		ArrayList<String> piattaforme= (ArrayList<String>) request.getAttribute("piattaforme");
+		ArrayList<String> piattaforme = null;
+		if(request.getAttribute("piattaforme") != null) piattaforme = (ArrayList<String>) request.getAttribute("piattaforme");
 		if (piattaforme == null) {
 			// Se non ci sono articoli, fai il redirect a una pagina di errore o di login
 			response.sendRedirect(request.getContextPath() + "/adminLogged/profiloAdmin.jsp");
@@ -25,7 +26,7 @@
 	%>
 	<br><h1>Aggiungi un nuovo articolo</h1><br>
 	
-		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method = "POST">
+		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method = "POST" enctype="multipart/form-data">
 			<input type="hidden" value="addSettedArticolo" name="AdminAction">
 			<label for="nome">Nome</label><br>
 			<input type= "text" name = "nome" id="nome">
