@@ -16,7 +16,7 @@
 <title>Catalogo articoli</title>
 </head>
 <body>
-<%@ include file="NavBar.jsp" %>
+<%@ include file="NavBar.jsp" %> <%//includendo NavBar.jsp si ottiene anche lo scope di isAdmin visibile in questa jsp. %>
 
 <main>
 <h1>Catalogo articoli</h1>
@@ -33,7 +33,7 @@
         <input type="submit" value="Aggiungi al carrello">
     </form>
     </a><br>
-    <%boolean isAdmin = false;
+    <%
     if(session.getAttribute("isAdmin") != null) isAdmin = (boolean) session.getAttribute("isAdmin");
     if(isAdmin==true){ %><button onclick="da_inserire()">✏️</button>
     <button onclick="da_inserire()">🗑️</button>

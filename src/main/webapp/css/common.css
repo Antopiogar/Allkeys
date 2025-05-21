@@ -326,7 +326,7 @@ li img {
     color: #fff;
 }
 
-textarea, input[type="text"], input[type="file"], input[type="date"], input[type="number"], input[type="numeric"]{
+textarea, input[type="text"], input[type="file"], input[type="date"], input[type="number"], input[type="numeric"], input[type="email"], input[type="password"]{
     background-color: #1a1a1a;
     border: 1px solid #444;
     color: #ededed;
@@ -337,10 +337,32 @@ textarea, input[type="text"], input[type="file"], input[type="date"], input[type
     max-width: 500px;
 }
 
-textarea:focus, input[type="text"]:focus, input[type="file"]:focus, input[type="date"]:focus, input[type="number"]:focus, input[type="numeric"]:focus {
+textarea:focus, input[type="text"]:focus, input[type="file"]:focus, input[type="date"]:focus, input[type="number"]:focus, input[type="numeric"]:focus, input[type="email"]:focus, input[type="password"]:focus {
     outline: none;
     border-color: #f65d0f;
     box-shadow: 0 0 5px #f65d0f;
 }
 
+select {
+    background-color: #1a1a1a;
+    color: #ededed;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 1em;
+    max-width: 500px;
+    width: 100%;
+    appearance: none;
+    cursor: pointer;
+}
 
+select:focus {
+    outline: none;
+    border-color: #f65d0f;
+    box-shadow: 0 0 5px #f65d0f;
+}
+
+option {
+    background-color: #1a1a1a;
+    color: #ededed;
+}

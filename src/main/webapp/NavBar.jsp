@@ -1,6 +1,7 @@
-
+	<%! boolean isAdmin = false; %>
     <%
         String nome = (String) request.getSession().getAttribute("Nome");
+    	if(request.getSession().getAttribute("isAdmin")!=null) isAdmin = (boolean)request.getSession().getAttribute("isAdmin");
     %>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/navbar2.css">
     
@@ -11,8 +12,17 @@
         <div class="item">
             <a href="<%= request.getContextPath()%>/carrello.jsp">Carrello</a>
         </div>
-
-        <% if(nome != null) { %>
+		<%if(nome!= null && isAdmin == true) {%>
+			<div class="dropdown"> 
+                <button class="dropbtn"><%= nome %></button>
+                <div class="dropdown-content">
+                    <a href="<%= request.getContextPath() %>/adminLogged/profiloAdmin.jsp">Profilo</a>
+                    <a href="<%= request.getContextPath() %>/VisualizzaOrdiniServlet">I miei ordini</a>
+                    <a href="<%= request.getContextPath() %>/userLogged/addNewPaymentMethod.jsp">Aggiungi nuova carta</a>
+                    <a href="<%= request.getContextPath() %>/logout">Logout</a>
+                </div>
+            </div>
+        <%}else if(nome != null) { %>
             <div class="dropdown"> 
                 <button class="dropbtn"><%= nome %></button>
                 <div class="dropdown-content">

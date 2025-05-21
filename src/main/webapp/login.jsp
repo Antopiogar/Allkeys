@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 </head>
 <body>
-
 <%@ include file="NavBar.jsp" %>
 <main>
 	<%
@@ -28,7 +27,7 @@
 
 	}
 	
-	%> 
+	%>
 	<h1>Accedi</h1><br>
 	<form action="loginServlet" method = "POST">
 		<label for="email">Email</label>
