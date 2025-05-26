@@ -64,6 +64,8 @@ public class LoginServlet extends HttpServlet {
 			request.getSession().setAttribute("idUser", idUser);
 			request.getSession().setAttribute("Nome", nomeUser);
 			request.getSession().setAttribute("User", UtenteDAO.loadUserById(idUser));
+			request.getSession().setAttribute("isAdmin", false);
+			
 			response.sendRedirect("userLogged/profilo.jsp");
 
 			

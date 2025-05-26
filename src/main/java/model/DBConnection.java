@@ -22,11 +22,12 @@ public class DBConnection {
             config.setPassword(PASSWORD);
             config.setDriverClassName("com.mysql.cj.jdbc.Driver");
             config.setAutoCommit(false);
-            config.setMaximumPoolSize(10);
+            config.setMaximumPoolSize(40);
             config.setMinimumIdle(2);
-            config.setIdleTimeout(30000);
+            config.setIdleTimeout(10000);
             config.setConnectionTimeout(30000);
             config.setMaxLifetime(1800000);
+            config.setLeakDetectionThreshold(5000); // 5 secondi
 
             dataSource = new HikariDataSource(config);
         } catch (Exception e) {

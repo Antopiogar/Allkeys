@@ -1,7 +1,8 @@
 	<%! boolean isAdmin = false; %>
     <%
         String nome = (String) request.getSession().getAttribute("Nome");
-    	if(request.getSession().getAttribute("isAdmin")!=null) isAdmin = (boolean)request.getSession().getAttribute("isAdmin");
+    	if(request.getSession().getAttribute("isAdmin")!=null) 
+    		isAdmin = (boolean)request.getSession().getAttribute("isAdmin");
     %>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/navbar2.css">
     

@@ -7,6 +7,7 @@ public class BeanOrdine {
 	private LocalDateTime dataAcquisto;
 	private Boolean conferma;
 	private BeanCartaPagamento pagamento;
+	private String fattura;
 
 	private BeanUtente utente;
 	
@@ -57,11 +58,19 @@ public class BeanOrdine {
 	public void setPagamento(BeanCartaPagamento pagamento) {
 		this.pagamento = pagamento;
 	}
+	public String getFattura() {
+		return fattura;
+	}
+
+	public void setFattura(String fattura) {
+		this.fattura = fattura;
+	}
+
 	@Override
 	public String toString() {
 		return "BeanOrdine [idOrdine=" + idOrdine + ", dataAcquisto=" + dataAcquisto + ", conferma=" + conferma
 
-				+ ", pagamento=" + pagamento + ", utente=" + utente + "]";
+				+", fattura ="+fattura+ ", pagamento=" + pagamento + ", utente=" + utente + "]";
 
 	}
 }

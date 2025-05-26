@@ -33,12 +33,10 @@ public class OrdineDAO {
 	        }
 	        controlloErroriComposizione = ComposizioneDAO.AggiungiProdotti(con, articoli, idOrder,user.getIdUtente());
 	        if(controlloErroriComposizione) {
-	        	con.rollback();
 	        	DBConnection.releseConnection(con);
 	        	return false;
 	        }
 	        
-	        con.commit();
 	        DBConnection.releseConnection(con);
 	        return true;
 
@@ -54,7 +52,6 @@ public class OrdineDAO {
 		Connection con = null;
 		try {
 			int idOrdine = -1;
-			System.out.println("ARRIVA?");
 
 			con = DBConnection.getConnection();
 			idOrdine = getIdCarrello(idUser);
@@ -111,7 +108,7 @@ public class OrdineDAO {
 		String query = """
 				UPDATE 
 					Ordine
-				Set conferma = True, fkCarta= ?, dataAcquisto = now()
+				Set conferma = True, fkCarta= ?, dataAcquisto = now(), fattura = ?
 				where
 				idOrdine = ?
 					
@@ -135,8 +132,10 @@ public class OrdineDAO {
 	    	
 	    	
 	    	PreparedStatement ps = con.prepareStatement(query);
-	    	ps.setInt(2, idOrder);
 	    	ps.setInt(1, IdCartaPagamento);
+	    	ps.setString(2,"fattura"+idOrder+".pdf");
+	    	ps.setInt(3, idOrder);
+	    	
 	    	risultato = ps.executeUpdate() == 1 ? true : false;
 	    	if(!risultato) {
 	    		ps.close();
@@ -357,6 +356,7 @@ WHERE
 					select distinct 
 					    o.idOrdine ,
 					    o.dataAcquisto,
+					    o.fattura as fattura,
 					    a.idArticolo as idArticolo,
 					    a.logo as logo,
 					    a.nome as nome,
@@ -416,7 +416,7 @@ WHERE
 			        ordine.setDataAcquisto(rs.getTimestamp("dataAcquisto").toLocalDateTime());
 			        ordine.setIdOrdine(rs.getInt("idOrdine"));
 			        ordine.setPagamento(carta);
-			        
+			        ordine.setFattura(rs.getString("fattura"));
 			        ac.setOrdine(ordine);
 			        ac.setCarta(carta);
 			        ac.AddProdottto(art, chiave);
@@ -431,6 +431,91 @@ WHERE
 		}
 		DBConnection.releseConnection(con);
 		return acquisti;
+	}
+
+
+	public static synchronized Acquisto loadOrderByIdOrder(int idOrdine, int idUtente) {
+		ArrayList<Acquisto> acquisti = new ArrayList<>();
+		Connection con = DBConnection.getConnection();
+		try {
+			String query="""
+					select distinct 
+					    o.idOrdine ,
+					    o.dataAcquisto,
+					    o.fattura as fattura,
+					    a.idArticolo as idArticolo,
+					    a.logo as logo,
+					    a.nome as nome,
+					    a.piattaforma,
+					    co.prezzoPagato as prezzoPagato,
+					    c.codice,
+					    c.idChiave,
+					    cp.idCarta,
+					    cp.numeroCarta as nCarta,
+					    cp.titolare
+					    
+					from 
+						ordine as o
+					    	join chiave as c on c.FkOrdine = o.idOrdine
+					        join articolo as a on a.idArticolo = c.FkArticolo
+					        join composizione as co on co.FkOrdine = o.idOrdine
+							join carta_pagamento as cp on cp.idCarta = o.fkCarta
+					where o.idOrdine = ? and o.conferma = 1 and a.idArticolo = co.FkArticolo
+					""";
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, idOrdine);
+			ResultSet rs = ps.executeQuery();
+	        while (rs.next()) {
+	        	int risRicerca = -1;
+	        	//Carica articolo dal DB
+	        	BeanArticolo art = new BeanArticolo();
+	        	art.setIdArticolo(rs.getInt("idArticolo"));
+	        	art.setLogo(rs.getString("logo"));
+	        	art.setNome(rs.getString("nome"));
+	        	art.setPiattaforma(rs.getString("piattaforma"));
+	        	art.setPrezzo(rs.getFloat("prezzoPagato"));
+	        	
+	        	//Carica chiave dal DB
+	        	BeanChiave chiave = new BeanChiave();
+	        	chiave.setCodice(rs.getString("codice"));
+	        	chiave.setIdChiave(rs.getInt("idChiave"));
+	        	chiave.setFkArticolo(art);
+	        	
+	        	//se la chiave fa parte di un acquisto gia inizializzato la aggiunge
+	        	risRicerca = Acquisto.existsOrder(acquisti, idOrdine);
+	        	if(risRicerca>=0) {
+	    			acquisti.get(risRicerca).AddProdottto(art, chiave);
+
+	        	}
+	        	//altrimenti inizializza un nuovo acquisto con all'interno il prodotto
+	        	else {
+			        Acquisto ac = new Acquisto(idUtente);
+			        BeanCartaPagamento carta = new BeanCartaPagamento();
+			        carta.setIdCarta(rs.getInt("idCarta"));
+			        carta.setnCarta(rs.getString("nCarta"));
+			        carta.setTitolare(rs.getString("titolare"));
+			        
+			        
+			        BeanOrdine ordine = new BeanOrdine();
+			        ordine.setConferma(true);
+			        ordine.setDataAcquisto(rs.getTimestamp("dataAcquisto").toLocalDateTime());
+			        ordine.setIdOrdine(rs.getInt("idOrdine"));
+			        ordine.setPagamento(carta);
+			        ordine.setFattura(rs.getString("fattura"));
+			        ac.setOrdine(ordine);
+			        ac.setCarta(carta);
+			        ac.AddProdottto(art, chiave);
+			        acquisti.add(ac);
+	        	}
+		        
+
+	        }
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("MORTO LOAD ALL ORDERS BY ID UTENTE");
+		}
+		DBConnection.releseConnection(con);
+		return acquisti.get(0);
 	}
 	
 }

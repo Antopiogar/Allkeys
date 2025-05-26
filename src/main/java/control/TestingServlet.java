@@ -271,10 +271,14 @@ public class TestingServlet extends HttpServlet {
 		System.out.println(acquisti);
 	}
 	
+	private void TestVisualizzaOrdiniConIdOrdine() {
+		Acquisto ac = OrdineDAO.loadOrderByIdOrder(4,1);
+		System.out.println(ac);
+	}
 	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		TestVisualizzaOrdiniFiltrato();
+		TestVisualizzaOrdiniConIdOrdine();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

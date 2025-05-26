@@ -34,6 +34,7 @@ public class ComposizioneDAO {
 						ps.setInt(4, FkOrdine);
 						risultatoInserimento = ps.executeUpdate();
 						if(risultatoInserimento != 1) {
+							System.out.println("ERRORE IN INSERIMENTO");
 				        	con.rollback();
 						}
 					}
