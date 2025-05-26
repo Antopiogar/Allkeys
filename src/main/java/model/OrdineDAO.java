@@ -12,8 +12,6 @@ import java.util.ArrayList;
 public class OrdineDAO {
 
 	
-private static Connection con;
-	
 	public OrdineDAO() {
 	}
 	
@@ -22,6 +20,7 @@ private static Connection con;
 		String query = "{call createOrdine(?)}";
 	    int idOrder = 0;
 	    boolean controlloErroriComposizione = false;
+	    Connection con = null;
 	    try {
 			con=DBConnection.getConnection();
 
@@ -34,25 +33,25 @@ private static Connection con;
 	        }
 	        controlloErroriComposizione = ComposizioneDAO.AggiungiProdotti(con, articoli, idOrder,user.getIdUtente());
 	        if(controlloErroriComposizione) {
+	        	con.rollback();
+	        	DBConnection.releseConnection(con);
 	        	return false;
 	        }
 	        
 	        con.commit();
+	        DBConnection.releseConnection(con);
 	        return true;
 
 	    } catch (SQLException e) {
 	    	System.out.println("MORTO IN ORDINE");
 	        e.printStackTrace();
-	        try { con.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
-	    } finally {
-	        DBConnection.releseConnection(con);
 	    }
 	    return false;
 	}
 	
 	public static synchronized Carrello LoadCarrelByUser(int idUser){
 		Carrello c = new Carrello();
-		
+		Connection con = null;
 		try {
 			int idOrdine = -1;
 			System.out.println("ARRIVA?");
@@ -107,6 +106,8 @@ private static Connection con;
 	//SE MANCANO PRODOTTI SUL DB RITORNA ID DI QUEL PRODOTTO
 	//SE CI SONO ALTRI ERRORI RITORNA -1
 	public static synchronized int ConfirmOrder(int IdUtente, int IdCartaPagamento) {
+	
+		Connection con = null;
 		String query = """
 				UPDATE 
 					Ordine
@@ -162,7 +163,7 @@ private static Connection con;
 	
 	public static synchronized boolean addArticoloToCarrelloDB(int idUser,ArticoliCarrello art) {
 		System.out.println("ARRIVA QUI");
-
+		Connection con = null;
 		try {
 
 			int idOrdine = -1,risultatoInserimento=-1;

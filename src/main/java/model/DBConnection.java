@@ -1,60 +1,58 @@
 package model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 public class DBConnection {
-	private static final String URL = "jdbc:mysql://localhost:3306/AllKeys"; // Modifica con il tuo database
-    private static final String USER = "root"; // Modifica con il tuo username
-    private static final String PASSWORD = "root"; // Modifica con la tua password
-    
- // Oggetto statico per la connessione
-    private static ArrayList<Connection> connectionList = new ArrayList<Connection>();
-    
 
-    // Metodo per creare la connessione
-    private static Connection createConnection() throws SQLException{
-		Connection nuovaConnessione = null;
+    private static final String URL = "jdbc:mysql://localhost:3306/AllKeys";
+    private static final String USER = "root";
+    private static final String PASSWORD = "root";
 
-    	try {
-    		Class.forName("com.mysql.cj.jdbc.Driver"); 
-        	nuovaConnessione = DriverManager.getConnection(URL,USER,PASSWORD);
-        	nuovaConnessione.setAutoCommit(false);
-        	
-            
-        } 
-		catch (ClassNotFoundException e) {
-            System.err.println("❌ Driver JDBC non trovato!");
+    private static HikariDataSource dataSource;
+
+    static {
+        try {
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(URL);
+            config.setUsername(USER);
+            config.setPassword(PASSWORD);
+            config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+            config.setAutoCommit(false);
+            config.setMaximumPoolSize(10);
+            config.setMinimumIdle(2);
+            config.setIdleTimeout(30000);
+            config.setConnectionTimeout(30000);
+            config.setMaxLifetime(1800000);
+
+            dataSource = new HikariDataSource(config);
+        } catch (Exception e) {
+            System.err.println("❌ Errore durante l'inizializzazione di HikariCP:");
             e.printStackTrace();
         }
-    	return nuovaConnessione;
     }
-    
-    public static synchronized Connection getConnection(){
-    	Connection con = null;
-    	try {
-    		if(!connectionList.isEmpty()) {
-    			con = (Connection) DBConnection.connectionList.getFirst();
-    			DBConnection.connectionList.remove(con);
-    		}
-    		else {
-    			
-    			con = createConnection();
-    		}
-    	}
-    	catch (Exception e) {
-    	    System.err.println("Errore nella creazione della connessione:");
-    		e.printStackTrace();
-		}
-    	return con;
-		
-	}
-    // Metodo per chiudere la connessione
+
+    public static synchronized Connection getConnection() {
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+            System.err.println("❌ Errore ottenendo la connessione dal pool:");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static synchronized void releseConnection(Connection con) {
         if (con != null) {
-            connectionList.add(con);
+            try {
+                con.close(); // Torna automaticamente al pool
+            } catch (SQLException e) {
+                System.err.println("❌ Errore nel rilascio della connessione:");
+                e.printStackTrace();
+            }
         }
     }
 }
