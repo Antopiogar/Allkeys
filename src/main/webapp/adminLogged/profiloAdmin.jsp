@@ -9,6 +9,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Profilo Amministratore</title>
+		<script type="text/javascript" src ="<%= request.getContextPath() %>/js/Profilo.js"></script>
+	
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 </head>
 <body>
