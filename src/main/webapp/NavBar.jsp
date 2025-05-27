@@ -5,14 +5,19 @@
     		isAdmin = (boolean)request.getSession().getAttribute("isAdmin");
     %>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/navbar2.css">
+        <script type="text/javascript" src ="<%= request.getContextPath() %>/js/Search2.js" defer></script>
     
     <div class="navbar">
         <div class="logo">
             <a href="<%= request.getContextPath()%>/index.jsp"><img src="<%= request.getContextPath() %>/IMG/Logo.png"  alt="AllKeys"></a>
         </div>
+        <div class="searchBar">
+        	<input type="text" id="fastSearchBar" placeholder="cerca" >
+        </div>
         <div class="item">
             <a href="<%= request.getContextPath()%>/carrello.jsp">Carrello</a>
         </div>
+        
 		<%if(nome!= null && isAdmin == true) {%>
 			<div class="dropdown"> 
                 <button class="dropbtn"><%= nome %></button>

@@ -54,6 +54,9 @@ public class AddPaymentMethodServlet extends HttpServlet {
 			carta.setnCarta(numeroCarta);
 			CartaPagamentoDAO.AddCartaPagamento(UtenteDAO.loadUserById(id), carta);
 		}
+		else {
+			System.out.println("DATI SMINCHI");
+		}
 		response.sendRedirect(request.getContextPath() + "/userLogged/profilo.jsp");
 		
 		

@@ -270,15 +270,20 @@ public class TestingServlet extends HttpServlet {
 		ArrayList<Acquisto> acquisti = OrdineDAO.loadOrdersByIdUserAndTime(1, LocalDateTime.parse("2025-02-01T15:30:45"), LocalDateTime.now());
 		System.out.println(acquisti);
 	}
-	
+	@SuppressWarnings("unused")
+
 	private void TestVisualizzaOrdiniConIdOrdine() {
 		Acquisto ac = OrdineDAO.loadOrderByIdOrder(4,1);
 		System.out.println(ac);
 	}
 	
-	
+	@SuppressWarnings("unused")
+	private void TestFastSearch() {
+		ArrayList<BeanArticolo> fs = ArticoloDAO.fastSearch("punk");
+		System.out.println("fast = " + fs);
+	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		TestVisualizzaOrdiniConIdOrdine();
+		TestFastSearch();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

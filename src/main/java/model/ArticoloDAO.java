@@ -279,4 +279,37 @@ public class ArticoloDAO {
 	
 	}
 	
+	public static synchronized ArrayList<BeanArticolo> fastSearch(String search) {
+		con=DBConnection.getConnection();
+
+		String query = "SELECT * FROM VIEWCATALOGO where nome like ?";
+		ResultSet rs = null;
+		ArrayList<BeanArticolo> articoli = new ArrayList<BeanArticolo>();
+		con = DBConnection.getConnection();
+		try (PreparedStatement ps = con.prepareStatement(query);){
+			ps.setString(1, "%"+search+"%");
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				BeanArticolo articolo = new BeanArticolo();
+				
+				articolo.setIdArticolo(rs.getInt("idArticolo"));
+				articolo.setNome(rs.getString("nome"));
+				articolo.setLogo(rs.getString("logo"));
+				articolo.setPiattaforma(rs.getString("piattaforma"));
+				articolo.setPrezzo(rs.getFloat("prezzo"));
+				articolo.setDescrizione(rs.getString("descrizione"));
+
+				articoli.add(articolo);
+				
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+
+		DBConnection.releseConnection(con);
+		return articoli;
+	}
+	
 }

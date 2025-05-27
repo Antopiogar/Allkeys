@@ -13,6 +13,8 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
+
+
 <title>Catalogo articoli</title>
 </head>
 <body>
