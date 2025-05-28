@@ -20,6 +20,8 @@
 <%@ include file="../NavBar.jsp" %>
 
 <main>
+
+
 <%
     boolean redirect = Boolean.TRUE.equals(session.getAttribute("redirect"));
     if (redirect) {

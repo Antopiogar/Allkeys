@@ -14,33 +14,45 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/DettagliArticoloServlet")
 public class DettagliArticoloServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	
+    private static final long serialVersionUID = 1L;
+
     public DettagliArticoloServlet() {
         super();
-        
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String idArticolo = request.getParameter("articolo");
-		if(idArticolo == null) response.sendRedirect(request.getContextPath() + "/index.jsp"); //se la servlet non viene usata correttamente.
-		BeanArticolo articolo = null;
-		ArrayList<BeanRecensione> recensioni = null;
-		if(idArticolo != null) {
-			articolo = ArticoloDAO.getArticoloById(idArticolo);
-			recensioni = RecensioneDAO.getRecensioniByIdArticolo(idArticolo);
-			request.setAttribute("articoloInfo", articolo);
-			request.setAttribute("recensioni", recensioni);
-			RequestDispatcher view = request.getRequestDispatcher("dettagliArticolo.jsp");
-			view.forward(request, response);
-		}
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String idArticolo = request.getParameter("articolo");
+        if (idArticolo == null) {
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            return;
+        }
 
+        BeanArticolo articolo = ArticoloDAO.getArticoloById(idArticolo);
+        if (articolo == null) {
+            
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            return;
+        }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		doGet(request, response);
-	}
+        ArrayList<BeanRecensione> recensioni = RecensioneDAO.getRecensioniByIdArticolo(idArticolo);
 
+        
+        request.setAttribute("articoloInfo", articolo);
+        request.setAttribute("recensioni", recensioni);
+
+       
+        Integer idUser = (Integer) request.getSession().getAttribute("idUser");
+        Boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");
+
+        request.setAttribute("idUser", (idUser != null) ? idUser : -1);
+        request.setAttribute("isAdmin", (isAdmin != null) ? isAdmin : false);
+
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher("dettagliArticolo.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
 }
