@@ -47,12 +47,12 @@
             <img src="<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>" alt="Immagine articolo">
         </div>
         <div class="dettagli-info">
-            <p><strong>Piattaforma:</strong> <%= articolo.getPiattaforma() %></p>
-            <p><strong>Prezzo:</strong> <%= articolo.getPrezzo() %> €</p>
+            <p class="center-text"><strong>Piattaforma:</strong> <%= articolo.getPiattaforma() %></p>
+            <p class="center-text"><strong>Prezzo:</strong> <%= articolo.getPrezzo() %> €</p>
             <form action="CartServlet" method="POST">
                 <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>">
                 <input type="hidden" name="action" value="add">
-                <input type="submit" value="Aggiungi al carrello">
+                <input type="submit" value="Aggiungi al carrello" class="center-submit-button">
             </form>
         </div>
     </div>

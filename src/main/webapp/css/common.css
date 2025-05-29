@@ -366,3 +366,21 @@ option {
     background-color: #1a1a1a;
     color: #ededed;
 }
+
+input[type="submit"].center-submit-button{
+	display: block;
+	margin: 0 auto;
+}
+
+.center-text{
+	text-align: center;
+}
+
+code{
+	background-color:#1e1e1e;
+	padding:5px 10px;
+	border-radius:5px;
+	color:#f65d0f;
+	display:inline-block;
+	margin-top:5px;
+}

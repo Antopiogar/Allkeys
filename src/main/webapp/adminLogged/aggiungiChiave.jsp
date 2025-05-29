@@ -42,7 +42,7 @@
 		<input type="text" name="codice" id="codice">
 		<br><br>
 
-		<input type="submit" value="Aggiungi chiave di gioco">
+		<input type="submit" value="Aggiungi chiave di gioco" class="center-submit-button">
 	</form>
 
 </main>

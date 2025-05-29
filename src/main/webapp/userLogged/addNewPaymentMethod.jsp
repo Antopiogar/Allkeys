@@ -28,7 +28,7 @@
 			<input type="date" name="scadenza" required id="scandeza">
 			<br>CVC<br>
 			<input type="numeric" name="cvc" required id="cvc"><br><br>
-			<input type="submit" value="Aggiungi">
+			<input type="submit" value="Aggiungi" class="center-submit-button">
 
 		</form>
 	<%}

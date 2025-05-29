@@ -2,7 +2,8 @@
 <%@ page import="model.*" %>
 <jsp:include page="verificaLogin.jsp" />
 <%
-    Acquisto acquisto = (Acquisto) request.getAttribute("acquisto");
+	Acquisto acquisto = null;
+    if(request.getAttribute("acquisto") !=null){ acquisto = (Acquisto) request.getAttribute("acquisto");}
 
     if (acquisto == null) {
         response.sendRedirect("../VisualizzaOrdiniServlet");
@@ -37,10 +38,10 @@
         <div class="articolo-card">
             <img src="IMG/loghi/<%= art.getLogo() %>" alt="<%= art.getNome() %> Logo" width="100">
             <h3><%= art.getNome() %></h3>
-            <p><strong>Piattaforma:</strong> <%= art.getPiattaforma() %></p>
+            <br><p><strong>Piattaforma:</strong> <%= art.getPiattaforma() %></p>
             <p><strong>Prezzo:</strong> <%= art.getPrezzo() %> €</p>
             <p><strong>Product Key:</strong><br>
-                <code style="background-color:#1e1e1e; padding:5px 10px; border-radius:5px; color:#f65d0f; display:inline-block; margin-top:5px;">
+                <code>
                     <%= chiave.getCodice() %>
                 </code>
             </p>

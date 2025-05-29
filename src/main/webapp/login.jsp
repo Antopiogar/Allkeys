@@ -34,7 +34,7 @@
 		<input type="email" name = "email" required id ="email">
 		<br><br><label for="password">Password</label>
 		<input type="password" name = "password" required id ="password">
-		<br><br><input type="submit" value="Accedi">
+		<br><br><input type="submit" value="Accedi" class="center-submit-button">
 	</form>
 </main>
 	<%@ include file="footer.jsp" %>

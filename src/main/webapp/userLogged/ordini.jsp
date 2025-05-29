@@ -44,8 +44,8 @@
         </label>
         <label>Data Fine: 
             <input type="date" name="dataFine" value="<%= dataFineStr %>">
-        </label>
-        <input type="submit" value="Filtra">
+        </label><br>
+        <br><input type="submit" value="Filtra" class="center-submit-button">
     </form>
 
     <br>
@@ -55,9 +55,9 @@
     <% } else { %>
         <table border="1">
             <tr>
-                <th>Data Ordine</th>
-                <th>Totale</th>
-                <th>Azioni</th>
+                <th class="center-text">Data Ordine</th>
+                <th class="center-text">Totale</th>
+                <th class="center-text">Azioni</th>
             </tr>
             <% for (Acquisto acquisto : ordini) {
                 float totale = 0;
@@ -68,12 +68,12 @@
                 }
             %>
                 <tr>
-                    <td><%= acquisto.getOrdine().getDataAcquisto().format(formatter) %></td>
-                    <td><%= String.format("%.2f €", totale) %></td>
-                    <td>
+                    <td class="center-text"><%= acquisto.getOrdine().getDataAcquisto().format(formatter) %></td>
+                    <td class="center-text"><%= String.format("%.2f €", totale) %></td>
+                    <td class="center-text">
                         <form action="<%= request.getContextPath() %>/DettagliOrdineServlet" method="POST">
                             <input type="hidden" name="idOrdine" value="<%= acquisto.getOrdine().getIdOrdine() %>">
-                            <input type="submit" value="Dettagli">
+                            <input type="submit" value="Dettagli" class="center-submit-button">
                         </form>
                     </td>
                 </tr>

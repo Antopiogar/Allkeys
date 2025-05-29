@@ -21,7 +21,7 @@ function modificaDati(path){
 			<br><br><label for="email">Email</label>
 			<input type="text" name = "email" required id ="email" value="${varEmail}">
 			<input type="text" name = "action" value="modifica" hidden="true">
-			<br><br><input type="submit" value="Modifica informazioni">
+			<br><br><input type="submit" value="Modifica informazioni" class="center-submit-button">
 	`;
 	div.innerHTML= htmlForm;
 }

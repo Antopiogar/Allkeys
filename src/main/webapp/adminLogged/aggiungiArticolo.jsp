@@ -45,7 +45,7 @@
 			</select>
 			<br><br><label for="immagine">Logo (.png)</label><br>
     		<input type="file" name="immagine" id="immagine" accept=".png,image/png">
-			<br><br><input type="submit" value="Aggiungi articolo">
+			<br><br><input type="submit" value="Aggiungi articolo" class="center-submit-button">
 		</form>
 </main>
 <%@ include file="../footer.jsp" %>
