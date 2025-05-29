@@ -7,9 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class LogOutServlet
- */
 @WebServlet("/logout")
 public class LogOutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,8 +23,12 @@ public class LogOutServlet extends HttpServlet {
 
 		if(id != null) {
 			request.getSession().invalidate();
-			response.sendRedirect("login.jsp");
 		}
+		response.sendRedirect("login.jsp");
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		doGet(request,response);
 	}
 
 }
