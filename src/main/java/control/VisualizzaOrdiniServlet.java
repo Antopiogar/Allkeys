@@ -25,14 +25,20 @@ public class VisualizzaOrdiniServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        
-
+        int idUser = -1;
         Object idUtenteObj = session.getAttribute("idUser");
         int idUtente = -1;
-        if (idUtenteObj instanceof Integer) {
-            idUtente = (Integer) idUtenteObj;
+        if(request.getParameter("idUser")!= null){
+        	idUser = Integer.parseInt(request.getParameter("idUser"));
         }
-
+        if(idUser == -1) {
+            if (idUtenteObj instanceof Integer) {
+                idUtente = (Integer) idUtenteObj;
+            }
+        }
+        else {
+        	idUtente = idUser;
+        }
         if (idUtente <= 0) {
             response.sendRedirect("login.jsp");
             return;

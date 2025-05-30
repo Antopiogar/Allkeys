@@ -28,7 +28,9 @@
 
 	String risultatoUpdate = (String) session.getAttribute("risultatoModifica");
 	java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	String dataFormattata = user.getDataNascita().format(formatter);
+	String dataFormattata = null;
+	if(user != null) dataFormattata = user.getDataNascita().format(formatter);
+	if(user == null) response.sendRedirect(request.getContextPath() + "/login.jsp");
 %>
 
 <% if (risultatoUpdate != null) { %>

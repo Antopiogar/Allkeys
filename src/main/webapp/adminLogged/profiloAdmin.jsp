@@ -28,7 +28,9 @@
 	
 	String risultatoUpdate = (String) session.getAttribute("risultatoModifica");
 	java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	String dataFormattata = user.getDataNascita().format(formatter);
+	String dataFormattata = null;
+	if(user != null) dataFormattata = user.getDataNascita().format(formatter);
+	if(user == null) response.sendRedirect(request.getContextPath() + "/login.jsp");
 %>
 
 <% if (risultatoUpdate != null) { %>
@@ -61,6 +63,17 @@
 	<h1>Gestione Admin</h1>
 
 	<div class="admin-form-container">
+	
+		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method="POST">
+			<input type="hidden" name="AdminAction" value="viewAllUsers">
+			<input type="submit" class="profilo-bottone" value="Lista utenti registrati">
+		</form>
+		
+		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method="POST">
+			<input type="hidden" name="AdminAction" value="viewAllUsersOrders">
+			<input type="submit" class="profilo-bottone" value="Visualizza tutti gli ordini">
+		</form>
+		
 		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method="POST">
 			<input type="hidden" name="AdminAction" value="addKey">
 			<input type="submit" class="profilo-bottone" value="Aggiungi chiave di gioco">
@@ -70,6 +83,7 @@
 			<input type="hidden" name="AdminAction" value="addArticolo">
 			<input type="submit" class="profilo-bottone" value="Aggiungi un nuovo articolo">
 		</form>
+		
 	</div>
 </div>
 

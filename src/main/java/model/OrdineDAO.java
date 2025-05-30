@@ -348,6 +348,99 @@ WHERE
 		return acquisti;
 	}
 	
+	public static synchronized void loadOrdersByIdUserAndTimewithArrayList(int idUtente,LocalDateTime t1, LocalDateTime t2,ArrayList<Acquisto> acquisti){
+		if(acquisti == null) acquisti = new ArrayList<Acquisto>();
+		Connection con = DBConnection.getConnection();
+		try {
+			String query="""
+					SELECT DISTINCT 
+    o.idOrdine,
+    o.dataAcquisto,
+    a.idArticolo as idArticolo,
+    a.logo as logo,
+    a.nome as nome,
+    a.piattaforma,
+    co.prezzoPagato as prezzoPagato,
+    c.codice,
+    c.idChiave,
+    cp.idCarta,
+    cp.numeroCarta as nCarta,
+    cp.titolare
+FROM 
+    ordine as o
+    JOIN chiave as c ON c.FkOrdine = o.idOrdine
+    JOIN articolo as a ON a.idArticolo = c.FkArticolo
+    JOIN composizione as co ON co.FkOrdine = o.idOrdine
+    JOIN carta_pagamento as cp ON cp.idCarta = o.fkCarta
+WHERE 
+    o.fkUtente = ? 
+    AND o.conferma = 1 
+    AND a.idArticolo = co.FkArticolo
+    AND o.dataAcquisto BETWEEN ? AND ?""";
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, idUtente);
+			if(t1.isBefore(t2)) {
+				ps.setTimestamp(2, Timestamp.valueOf(t1));
+				ps.setTimestamp(3, Timestamp.valueOf(t2));
+			}
+			else {
+				ps.setTimestamp(3, Timestamp.valueOf(t1));
+				ps.setTimestamp(2, Timestamp.valueOf(t2));
+			}
+			ResultSet rs = ps.executeQuery();
+	        while (rs.next()) {
+	        	int idOrdine = rs.getInt("idOrdine");
+	        	int risRicerca = -1;
+	        	//Carica articolo dal DB
+	        	BeanArticolo art = new BeanArticolo();
+	        	art.setIdArticolo(rs.getInt("idArticolo"));
+	        	art.setLogo(rs.getString("logo"));
+	        	art.setNome(rs.getString("nome"));
+	        	art.setPiattaforma(rs.getString("piattaforma"));
+	        	art.setPrezzo(rs.getFloat("prezzoPagato"));
+	        	
+	        	//Carica chiave dal DB
+	        	BeanChiave chiave = new BeanChiave();
+	        	chiave.setCodice(rs.getString("codice"));
+	        	chiave.setIdChiave(rs.getInt("idChiave"));
+	        	chiave.setFkArticolo(art);
+	        	
+	        	//se la chiave fa parte di un acquisto gia inizializzato la aggiunge
+	        	risRicerca = Acquisto.existsOrder(acquisti, idOrdine);
+	        	if(risRicerca>=0) {
+	    			acquisti.get(risRicerca).AddProdottto(art, chiave);
+
+	        	}
+	        	//altrimenti inizializza un nuovo acquisto con all'interno il prodotto
+	        	else {
+			        Acquisto ac = new Acquisto(idUtente);
+			        BeanCartaPagamento carta = new BeanCartaPagamento();
+			        carta.setIdCarta(rs.getInt("idCarta"));
+			        carta.setnCarta(rs.getString("nCarta"));
+			        carta.setTitolare(rs.getString("titolare"));
+			        
+			        
+			        BeanOrdine ordine = new BeanOrdine();
+			        ordine.setConferma(true);
+			        ordine.setDataAcquisto(rs.getTimestamp("dataAcquisto").toLocalDateTime());
+			        ordine.setIdOrdine(rs.getInt("idOrdine"));
+			        ordine.setPagamento(carta);
+			        
+			        ac.setOrdine(ordine);
+			        ac.setCarta(carta);
+			        ac.AddProdottto(art, chiave);
+			        acquisti.add(ac);
+	        	}
+		        
+
+	        }
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("MORTO LOAD ALL ORDERS BY ID UTENTE");
+		}
+		DBConnection.releseConnection(con);
+	}
+	
 	public static synchronized ArrayList<Acquisto> loadAllOrdersByIdUtente(int idUtente){
 		ArrayList<Acquisto> acquisti = new ArrayList<>();
 		Connection con = DBConnection.getConnection();

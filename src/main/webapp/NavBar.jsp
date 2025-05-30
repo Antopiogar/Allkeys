@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/navbar2.css">
         <script type="text/javascript" src ="<%= request.getContextPath() %>/js/Search2.js" defer></script>
     
-    <div class="navbar">
+    <nav class="navbar">
         <div class="logo">
             <a href="<%= request.getContextPath()%>/index.jsp"><img src="<%= request.getContextPath() %>/IMG/Logo.png"  alt="AllKeys"></a>
         </div>
@@ -46,5 +46,5 @@
                 <a href="<%= request.getContextPath() %>/login.jsp">Login</a>
             </div>    
         <% } %>
-    </div>
+    </nav>
 

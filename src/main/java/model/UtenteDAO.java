@@ -8,12 +8,40 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UtenteDAO {
 
 	private static Connection con;
 	
 	public UtenteDAO() {
+	}
+	
+	public static synchronized ArrayList<BeanUtente> getUsers(){
+		ArrayList<BeanUtente> users = new ArrayList<BeanUtente>();
+		con = DBConnection.getConnection();
+		String query = "SELECT * FROM utente";
+		ResultSet rs = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				BeanUtente utente = new BeanUtente();
+				utente.setNome(rs.getString("nome"));
+				utente.setCf(rs.getString("cf"));
+				utente.setDataNascita(rs.getDate("dataNascita").toLocalDate());
+				utente.setEmail(rs.getString("email"));
+				utente.setIdUtente(rs.getInt("IdUtente"));
+				utente.setCognome(rs.getString("cognome"));
+				utente.setPass(rs.getString("password"));
+				utente.setIsAdmin(rs.getBoolean("isAdmin"));
+				users.add(utente);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return users;
 	}
 	
 	public static synchronized BeanUtente loadUserById(int id) {
@@ -34,6 +62,7 @@ public class UtenteDAO {
 				utente.setIdUtente(rs.getInt("IdUtente"));
 				utente.setCognome(rs.getString("cognome"));
 				utente.setPass(rs.getString("password"));
+				utente.setIsAdmin(rs.getBoolean("isAdmin"));
 			}
 			DBConnection.releseConnection(con);
 

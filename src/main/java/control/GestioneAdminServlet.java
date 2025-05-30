@@ -4,10 +4,15 @@ import java.io.IOException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.io.FileOutputStream;
 import model.*;
 import java.util.ArrayList;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -100,6 +105,47 @@ public class GestioneAdminServlet extends HttpServlet {
                 } else {
                     response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?error=true");
                 }
+            }
+            else if(AdminAction.equals("viewAllUsers")) {
+            	ArrayList<BeanUtente> users = UtenteDAO.getUsers();
+            	request.setAttribute("users", users);
+            	request.setAttribute("redirected",true);
+            	RequestDispatcher rd = request.getRequestDispatcher("/adminLogged/viewAllUsers.jsp");
+            	rd.forward(request, response);
+            }
+            
+            else if(AdminAction.equals("viewAllUsersOrders")) {
+            	ArrayList<BeanUtente> users = UtenteDAO.getUsers();
+            	String dataInizioStr = request.getParameter("dataInizio");
+                String dataFineStr = request.getParameter("dataFine");
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+
+                LocalDate dataInizio = (dataInizioStr != null && !dataInizioStr.isEmpty())
+                        ? LocalDate.parse(dataInizioStr, formatter)
+                        : LocalDate.of(2000, 1, 1);
+
+                LocalDate dataFine = (dataFineStr != null && !dataFineStr.isEmpty())
+                        ? LocalDate.parse(dataFineStr, formatter)
+                        : LocalDate.now();
+
+                LocalDateTime t1 = dataInizio.atStartOfDay(); // 00:00:00
+                LocalDateTime t2 = dataFine.atTime(23, 59, 59); // 23:59:59
+
+
+                ArrayList<Acquisto> acquisti = new ArrayList<Acquisto>();
+                for(BeanUtente user : users) {
+                	OrdineDAO.loadOrdersByIdUserAndTimewithArrayList(user.getIdUtente(), t1, t2,acquisti);
+                }
+
+
+                request.getSession().setAttribute("ordini", acquisti);
+                request.setAttribute("dataInizio", dataInizio.toString());
+                request.setAttribute("dataFine", dataFine.toString());	
+            	request.setAttribute("redirected",true);
+            	RequestDispatcher rd = request.getRequestDispatcher("/adminLogged/allOrders.jsp");
+            	rd.forward(request, response);
             }
         }
     }
