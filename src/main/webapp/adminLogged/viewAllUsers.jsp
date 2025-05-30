@@ -32,7 +32,6 @@ if(request.getAttribute("users")!=null) users = (ArrayList<BeanUtente>)request.g
                 <th class="center-text">Cognome</th>
                 <th class="center-text">Data di nascita</th>
                 <th class="center-text">Email</th>
-                <th class="center-text">Password</th>
                 <th class="center-text">Ruolo</th>
                 <th class="center-text">Ordini</th>
             </tr>
@@ -45,7 +44,6 @@ if(request.getAttribute("users")!=null) users = (ArrayList<BeanUtente>)request.g
                     <td class="center-text"><%= user.getCognome()%></td>
                     <td class="center-text"><%= user.getDataNascita()%></td>
                     <td class="center-text"><%= user.getEmail()%></td>
-                    <td class="center-text"><%= user.getPass()%></td>
                     <td class="center-text"><%if(user.getIsAdmin()==true){ %>Amministratore<% }else{%>Utente registrato<% }%></td>
                     <td class="center-text">
                         <form action="<%= request.getContextPath() %>/VisualizzaOrdiniServlet" method="POST">
