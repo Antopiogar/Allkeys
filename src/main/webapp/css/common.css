@@ -384,3 +384,27 @@ code{
 	display:inline-block;
 	margin-top:5px;
 }
+
+.messaggio-successo {
+    background-color: #132b13;
+    border: 1px solid #3dd13d;
+    color: #3dd13d;
+}
+
+.messaggio-errore {
+    background-color: #2b1313;
+    border: 1px solid #d13d3d;
+    color: #d13d3d;
+}
+
+.messaggio-info {
+    padding: 15px 20px;
+    background-color: #1e1e1e;
+    border: 1px solid #f65d0f;
+    color: #f65d0f;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 1em;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}

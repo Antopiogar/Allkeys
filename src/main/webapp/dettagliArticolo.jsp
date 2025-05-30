@@ -64,6 +64,12 @@
 
     <div class="recensioni">
         <h2>Recensioni</h2>
+        
+        <% if (request.getAttribute("deleteMessage") != null) { %>
+    <br><div class="messaggio-info">
+        <%= request.getAttribute("deleteMessage") %>
+    </div>
+<% } %>
         <%
             if (recensioni != null && !recensioni.isEmpty()) {
                 for (BeanRecensione rec : recensioni) {
@@ -90,7 +96,12 @@
                     <button onclick="da_inserire()">✏️</button>
                 <% } %>
                 <% if(isAdmin || (rec.getUtenteRecensione().getIdUtente() == idUser && idUser != -1)) { %>
-                    <button onclick="da_inserire()">🗑️</button>
+                    <form action="<%= request.getContextPath() %>/DeleteRecensioneServlet" method="post" style="display:inline;">
+    					<input type="hidden" name="idRec" value="<%= rec.getIdRecensione() %>">
+    					<input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>">
+    					<input type="submit" value="🗑️" title="Elimina recensione">
+					</form>
+
                 <% } %>
             </div><br>
         <%      }
