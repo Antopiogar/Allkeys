@@ -56,7 +56,6 @@ public class ArticoloDAO {
 			DBConnection.releseConnection(con);
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		DBConnection.releseConnection(con);
@@ -88,7 +87,7 @@ public class ArticoloDAO {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 		
@@ -96,6 +95,40 @@ public class ArticoloDAO {
 		DBConnection.releseConnection(con);
 		return articoli;
 	}
+	
+	public static synchronized ArrayList<BeanArticolo> loadAvailableArticlesFromPiattaforma(String piattaforma) {
+		con=DBConnection.getConnection();
+
+		String query = "SELECT * FROM VIEWCATALOGO WHERE PIATTAFORMA = ?";
+		ResultSet rs = null;
+		ArrayList<BeanArticolo> articoli = new ArrayList<BeanArticolo>();
+		con = DBConnection.getConnection();
+		try (PreparedStatement ps = con.prepareStatement(query);){
+			ps.setString(1, piattaforma);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				BeanArticolo articolo = new BeanArticolo();
+				
+				articolo.setIdArticolo(rs.getInt("idArticolo"));
+				articolo.setNome(rs.getString("nome"));
+				articolo.setLogo(rs.getString("logo"));
+				articolo.setPiattaforma(rs.getString("piattaforma"));
+				articolo.setPrezzo(rs.getFloat("prezzo"));
+				articolo.setDescrizione(rs.getString("descrizione"));
+
+				articoli.add(articolo);
+				
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+
+		DBConnection.releseConnection(con);
+		return articoli;
+	}
+
 
 	public static BeanArticolo getArticoloById(String id) {
 		con=DBConnection.getConnection();
@@ -119,7 +152,7 @@ public class ArticoloDAO {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 		DBConnection.releseConnection(con);
@@ -271,7 +304,7 @@ public class ArticoloDAO {
 			DBConnection.releseConnection(con);
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 		DBConnection.releseConnection(con);

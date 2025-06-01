@@ -24,9 +24,17 @@ public class ServletCatalog extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-
-		ArrayList<BeanArticolo> articoli = ArticoloDAO.loadAllAvailableArticles();
-
+		String piattaforma = request.getParameter("piattaforma");
+		System.out.println(piattaforma);
+		ArrayList<BeanArticolo> articoli = null;
+		if(piattaforma == null) {
+			 articoli = ArticoloDAO.loadAllAvailableArticles();
+			
+		}
+		else {
+			request.setAttribute("Filtro", piattaforma);
+			articoli = ArticoloDAO.loadAvailableArticlesFromPiattaforma(piattaforma);
+		}
 		request.setAttribute("result", articoli);
 		RequestDispatcher view = request.getRequestDispatcher("result.jsp");
 		view.forward(request, response);

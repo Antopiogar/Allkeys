@@ -3,6 +3,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="model.*" %>
 <% 
+	String filtro = (String) request.getAttribute("Filtro");
     ArrayList<BeanArticolo> articoli = (ArrayList<BeanArticolo>) request.getAttribute("result");
     if (articoli == null) {
         response.sendRedirect("ViewCatalog");
@@ -13,6 +14,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
+<script type="text/javascript" src ="<%= request.getContextPath() %>/js/Catalogo2.js" defer></script>
 
 
 <title>Catalogo articoli</title>
@@ -21,9 +23,18 @@
 <%@ include file="NavBar.jsp" %> <%//includendo NavBar.jsp si ottiene anche lo scope di isAdmin visibile in questa jsp. %>
 
 <main>
-<h1>Catalogo articoli</h1>
+
+<h1>
+Catalogo articoli <%= filtro != null ? filtro : "" %>
+</h1>
+<br>
+<div id="BottoniFiltro">
+	</div>
+
 <% if (articoli != null && !articoli.isEmpty()) { %>
+
 <div class="catalogo">
+	
     <% for (BeanArticolo articolo : articoli) { %>
     <div class="articolo-card">
     <a href="DettagliArticoloServlet?articolo=<%= articolo.getIdArticolo() %>" class="articolo-link">
