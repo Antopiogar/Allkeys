@@ -3,6 +3,10 @@ package control;
 import java.io.IOException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.io.FileOutputStream;
 import model.*;
+
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -20,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @MultipartConfig
-@WebServlet("/GestioneAdminServlet")
+@WebServlet("/AggiungiArticolo")
 public class GestioneAdminServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -40,7 +45,6 @@ public class GestioneAdminServlet extends HttpServlet {
         } else {
             BeanChiave chiave = new BeanChiave();
             BeanArticolo articolo = new BeanArticolo();
-
             if (AdminAction.equals("addArticolo")) {
             	ArrayList<String> piattaforme = ArticoloDAO.getPiattaforme();
             	request.setAttribute("piattaforme",piattaforme);
@@ -57,14 +61,23 @@ public class GestioneAdminServlet extends HttpServlet {
                 articolo = ArticoloDAO.getArticoloById(idArticoloStr);
                 aggiunta = ChiaveDAO.saveKey(articolo,chiave);
                 
-                if (aggiunta ==1) {
-                    response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?success=true");
-                } else if(aggiunta ==-2) {
-                    response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?error=true&duplicate=true");
+              //feedback
+                Gson g = new Gson();
+                JsonObject obj = new JsonObject();
+                
+                if (aggiunta ==1) { //va a buon fine
+                	obj.addProperty("result", "success");
+                } else if(aggiunta ==-2) { //chiave duplicata
+                	obj.addProperty("result", "failure");
+                	obj.addProperty("message", "Chiave duplicata");
+                	
                 }
-                else {
-                    response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?error=true");
+                else { //altro
+                	obj.addProperty("result", "failure");
+                	obj.addProperty("message", "Errore generico");
                 }
+                response.getWriter().write(g.toJson(obj));
+                
             }
             else if (AdminAction.equals("addSettedArticolo")) {
                 //prende i dati del form
@@ -97,14 +110,23 @@ public class GestioneAdminServlet extends HttpServlet {
                 chiave.setCodice(request.getParameter("codice"));
                 aggiunta = ChiaveDAO.saveKey(articolo, chiave);
 
-                // Redirect finale
-                if (aggiunta == 1) {
-                    response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?success=true");
-                } else if(aggiunta == -2) {
-                    response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?error=true&duplicate=true");
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/adminLogged/aggiungiChiave.jsp?error=true");
+                //feedback
+                Gson g = new Gson();
+                JsonObject obj = new JsonObject();
+                
+                if (aggiunta ==1) { //va a buon fine
+                	obj.addProperty("result", "success");
+                } else if(aggiunta ==-2) { //chiave duplicata
+                	obj.addProperty("result", "failure");
+                	obj.addProperty("message", "Chiave duplicata");
+                	
                 }
+                else { //altro
+                	obj.addProperty("result", "failure");
+                	obj.addProperty("message", "Errore generico");
+                }
+                response.getWriter().write(g.toJson(obj));
+                
             }
             else if(AdminAction.equals("viewAllUsers")) {
             	ArrayList<BeanUtente> users = UtenteDAO.getUsers();

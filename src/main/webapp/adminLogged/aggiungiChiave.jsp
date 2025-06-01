@@ -1,3 +1,4 @@
+
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.BeanArticolo"%>
 <%@page import="model.ArticoloDAO"%>
@@ -13,6 +14,8 @@
 	<meta charset="UTF-8">
 	<title>Aggiungi chiave</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
+	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/aggiungiKey2.js" defer></script>
+	
 </head>
 <body>
 <jsp:include page="../NavBar.jsp" />
@@ -26,6 +29,7 @@
 		}
 	%>
 	<br><h1>Aggiungi una nuova chiave</h1><br>
+	<div id="errore" style="color: red; margin-bottom: 10px;"></div>
 
 	<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method="POST">
 		<input type="hidden" value="addSettedKey" name="AdminAction">
@@ -42,7 +46,7 @@
 		<input type="text" name="codice" id="codice">
 		<br><br>
 
-		<input type="submit" value="Aggiungi chiave di gioco" class="center-submit-button">
+		<button type="button"  class="center-submit-button" onclick="checkForm()">Aggiungi chiave di gioco</button> 
 	</form>
 
 </main>

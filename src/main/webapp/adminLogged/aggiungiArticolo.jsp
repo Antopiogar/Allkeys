@@ -11,6 +11,8 @@
 	<meta charset="UTF-8">
 	<title>Aggiungi articolo</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
+	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/AggiungiArticolo2.js" defer></script>
+	
 </head>
 <body>
 <jsp:include page="../NavBar.jsp" />
@@ -25,8 +27,8 @@
 		}
 	%>
 	<br><h1>Aggiungi un nuovo articolo</h1><br>
-	
-		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method = "POST" enctype="multipart/form-data">
+		<div id="errore" style="color: red; margin-bottom: 10px;"></div>
+		<form action="<%= request.getContextPath() %>/AggiungiArticolo" method = "POST" enctype="multipart/form-data">
 			<input type="hidden" value="addSettedArticolo" name="AdminAction">
 			<label for="nome">Nome</label><br>
 			<input type= "text" name = "nome" id="nome">
@@ -37,15 +39,15 @@
 			<br><br><label for="codice">Codice</label><br>
 			<input type="text" name="codice" id="codice">
 			<br><br><label for="piattaforma">Piattaforma</label><br>
-			<select name="piattaforma" id="piattaforma">
-			<%-- Carica gli articoli nel menu a tendina --%>
-			<% for (String p : piattaforme) { %>
-				<option value="<%= p %>"><%= p %></option>
-			<% } %>
-			</select>
+			<select name="piattaforma" id="piattaforma" onchange="switchPiattaforma()"></select>
+			<div id="nuovaPiattaformaContainer" hidden="true">
+		    	<br><br>
+		    	<label for="nuovaPiattaforma">Nuova Piattaforma</label><br>
+				<input type="text" name="nuovaPiattaforma" id="nuovaPiattaforma" >
+			</div>
 			<br><br><label for="immagine">Logo (.png)</label><br>
     		<input type="file" name="immagine" id="immagine" accept=".png,image/png">
-			<br><br><input type="submit" value="Aggiungi articolo" class="center-submit-button">
+			<br><br><button type="button" class="center-submit-button" onclick="checkForm()">Aggiungi articolo</button> 
 		</form>
 </main>
 <%@ include file="../footer.jsp" %>
