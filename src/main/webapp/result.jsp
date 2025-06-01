@@ -14,7 +14,9 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
-<script type="text/javascript" src ="<%= request.getContextPath() %>/js/Catalogo2.js" defer></script>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/Alert.css">
+
+<script type="text/javascript" src ="<%= request.getContextPath() %>/js/catalogo.js" defer></script>
 
 
 <title>Catalogo articoli</title>
@@ -48,8 +50,8 @@ Catalogo articoli <%= filtro != null ? filtro : "" %>
     </a><br>
     <%
     if(session.getAttribute("isAdmin") != null) isAdmin = (boolean) session.getAttribute("isAdmin");
-    if(isAdmin==true){ %><button onclick="da_inserire()">✏️</button>
-    <button onclick="da_inserire()">🗑️</button>
+    if(isAdmin==true){ %><button onclick="modifica(<%=articolo.getIdArticolo() %>)">✏️</button>
+    <button onclick="elimina(<%=articolo.getIdArticolo() %>,'<%=articolo.getNome()%>')">🗑️</button>
     <%} %>
 </div>
     <% } %>
