@@ -12,14 +12,36 @@ import java.util.ArrayList;
 
 public class UtenteDAO {
 
-	private static Connection con;
 	
 	public UtenteDAO() {
 	}
 	
+	public static synchronized boolean checkEmailOnDB(String email) {
+		boolean ris = false;
+		Connection con = DBConnection.getConnection();
+		String query = "SELECT email FROM UTENTE WHERE EMAIL = ?";
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				if(rs.getString("email").equalsIgnoreCase(email)) {
+					ris = true;
+				}
+			}
+			ps.close();
+			rs.close();
+		}catch (Exception e) {
+			e.printStackTrace();		
+		}
+		
+		DBConnection.releseConnection(con);
+		return ris;
+	}
+	
 	public static synchronized ArrayList<BeanUtente> getUsers(){
 		ArrayList<BeanUtente> users = new ArrayList<BeanUtente>();
-		con = DBConnection.getConnection();
+		Connection con = DBConnection.getConnection();
 		String query = "SELECT * FROM utente";
 		ResultSet rs = null;
 		try {
@@ -45,7 +67,7 @@ public class UtenteDAO {
 	}
 	
 	public static synchronized BeanUtente loadUserById(int id) {
-		con=DBConnection.getConnection();
+		Connection con=DBConnection.getConnection();
 		String query = "SELECT * FROM UTENTE WHERE idUtente = ?";
 		ResultSet rs = null;
 		BeanUtente utente = null;
@@ -75,7 +97,7 @@ public class UtenteDAO {
 	}
 	
 	public synchronized int login(String email, String pass) {
-		con=DBConnection.getConnection();
+		Connection con=DBConnection.getConnection();
 		String query = "SELECT idUtente, email FROM UTENTE WHERE email = ? and password = ?";
 		ResultSet rs = null;
 		int id =-1;
@@ -123,7 +145,7 @@ public class UtenteDAO {
 	
 	public synchronized String register(BeanUtente user) {
 		
-		con=DBConnection.getConnection();
+		Connection con=DBConnection.getConnection();
 		String query = "INSERT INTO UTENTE (nome,cognome,dataNascita,email,cf,password) value (?,?,?,?,?,?);";
 		
 		ResultSet rs = null;
@@ -172,7 +194,7 @@ public class UtenteDAO {
 		
 	}
 	public synchronized String loadNameById(int id) {
-		con=DBConnection.getConnection();
+		Connection con=DBConnection.getConnection();
 		String query = "SELECT Utente.nome FROM UTENTE WHERE idUtente = ?";
 		ResultSet rs = null;
 		String utente = null;
@@ -194,7 +216,7 @@ public class UtenteDAO {
 	}
 
 	public static synchronized String modificaUtenteById(BeanUtente user) {
-		con = DBConnection.getConnection();
+		Connection con = DBConnection.getConnection();
 		int risQuery = 0;
 		String result = "";
 		String query ="""
@@ -237,7 +259,7 @@ public class UtenteDAO {
 	}
 	
 	public synchronized int loginAdmin(String email, String pass) {
-		con=DBConnection.getConnection();
+		Connection con=DBConnection.getConnection();
 		String query = "SELECT idUtente, email FROM UTENTE WHERE email = ? and password = ? and isAdmin=1";
 		ResultSet rs = null;
 		int id =-1;
