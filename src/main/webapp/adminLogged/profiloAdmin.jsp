@@ -64,22 +64,22 @@
 
 	<div class="admin-form-container">
 	
-		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method="POST">
+		<form action="<%= request.getContextPath() %>/GestioneAdmin" method="POST">
 			<input type="hidden" name="AdminAction" value="viewAllUsers">
 			<input type="submit" class="profilo-bottone" value="Lista utenti registrati">
 		</form>
 		
-		<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method="POST">
+		<form action="<%= request.getContextPath() %>/GestioneAdmin" method="POST">
 			<input type="hidden" name="AdminAction" value="viewAllUsersOrders">
 			<input type="submit" class="profilo-bottone" value="Visualizza tutti gli ordini">
 		</form>
 		
-		<form action="<%= request.getContextPath() %>/AggiungiArticolo" method="POST">
+		<form action="<%= request.getContextPath() %>/GestioneAdmin" method="POST">
 			<input type="hidden" name="AdminAction" value="addKey">
 			<input type="submit" class="profilo-bottone" value="Aggiungi chiave di gioco">
 		</form>
 
-		<form action="<%= request.getContextPath() %>/AggiungiArticolo" method="POST">
+		<form action="<%= request.getContextPath() %>/GestioneAdmin" method="POST">
 			<input type="hidden" name="AdminAction" value="addArticolo">
 			<input type="submit" class="profilo-bottone" value="Aggiungi un nuovo articolo">
 		</form>
