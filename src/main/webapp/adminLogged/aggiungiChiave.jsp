@@ -14,7 +14,7 @@
 	<meta charset="UTF-8">
 	<title>Aggiungi chiave</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
-	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/aggiungiKey2.js" defer></script>
+	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/aggiungiKey2.js" defer></script>
 	
 </head>
 <body>

@@ -11,7 +11,7 @@
 	<meta charset="UTF-8">
 	<title>Aggiungi articolo</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
-	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/AggiungiArticolo2.js" defer></script>
+	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/AggiungiArticolo2.js" defer></script>
 	
 </head>
 <body>
@@ -33,7 +33,7 @@
 			<label for="nome">Nome</label><br>
 			<input type= "text" name = "nome" id="nome">
 			<br><br><label for="prezzo">Prezzo</label><br>
-			<input type= "text" name = "prezzo" id="prezzo">
+			<input type= "text" name = "prezzo" id="prezzo" placeholder="Prezzo > 0">
 			<br><br><label for="descrizione">Descrizione</label><br>
 			<input type= "text" name = "descrizione" id="descrizione">
 			<br><br><label for="codice">Codice</label><br>
@@ -46,7 +46,7 @@
 				<input type="text" name="nuovaPiattaforma" id="nuovaPiattaforma" >
 			</div>
 			<br><br><label for="immagine">Logo (.png)</label><br>
-    		<input type="file" name="immagine" id="immagine" accept=".png,image/png">
+    		<input type="file" name="immagine" id="immagine" accept=".png,image/png" >
 			<br><br><button type="button" class="center-submit-button" onclick="checkForm()">Aggiungi articolo</button> 
 		</form>
 </main>

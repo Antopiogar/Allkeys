@@ -31,13 +31,13 @@ function checkForm() {
 
 
 
-	fetch("AggiungiArticolo", {
+	fetch("GestioneAdmin", {
 		method: "POST",
 		body: formData
 	})
 		.then(response => response.json())
 		.then(data => {
-			console.log("Response from AggiungiArticoloServlet:", data);
+			console.log("Response from GestioneAdmin:", data);
 			if (data.result === "success") {
 				document.getElementById("errore").innerHTML = "Articolo aggiunto con successo! Verrai reindirizzato tra 10 secondi.";
 				document.getElementById("errore").style.color = "green";

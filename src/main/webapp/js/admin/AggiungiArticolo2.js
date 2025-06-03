@@ -120,28 +120,28 @@ function checkForm() {
 	formData.append("piattaforma", valoreSelect);
 	formData.append("immagine", immagine);
 
-	fetch("AggiungiArticolo", {
+	fetch("GestioneAdmin", {
 		method: "POST",
 		body: formData
 	})
 		.then(response => response.json())
 		.then(data => {
-			console.log("Response from AggiungiArticoloServlet:", data);
+			console.log("Response from GestioneAdmin:", data);
 			if (data.result === "success") {
 				document.getElementById("errore").innerHTML = "Articolo aggiunto con successo! Verrai reindirizzato tra 10 secondi.";
-				document.getElementById("errore").class= "messaggio-successo";
+				document.getElementById("errore").className= "messaggio-successo";
 				setTimeout(() => {
 					window.location.href = "./index.jsp";
 				}, 10000);
 			} else {
 				document.getElementById("errore").innerHTML = "Errore durante l'aggiunta dell'articolo: " + data.message;
-				document.getElementById("errore").class="messaggio-errore";
+				document.getElementById("errore").className="messaggio-errore";
 			}
 		})
 		.catch(error => {
 			console.error("Error during article addition:", error);
 			document.getElementById("errore").innerHTML = "Errore durante l'aggiunta dell'articolo. Riprova più tardi.";
-			document.getElementById("errore").class="messaggio-errore";
+			document.getElementById("errore").className="messaggio-errore";
 		});
 	document.getElementById("errore").hidden = false;
 	return false;

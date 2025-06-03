@@ -34,8 +34,8 @@ function modificaRecensione(idRecensione) {
     console.log("Voto attuale:", voto);
     
     //crea input per le stelle
-    stelleInput.name = "stelle";
-    stelleInput.id = "stelle";
+    stelleInput.name = "voto";
+    stelleInput.id = "voto";
     for (let i = 0; i < 5; i++) {
         let stelleOption = document.createElement("option");
         stelleOption.value = i + 1;
@@ -49,11 +49,11 @@ function modificaRecensione(idRecensione) {
     //crea input per il testo
     let labelTesto = document.createElement("label");
     labelTesto.textContent = "Testo:";
-    labelTesto.htmlFor = "testo";
+    labelTesto.htmlFor = "recensione";
     let testoInput = document.createElement("textarea");
-    testoInput.name = "testo";
+    testoInput.name = "recensione";
     testoInput.value = testo;
-    testoInput.id = "testo";
+    testoInput.id = "recensione";
     form.appendChild(labelTesto);
     form.appendChild(testoInput);
 
@@ -72,7 +72,7 @@ function modificaRecensione(idRecensione) {
     card.replaceWith(newCard);
 }
 async function checkForm(idRecensione) {
-    let stelleInput = document.getElementById("stelle");
+    let stelleInput = document.getElementById("voto");
     let testoInput = document.getElementById("testo");
     let errori = "";
     let stelleValue = stelleInput.value;
@@ -90,13 +90,18 @@ async function checkForm(idRecensione) {
         document.getElementById("errore").innerHTML = errori;
         return;
     }
-    send(idRecensione);
+    if(idRecensione===null)
+        // Se idRecensione è null, è una nuova recensione
+        document.getElementById("formAggiungi").submit();
+    else
+        // Altrimenti, invia la richiesta di modifica della recensione
+        send(idRecensione);
 
 }
 
 async function send(idRecensione) {
-    let stelleValue = document.getElementById("stelle").value;
-    let testoInput = document.getElementById("testo").value;
+    let stelleValue = document.getElementById("voto").value;
+    let testoInput = document.getElementById("recensione").value;
     
     
     let data = await fetch("GestioneRecensioniServlet", {
@@ -106,7 +111,7 @@ async function send(idRecensione) {
         },
         body: new URLSearchParams({
             "idRecensione": idRecensione,
-            "stelle": stelleValue,
+            "voto": stelleValue,
             "testo": testoInput
         }),
     }).then(response => response.json()).catch(error => {

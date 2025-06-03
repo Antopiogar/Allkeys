@@ -119,7 +119,7 @@
         <% } %>
 		<% if(!existsRecensione) {%>
 	        <% if(idUser != -1) { %>
-	            <form action="AddRecensioneServlet" method="POST">
+	            <form action="AddRecensioneServlet" method="POST" id="formAggiungi">
 	                <select name="voto" id="voto" required>
 	                    <option value="" disabled selected>Seleziona un voto</option>
 	                    <option value="1">1 - ⭐</option>
@@ -130,7 +130,8 @@
 	                </select><br>
 	                <textarea name="recensione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
 	                <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>"><br>
-	                <input type="submit" value="Aggiungi la recensione">
+					<button type="button" onclick="checkForm()">Aggiungi recensione</button>
+
 	            </form>
 	        <% } else { %>
 	            <p>Per scrivere una recensione esegui il <a href="<%= request.getContextPath() %>/login.jsp">login</a></p>
