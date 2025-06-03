@@ -23,7 +23,7 @@ public class AuthAdminFilter implements Filter {
             chain.doFilter(request, response); // Admin autenticato
         } else {
             if (session != null) session.setAttribute("redirect", true);
-            res.sendRedirect(req.getContextPath() + "/loginAdmin.jsp");
+            res.sendRedirect(req.getContextPath() + "/errorPages/error403.jsp");
         }
     }
 }
