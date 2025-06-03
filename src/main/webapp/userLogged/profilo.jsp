@@ -19,7 +19,8 @@
 <%
 	BeanUtente user = (BeanUtente) session.getAttribute("User");
 	if (user == null) {
-		out.println("Errore, stai per essere reindirizzato al login...");
+		%><div class= "messaggio-info">
+		Errore, stai per essere reindirizzato al login...</div><%
 		out.print("<meta http-equiv='refresh' content='5';url=" + request.getContextPath() + "/login.jsp' >");
 		session.setAttribute("redirect", true);
 		return;
