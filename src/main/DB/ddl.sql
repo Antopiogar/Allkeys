@@ -37,7 +37,7 @@ create table Ordine(
 	idOrdine int auto_increment primary key,
 	dataAcquisto datetime not null,
 	conferma boolean not null,
-	fattura varchar(50) not null unique,
+	fattura varchar(50) ,
 	fkUtente int not null,
 	fkCarta int null,
 	foreign key (fkCarta) references Carta_Pagamento(idCarta) 
@@ -81,9 +81,10 @@ create table Recensione(
 	dataRecensione date not null,
 	FkUtente int not null,
 	FkArticolo int not null,
-
+    unique(fkUtente,FkArticolo),
 	foreign key (FkUtente) references Utente(idUtente)
 	on delete restrict on update cascade,
 	foreign key (FkArticolo) references Articolo(idArticolo)
 	on delete restrict on update cascade
 );
+

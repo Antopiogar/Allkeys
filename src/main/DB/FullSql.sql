@@ -81,7 +81,7 @@ create table Recensione(
 	dataRecensione date not null,
 	FkUtente int not null,
 	FkArticolo int not null,
-
+    unique(fkUtente,FkArticolo),
 	foreign key (FkUtente) references Utente(idUtente)
 	on delete restrict on update cascade,
 	foreign key (FkArticolo) references Articolo(idArticolo)
