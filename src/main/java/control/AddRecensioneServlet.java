@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import model.*;
 
 @WebServlet("/AddRecensioneServlet")
@@ -80,4 +81,5 @@ public class AddRecensioneServlet extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("dettagliArticolo.jsp");
         rd.forward(request, response);
     }
+    
 }

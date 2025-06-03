@@ -28,6 +28,10 @@
 <title><%= articolo.getNome() %></title>
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script type="text/javascript" src ="<%= request.getContextPath() %>/js/Search2.js" defer></script>
+<script type="text/javascript" src ="<%= request.getContextPath() %>/js/dettagliArticolo.js" defer></script>
+
+
 </head>
 <body>
 <%@ include file="NavBar.jsp" %>
@@ -71,15 +75,19 @@
     </div>
 <% } %>
         <%
+        boolean existsRecensione = false;
             if (recensioni != null && !recensioni.isEmpty()) {
+            	
                 for (BeanRecensione rec : recensioni) {
+                	if(rec.getUtenteRecensione().getIdUtente() == idUser)
+                		existsRecensione = true;
         %>
-            <div class="recensione-card">
+            <div class="recensione-card" id="recensione<%=rec.getIdRecensione() %>">
                 <div class="recensione-header">
                     <span class="recensione-user"><i class="fa-solid fa-user"></i> <strong><%= rec.getUtenteRecensione().getNome()%></strong></span>
-                    <span class="recensione-data"><i class="fa-regular fa-calendar-days"></i> <%= rec.getData() %></span>
+                    <span class="recensione-data"><i class="fa-regular fa-calendar-days"></i><%= rec.getData() %></span>
                 </div>
-                <div class="recensione-stelle">
+                <div class="recensione-stelle" id="stelle<%=rec.getIdRecensione() %>">
                     <% 
                         int voto = rec.getVoto();
                         for (int i = 1; i <= 5; i++) {
@@ -91,9 +99,9 @@
                         }
                     %>
                 </div>
-                <div class="recensione-testo"><%= rec.getTesto() %></div>
+                <div class="recensione-testo" id="testo<%=rec.getIdRecensione() %>"><%= rec.getTesto() %></div>
                 <% if(rec.getUtenteRecensione().getIdUtente() == idUser && idUser != -1) { %>
-                    <button onclick="da_inserire()">✏️</button>
+                    <button onclick="modificaRecensione(<%=rec.getIdRecensione() %>)">✏️</button>
                 <% } %>
                 <% if(isAdmin || (rec.getUtenteRecensione().getIdUtente() == idUser && idUser != -1)) { %>
                     <form action="<%= request.getContextPath() %>/DeleteRecensioneServlet" method="post" style="display:inline;">
@@ -109,24 +117,25 @@
         %>
             <p>Nessuna recensione disponibile per questo articolo.</p>
         <% } %>
-
-        <% if (idUser != -1) { %>
-            <form action="AddRecensioneServlet" method="POST">
-                <select name="voto" id="voto" required>
-                    <option value="" disabled selected>Seleziona un voto</option>
-                    <option value="1">1 - ⭐</option>
-                    <option value="2">2 - ⭐⭐</option>
-                    <option value="3">3 - ⭐⭐⭐</option>
-                    <option value="4">4 - ⭐⭐⭐⭐</option>
-                    <option value="5">5 - ⭐⭐⭐⭐⭐</option>
-                </select><br>
-                <textarea name="recensione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
-                <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>"><br>
-                <input type="submit" value="Aggiungi la recensione">
-            </form>
-        <% } else { %>
-            <p>Per scrivere una recensione esegui il <a href="<%= request.getContextPath() %>/login.jsp">login</a></p>
-        <% } %>
+		<% if(!existsRecensione) {%>
+	        <% if(idUser != -1) { %>
+	            <form action="AddRecensioneServlet" method="POST">
+	                <select name="voto" id="voto" required>
+	                    <option value="" disabled selected>Seleziona un voto</option>
+	                    <option value="1">1 - ⭐</option>
+	                    <option value="2">2 - ⭐⭐</option>
+	                    <option value="3">3 - ⭐⭐⭐</option>
+	                    <option value="4">4 - ⭐⭐⭐⭐</option>
+	                    <option value="5">5 - ⭐⭐⭐⭐⭐</option>
+	                </select><br>
+	                <textarea name="recensione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+	                <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>"><br>
+	                <input type="submit" value="Aggiungi la recensione">
+	            </form>
+	        <% } else { %>
+	            <p>Per scrivere una recensione esegui il <a href="<%= request.getContextPath() %>/login.jsp">login</a></p>
+	        <% } 
+        }%>
     </div>
 </main>
 
