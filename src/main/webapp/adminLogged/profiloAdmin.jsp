@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page session="true" %>
-<%@ include file="../userLogged/verificaLogin.jsp" %> <%//DA SISTEMARE %>
 
 <!DOCTYPE html>
 <html>
@@ -22,7 +21,7 @@
 	BeanUtente user = (BeanUtente)session.getAttribute("User");
 	if(user == null){
 		out.println("Errore, stai per essere reindirizzato al login...");
-		out.print("<meta http-equiv='refresh' content='5';url="+request.getContextPath()+"./login.jsp' >");
+		out.print("<meta http-equiv='refresh' content='5';url="+request.getContextPath()+"./loginAdmin.jsp' >");
  		request.getSession().setAttribute("redirect", true);
 	}
 	

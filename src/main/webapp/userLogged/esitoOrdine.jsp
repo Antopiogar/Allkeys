@@ -6,19 +6,13 @@
     <meta charset="UTF-8">
     <title>Esito Ordine</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
-    <jsp:include page="verificaLogin.jsp" />
 </head>
 <body>
 
 <%@ include file="../NavBar.jsp" %>
 
 <main>
-    <%
-    boolean redirect = Boolean.TRUE.equals(session.getAttribute("redirect"));
-	if(redirect){
-		out.println("Errore, stai per essere reindirizzato al login...");
-	}else{
-        Integer status = (Integer) request.getAttribute("status");
+        <%Integer status = (Integer) request.getAttribute("status");
 
         if (status == null) {
     %>
@@ -46,9 +40,6 @@
     %>
         <h1>❌ Errore durante l'elaborazione dell'ordine.</h1>
         <p>Riprova più tardi o contatta l'assistenza.</p>
-    <%
-        }
-    %>
     <br><a href="<%= request.getContextPath() %>/ViewCatalog">Torna al catalogo</a><%} %>
 </main>
 

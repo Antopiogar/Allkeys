@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.*" %>
-<jsp:include page="verificaLogin.jsp" />
 <%
 	Acquisto acquisto = null;
     if(request.getAttribute("acquisto") !=null){ acquisto = (Acquisto) request.getAttribute("acquisto");}
@@ -22,12 +21,6 @@
 <body>
 <%@ include file="../NavBar.jsp" %>
 <main>
-<% 
-    boolean redirect = Boolean.TRUE.equals(session.getAttribute("redirect"));
-    if (redirect) {
-        out.println("Errore, stai per essere reindirizzato al login...");
-    } else { 
-%>
     <h2>Dettagli dell'Ordine #<%= acquisto.getOrdine().getIdOrdine() %></h2>
 
     <div class="catalogo">
@@ -53,7 +46,6 @@
         <input type="hidden" name="idOrdine" value="<%= acquisto.getOrdine().getIdOrdine() %>">
         <input type="submit" value="Stampa Fattura (PDF)">
     </form>
-<% } %>
 </main>
 <%@ include file="../footer.jsp" %>
 </body>

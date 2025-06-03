@@ -29,7 +29,6 @@
 <head>
     <title>I miei ordini</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
-    <jsp:include page="verificaLogin.jsp" />
 </head>
 
 <body>
