@@ -386,16 +386,29 @@ code{
 }
 
 .messaggio-successo {
-    background-color: #132b13;
+    padding: 15px 20px;
+    background-color: #1a1f1a;
     border: 1px solid #3dd13d;
     color: #3dd13d;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 1em;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .messaggio-errore {
-    background-color: #2b1313;
+    padding: 15px 20px;
+    background-color: #1f1a1a;
     border: 1px solid #d13d3d;
     color: #d13d3d;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 1em;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
+
 
 .messaggio-info {
     padding: 15px 20px;
@@ -407,4 +420,84 @@ code{
     font-size: 1em;
     text-align: center;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 992px) {
+    .dettagli-wrapper {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .descrizione, .recensioni {
+        padding: 15px 20px;
+    }
+
+    .articolo-card img {
+        max-height: 150px;
+    }
+
+    .profilo-card {
+        padding: 20px;
+    }
+
+    .payment-form {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        font-size: 0.9em;
+    }
+
+    main {
+        padding: 10px;
+    }
+
+    .catalogo {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .dettagli-img img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .descrizione h2, .recensioni h2 {
+        font-size: 1.2em;
+    }
+
+    .recensione-card {
+        padding: 15px;
+    }
+
+    .profilo-card {
+        margin: 20px 10px;
+        padding: 15px;
+    }
+
+    .payment-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .payment-card input[type="radio"] {
+        margin-right: 0;
+    }
+
+    textarea, input[type="text"], input[type="file"], input[type="date"],
+    input[type="number"], input[type="numeric"], input[type="email"], input[type="password"] {
+        max-width: 100%;
+    }
+
+    select {
+        max-width: 100%;
+    }
+
+    .dettagli-wrapper {
+        padding: 15px;
+    }
 }

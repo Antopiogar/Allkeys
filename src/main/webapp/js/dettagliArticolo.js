@@ -77,6 +77,8 @@ function modificaRecensione(idRecensione) {
 
     card.replaceWith(newCard);
 }
+
+
 async function checkForm(idRecensione) {
     let stelleInput = document.getElementById("voto");
     let testoInput = document.getElementById("testo");
