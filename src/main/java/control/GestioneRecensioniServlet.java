@@ -38,7 +38,6 @@ public class GestioneRecensioniServlet extends HttpServlet {
     		Gson g = new Gson();
     		JsonObject obj = new JsonObject();
     		obj.addProperty("result", "success");
-    		obj.addProperty("time", rec.getData().toString());
     		resp.getWriter().write(g.toJson(obj));
     	}
     	else {

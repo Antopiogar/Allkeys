@@ -23,6 +23,7 @@ function modificaRecensione(idRecensione) {
     form.appendChild(labelStelle);
     let stelleInput = document.createElement("select");
 
+
     // Cattura il numero di stelle della recensione
     let icone = divStelle.getElementsByTagName("i");
     let voto = 0;
@@ -47,6 +48,10 @@ function modificaRecensione(idRecensione) {
     form.appendChild(stelleInput);
 
     //crea input per il testo
+
+    let br = document.createElement("br");
+    form.appendChild(br);
+
     let labelTesto = document.createElement("label");
     labelTesto.textContent = "Testo:";
     labelTesto.htmlFor = "recensione";
@@ -61,6 +66,7 @@ function modificaRecensione(idRecensione) {
     let submitButton = document.createElement("button");
     submitButton.type = "button";
     submitButton.textContent = "Modifica";
+    submitButton.className = "center-submit-button";
     //uso una lamdba per i check ed eventuale invio
     submitButton.onclick = () => {
         console.log("idRecensione:", idRecensione);
