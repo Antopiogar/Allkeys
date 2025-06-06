@@ -5,7 +5,7 @@ function modificaRecensione(idRecensione) {
     let divTesto = document.getElementById("testo" + idRecensione);
     let testo = divTesto.innerHTML;
     console.log("Testo della recensione:", testo);
-    
+
 
     //creazione nuova card
     let newCard = document.createElement("div");
@@ -33,7 +33,7 @@ function modificaRecensione(idRecensione) {
         }
     }
     console.log("Voto attuale:", voto);
-    
+
     //crea input per le stelle
     stelleInput.name = "voto";
     stelleInput.id = "voto";
@@ -70,7 +70,7 @@ function modificaRecensione(idRecensione) {
     //uso una lamdba per i check ed eventuale invio
     submitButton.onclick = () => {
         console.log("idRecensione:", idRecensione);
-        
+
         checkForm(idRecensione);
     }
     form.appendChild(submitButton);
@@ -81,24 +81,24 @@ function modificaRecensione(idRecensione) {
 
 async function checkForm(idRecensione) {
     let stelleInput = document.getElementById("voto");
-    let testoInput = document.getElementById("testo");
+    let testoInput = document.getElementById("recensione");
     let errori = "";
     let stelleValue = stelleInput.value;
     let testoValue = testoInput.value;
     //check per tutti i campi
-    if(stelleValue === "") {
+    if (stelleValue === "") {
         errori += "Il numero di stelle non può essere vuoto.<br>";
 
     }
-    if(testoValue === "") {
+    if (testoValue === "") {
         errori += "Il testo della recensione non può essere vuoto.<br>";
 
     }
-    if(errori !== "") {
+    if (errori !== "") {
         document.getElementById("errore").innerHTML = errori;
         return;
     }
-    if(idRecensione===null)
+    if (idRecensione === null)
         // Se idRecensione è null, è una nuova recensione
         document.getElementById("formAggiungi").submit();
     else
@@ -110,8 +110,8 @@ async function checkForm(idRecensione) {
 async function send(idRecensione) {
     let stelleValue = document.getElementById("voto").value;
     let testoInput = document.getElementById("recensione").value;
-    
-    
+
+
     let data = await fetch("GestioneRecensioniServlet", {
         method: "POST",
         headers: {
@@ -124,7 +124,7 @@ async function send(idRecensione) {
         }),
     }).then(response => response.json()).catch(error => {
         console.error("Errore durante la modifica della recensione:", error);
-        return {success: false, message: "Errore durante la modifica della recensione."};
+        return { success: false, message: "Errore durante la modifica della recensione." };
     });
     if (data.result === "success") {
         console.log("Modifica effettuata con successo:", data);
