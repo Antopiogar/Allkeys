@@ -9,7 +9,7 @@ function onPageLoad() {
 
 let outsideClickHandler = null;
 
-async function search() {
+function search() {
     const stringaNavBar = document.getElementById('fastSearchBar').value;
     const searchBarContainer = document.querySelector('.searchBar');
 
@@ -24,16 +24,14 @@ async function search() {
     }
 
     if (stringaNavBar.length >= 3) {
-        try {
-            const response = await fetch(`./FastSearch?fastSearch=${encodeURIComponent(stringaNavBar)}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const jsonData = await response.json();
-
+        fetch(`./FastSearch?fastSearch=${encodeURIComponent(stringaNavBar)}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(jsonData => {
             if (jsonData["result"] === "successo") {
                 const articoli = jsonData["articoli"];
 
@@ -61,7 +59,6 @@ async function search() {
 
                 searchBarContainer.appendChild(dropdown);
 
-
                 outsideClickHandler = function (e) {
                     if (!searchBarContainer.contains(e.target)) {
                         dropdown.remove();
@@ -74,9 +71,10 @@ async function search() {
             } else {
                 console.log("Nessun risultato trovato.");
             }
-        } catch (error) {
+        })
+        .catch(error => {
             console.error("Errore durante la ricerca:", error);
-        }
+        });
     } else {
         console.log("Inserisci almeno 3 caratteri per avviare la ricerca.");
     }

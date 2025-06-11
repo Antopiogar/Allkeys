@@ -33,6 +33,15 @@
   </build>
 
   <dependencies>
+  		
+  	  <!-- Javax-->
+	  <dependency>
+	  <groupId>javax.servlet</groupId>
+	  <artifactId>javax.servlet-api</artifactId>
+	  <version>4.0.1</version>
+	  <scope>provided</scope>
+	</dependency>
+  
     <!-- MySQL Connector/J 9.2.0 -->
     <dependency>
       <groupId>com.mysql</groupId>
