@@ -36,7 +36,7 @@ public class DBConnection {
         }
     }
 
-    public static synchronized Connection getConnection() {
+    public static Connection getConnection() {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
@@ -46,10 +46,10 @@ public class DBConnection {
         }
     }
 
-    public static synchronized void releseConnection(Connection con) {
+    public static void releseConnection(Connection con) {
         if (con != null) {
             try {
-                con.close(); // Torna automaticamente al pool
+                con.close(); // Restituisce la connessione al pool
             } catch (SQLException e) {
                 System.err.println("❌ Errore nel rilascio della connessione:");
                 e.printStackTrace();
