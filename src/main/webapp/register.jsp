@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page session = "true" %>
+
+<%if(!(session.getAttribute("Nome") != null && !session.getAttribute("Nome").equals(""))){%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,3 +41,5 @@
 	<%@ include file="footer.jsp" %>
 </body>
 </html>
+<%}
+else{ response.sendRedirect(request.getContextPath() + "/index.jsp");}%>

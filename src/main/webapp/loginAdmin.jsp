@@ -3,6 +3,7 @@
 boolean loginFallito = Boolean.TRUE.equals(session.getAttribute("LoginFallito"));
 
 %>
+<%if(!(session.getAttribute("Nome") != null && !session.getAttribute("Nome").equals(""))){%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,3 +36,5 @@ boolean loginFallito = Boolean.TRUE.equals(session.getAttribute("LoginFallito"))
 	<%@ include file="footer.jsp" %>
 </body>
 </html>
+<%}
+else{ response.sendRedirect(request.getContextPath() + "/index.jsp");}%>
