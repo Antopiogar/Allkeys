@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
          version="6.0">
+         
+    <error-page>
+        <error-code>403</error-code>
+        <location>/errorPages/error403.jsp</location>
+    </error-page>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errorPages/error404.jsp</location>
+    </error-page>
 
-    
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errorPages/error500.jsp</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/errorPages/genericError.jsp</location>
+    </error-page>
 
 </web-app>
