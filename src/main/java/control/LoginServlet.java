@@ -74,7 +74,7 @@ public class LoginServlet extends HttpServlet {
 	
 				request.getSession().setAttribute("LoginFallito", true);
 				System.out.println("password errata admin");
-				response.sendRedirect(request.getContextPath() + "/loginAdmin.jsp");
+				response.sendRedirect(request.getContextPath() + "/login.jsp");
 			}
 			else {
 				//login Admin

@@ -15,32 +15,37 @@
 <body>
 <%@ include file="NavBar.jsp" %>
 <main>
-	<%
-	String emailEsistente = (String)session.getAttribute("EmailEsistente");
-	boolean loginFallito = Boolean.TRUE.equals(session.getAttribute("LoginFallito"));
-	if(emailEsistente!=null &&  emailEsistente.equalsIgnoreCase("esistente")){
-		out.print("Email già registrata<br>");
-		session.setAttribute("RisultatoLogin",null);
-
-	}
-	else if(emailEsistente!=null && emailEsistente.equalsIgnoreCase("non esistente")){
-		out.print("Registrazione riuscita<br>");
-		session.setAttribute("RisultatoLogin",null);
-	}
-	else if(loginFallito){
-		out.print("Email o password errati <br>");
-
-	}
 	
-	%>
 	<h1>Accedi</h1><br>
 	<form method = "POST" id="formLogin">
-		<div id="errore"></div>
 		<label for="email">Email</label>
-		<input type="email" name = "email" required id ="email">
+		<input type="email" name = "email" required id ="email" placeholder = "es. mario.rossi@email.it">
 		<br><br><label for="password">Password</label>
-		<input type="password" name = "password" required id ="pass">
-		<br><br><button type="submit" class="center-submit-button" onclick="check('user')">Accedi</button> 
+		<input type="password" name = "password" required id ="pass" placeholder="es. ProductKey12@">
+		<%
+			String emailEsistente = (String)session.getAttribute("EmailEsistente");
+			boolean loginFallito = Boolean.TRUE.equals(session.getAttribute("LoginFallito"));
+			boolean br = true;
+			if(emailEsistente!=null &&  emailEsistente.equalsIgnoreCase("esistente")){
+				%><br><br><div class = "messaggio-errore" id ="errorInfo">Email già registrata</div><%
+				br = false;
+				session.setAttribute("RisultatoLogin",null);
+			}
+			else if(emailEsistente!=null && emailEsistente.equalsIgnoreCase("non esistente")){
+				%><br><br><div class = "messaggio-successo" id ="errorInfo">Registrazione riuscita</div><%
+				br = false;
+				session.setAttribute("RisultatoLogin",null);
+			}
+			else if(loginFallito){
+				br = false;
+				%><br><br><div class = "messaggio-errore" id ="errorInfo">Email o password errati</div><%
+			}
+	
+	%>
+		
+		<%if(br == true){%><br><br><%}%><button type="submit" onclick="check('user')">Accedi</button>
+		<span>Non sei registrato? <a href = "register.jsp">Registrati ora</a></span>
+		<br><div id="errore"></div>
 	</form>
 </main>
 	<%@ include file="footer.jsp" %>

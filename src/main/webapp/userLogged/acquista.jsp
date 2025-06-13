@@ -2,6 +2,8 @@
 <%@ page session="true" %>
 <%@ page import="model.*" %>
 <%@ page import="java.util.ArrayList" %>
+
+<%if(request.getAttribute("acquistoInCorso") == null) response.sendRedirect(request.getContextPath()+"/index.jsp"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +22,7 @@
 
 <main>
 <%
+
     ArrayList<BeanCartaPagamento> carte = (ArrayList<BeanCartaPagamento>) request.getAttribute("carte");%>
 
 
@@ -47,8 +50,18 @@
         <div class="submit-container">
             <input type="submit" value="Procedi con il pagamento">
         </div>
-    </form>
+    </form><br>
 <% } %>
+<%Carrello cart = (Carrello) request.getSession().getAttribute("cart");
+BeanArticolo articolo = null; %>
+
+<%if(cart != null && !cart.isEmpty()){for (ArticoliCarrello i : cart.getArticoli()) {
+    articolo = i.getArticolo();%>
+    <br><div class="articolo-card">
+    	<img src="<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>" alt="Immagine articolo" style="max-width: 100%; height: auto;">
+        <p><%= articolo.getInfo() %></p>
+        <p>Quantità: <%= i.getQta() %></p>
+    </div><%}} %>
 </main>
 
 <%@ include file="../footer.jsp" %>

@@ -56,7 +56,7 @@
             <form action="CartServlet" method="POST">
                 <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>">
                 <input type="hidden" name="action" value="add">
-                <input type="submit" value="Aggiungi al carrello" class="center-submit-button">
+                <input type="submit" class="center-submit-button" value="Aggiungi al carrello">
             </form>
         </div>
     </div>

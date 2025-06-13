@@ -57,7 +57,7 @@ public class AddPaymentMethodServlet extends HttpServlet {
 		else {
 			System.out.println("DATI SMINCHI");
 		}
-		response.sendRedirect(request.getContextPath() + "/userLogged/profilo.jsp");
+		response.sendRedirect(request.getContextPath() + "/index.jsp");
 		
 		
 	}

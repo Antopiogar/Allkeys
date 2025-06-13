@@ -38,7 +38,7 @@
 <%@ include file="../NavBar.jsp" %>
 <main>
 <h1>Lista Ordini</h1>
-<form action="<%= request.getContextPath() %>/GestioneAdminServlet" method="get">
+<form action="<%= request.getContextPath() %>/GestioneAdmin" method="get">
 		<input type="hidden" name="AdminAction" value="viewAllUsersOrders">
         <label>Data Inizio: 
             <input type="date" name="dataInizio" value="<%= dataInizioStr %>">

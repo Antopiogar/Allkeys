@@ -39,20 +39,20 @@ function checkForm() {
 		.then(data => {
 			console.log("Response from GestioneAdmin:", data);
 			if (data.result === "success") {
+				document.getElementById("errore").className = "messaggio-successo";
 				document.getElementById("errore").innerHTML = "Articolo aggiunto con successo! Verrai reindirizzato tra 10 secondi.";
-				document.getElementById("errore").style.color = "green";
 				setTimeout(() => {
 					window.location.href = "./index.jsp";
 				}, 10000);
 			} else {
+				document.getElementById("errore").className = "messaggio-errore";
 				document.getElementById("errore").innerHTML = "Errore durante l'aggiunta dell'articolo: " + data.message;
-				document.getElementById("errore").style.color = "red";
 			}
 		})
 		.catch(error => {
 			console.error("Error during article addition:", error);
+			document.getElementById("errore").className = "messaggio-errore";
 			document.getElementById("errore").innerHTML = "Errore durante l'aggiunta dell'articolo. Riprova più tardi.";
-			document.getElementById("errore").style.color = "red";
 		});
 	document.getElementById("errore").hidden = false;
 	return false;

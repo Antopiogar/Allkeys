@@ -39,6 +39,7 @@ public class AcquistaServlet extends HttpServlet implements Serializable {
         ArrayList<BeanCartaPagamento> carte = CartaPagamentoDAO.loadCartaPagamentoByIdUtente(idUser);
 
         request.setAttribute("carte", carte);
+        request.setAttribute("acquistoInCorso", true);
         request.getRequestDispatcher("/userLogged/acquista.jsp").forward(request, response);
     }
 }

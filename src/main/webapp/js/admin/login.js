@@ -10,18 +10,22 @@ function check(sorgente) {
     let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     // Controllo se i campi sono vuoti
     if(email === "" || !emailRegex.test(email)) {
-        errore += "Email non può essere vuota o non valida<br>";
+        errore += "<br><br>Email non può essere vuota o non valida";
         document.getElementById("email").focus();
         isFocus = true;
     }
     if(pass === "" ) {
-        errore += "Password non può essere vuota<br>";
+        errore += "<br><br>Password non può essere vuota";
         if(!isFocus) {
             document.getElementById("pass").focus();
             isFocus = true;
         }
     }
     if(errore !== ""){
+		let errorInfoDiv = document.getElementById("errorInfo");
+		    if (errorInfoDiv) {
+		        errorInfoDiv.style.display="none";
+		    }
         document.getElementById("errore").className = "messaggio-errore";
         document.getElementById("errore").innerHTML = errore;
         return;
@@ -32,9 +36,13 @@ function check(sorgente) {
             form.action = "loginServlet";
         else
             form.action = "LoginAdminServlet";
-        console.log("Form is valid, submitting...");
-        document.getElementById("errore").className = "messaggio-successo";
-        document.getElementById("errore").innerHTML = "Login in corso...";
-        form.submit();
+			let errorInfoDiv = document.getElementById("errorInfo");
+			    if (errorInfoDiv) {
+			        errorInfoDiv.style.display="none";
+			    }
+        	console.log("Form is valid, submitting...");
+        	document.getElementById("errore").className = "messaggio-successo";
+        	document.getElementById("errore").innerHTML = "<br><br>Login in corso...";
+        	form.submit();
     }
 }
