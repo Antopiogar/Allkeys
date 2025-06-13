@@ -32,7 +32,7 @@
             <input type="hidden" value="<%= articolo.getIdArticolo() %>" name="idArticolo">
             <input type="number" value="<%= i.getQta() %>" min="0" max="99" name="quantita">
             <br><input type="hidden" value="changeQta" name="action">
-            <br><input type="submit" value="Modifica">
+            <br><input type="submit" value="Modifica Quantità">
         </form><br>
         <form action="CartServlet" method="POST">
             <input type="hidden" value="delete" name="action">

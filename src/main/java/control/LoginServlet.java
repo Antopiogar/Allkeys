@@ -12,24 +12,22 @@ import model.ComposizioneDAO;
 import model.OrdineDAO;
 import model.UtenteDAO;
 
-/**
- * Servlet implementation class LoginServlet
- */
 @WebServlet("/loginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-  
-	
-	
+       
     public LoginServlet() {
         super();
+        
     }
-    
-    //ADD
+
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		doPost(request,response);
 	}
 
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email,pass;
 		int idUser =-1;
@@ -38,14 +36,11 @@ public class LoginServlet extends HttpServlet {
 		email = request.getParameter("email");
 		pass = UtenteDAO.toSHA256(request.getParameter("password"));
 		idUser = uDao.login(email, pass);
-		System.out.println(idUser);
-		if(idUser == -1) {
-			System.out.println("idUser = "+ idUser);
-
-			request.getSession().setAttribute("LoginFallito", true);
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
-		}
-		else {
+		
+		
+		//Login user
+		if(idUser == 1) {
+			
 			Carrello c= (Carrello) request.getSession().getAttribute("cart");
 			Carrello DB = OrdineDAO.LoadCarrelByUser(idUser);
 			
@@ -65,10 +60,48 @@ public class LoginServlet extends HttpServlet {
 			request.getSession().setAttribute("Nome", nomeUser);
 			request.getSession().setAttribute("User", UtenteDAO.loadUserById(idUser));
 			request.getSession().setAttribute("isAdmin", false);
-			
 			response.sendRedirect("userLogged/profilo.jsp");
 
+		}
+		//login admin
+		else {
 			
+			idUser = uDao.loginAdmin(email, pass);
+			
+			if(idUser == -1) {
+				//login errato
+				System.out.println("idUser = "+ idUser);
+	
+				request.getSession().setAttribute("LoginFallito", true);
+				System.out.println("password errata admin");
+				response.sendRedirect(request.getContextPath() + "/loginAdmin.jsp");
+			}
+			else {
+				//login Admin
+				Carrello c= (Carrello) request.getSession().getAttribute("cart");
+				Carrello DB = OrdineDAO.LoadCarrelByUser(idUser);
+				
+				System.out.println("DB"+DB);
+				if(c == null) {
+					c = DB;
+				}
+				else {
+					c= Carrello.MergeCarrelli(DB,c);
+					ComposizioneDAO.SincronizzaCarrelli(idUser, c);
+				}
+				request.getSession().setAttribute("cart", c);
+				
+				nomeUser = uDao.loadNameById(idUser);
+				
+				request.getSession().setAttribute("idUser", idUser);
+				request.getSession().setAttribute("Nome", nomeUser);
+				request.getSession().setAttribute("User", UtenteDAO.loadUserById(idUser));
+				request.getSession().setAttribute("isAdmin", true);
+				response.sendRedirect("adminLogged/profiloAdmin.jsp");
+	
+			    
+				
+			}
 		}
 	}
 

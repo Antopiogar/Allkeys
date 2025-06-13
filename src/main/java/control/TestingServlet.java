@@ -282,6 +282,12 @@ public class TestingServlet extends HttpServlet {
 		ArrayList<BeanArticolo> fs = ArticoloDAO.fastSearch("punk");
 		System.out.println("fast = " + fs);
 	}
+	
+	@SuppressWarnings("unused")
+	private void TestAllOrdersWithTime() {
+		ArrayList<Acquisto> acquisti;
+		acquisti = OrdineDAO.loadOrdersByTime(LocalDateTime.parse("2025-01-01T15:30:45"), LocalDateTime.now());
+	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		TestFastSearch();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
