@@ -48,6 +48,3 @@ function switchPiattaforma() {
         document.getElementById("nuovaPiattaformaContainer").hidden = true;
     }
 }
-
-// Il resto del codice rimane invariato, senza l'uso di `async/await`.
-

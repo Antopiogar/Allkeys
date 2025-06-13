@@ -1,5 +1,5 @@
 
-Il progetto è sviluppato su java 22 e tomcat 9
+Il progetto è sviluppato su java 24 e tomcat 11
 
 Per far funzionare il database è necessario configuare le credenziali del Database dal file DBConnection.java presente in src/main/Java/model ed inserire il connettore a mysql nel folder lib di tomcat
 

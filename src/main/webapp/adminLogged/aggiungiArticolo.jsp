@@ -11,7 +11,7 @@
 	<title>Aggiungi articolo</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/AggiungiArticolo2.js" defer></script>
-	
+	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/aggiungiKey2.js" defer></script> <%//per checkForm() %>
 </head>
 <body>
 <jsp:include page="../NavBar.jsp" />

@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/Alert.css">
 
-<script type="text/javascript" src ="<%= request.getContextPath() %>/js/catalogo.js" defer></script>
+<script type="text/javascript" src ="<%= request.getContextPath() %>/js/Catalogo.js" defer></script>
 
 
 <title>Catalogo articoli</title>
@@ -62,6 +62,5 @@ Catalogo articoli <%= filtro != null ? filtro : "" %>
 </main>
 
 <%@ include file="footer.jsp" %>
-
 </body>
 </html>
