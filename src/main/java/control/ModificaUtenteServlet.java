@@ -3,11 +3,11 @@ package control;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import model.BeanUtente;
 import model.UtenteDAO;
@@ -40,8 +40,16 @@ public class ModificaUtenteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Object idUtente = request.getSession().getAttribute("idUser");
+		Object isAdmin = request.getSession().getAttribute("isAdmin");
+		boolean adminB = false;
 		if(idUtente == null) {
 			response.sendRedirect("../login.jsp");
+		}
+		if(isAdmin == null) {
+			adminB = false;
+		}
+		else {
+			adminB = (boolean)isAdmin;
 		}
 		BeanUtente user = new BeanUtente();
 		String nome,cognome,cf,email,dataHTML;
@@ -63,7 +71,12 @@ public class ModificaUtenteServlet extends HttpServlet {
 		request.getSession().setAttribute("risultatoModifica",result);
 		request.getSession().setAttribute("User",user);
 		request.getSession().setAttribute("Nome",user.getNome());
+		if(!adminB) { //se è un utente normale
 		response.sendRedirect("userLogged/profilo.jsp");
+		}
+		else {
+			response.sendRedirect("adminLogged/profiloAdmin.jsp");
+		}
 	}
 
 }

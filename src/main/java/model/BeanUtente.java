@@ -10,9 +10,18 @@ public class BeanUtente {
 	private String email;
 	private String cf;
 	private String pass;
+	private boolean isAdmin;
 	
 	public BeanUtente() {
 		
+	}
+	
+	public boolean getIsAdmin() {
+		return isAdmin;
+	}
+	
+	public void setIsAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
 	public int getIdUtente() {

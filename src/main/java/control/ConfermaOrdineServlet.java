@@ -3,9 +3,9 @@ package control;
 import model.Carrello;
 import model.OrdineDAO;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet("/ConfermaOrdineServlet")
@@ -34,10 +34,13 @@ public class ConfermaOrdineServlet extends HttpServlet {
                 int idCarta = Integer.parseInt(idCartaStr);
 
                 // Chiamata al DAO per confermare l'ordine
+                System.out.println("INIZIO ORDINE");
+                
                 status = OrdineDAO.ConfirmOrder(idUtente, idCarta);
-
+                System.out.println("FINE ORDINE");
                 // Svuota il carrello solo se ordine riuscito
                 if (status == 0) {
+                	
                     session.setAttribute("cart", new Carrello());
                 }
 

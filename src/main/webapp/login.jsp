@@ -6,9 +6,10 @@
 <meta charset="UTF-8">
 <title>Login</title>
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
+<script type="text/javascript" src ="<%= request.getContextPath() %>/js/login.js" defer></script>
+
 </head>
 <body>
-
 <%@ include file="NavBar.jsp" %>
 <main>
 	<%
@@ -28,14 +29,15 @@
 
 	}
 	
-	%> 
-	<h1>Accedi</h1>
-	<form action="loginServlet" method = "POST">
+	%>
+	<h1>Accedi</h1><br>
+	<form method = "POST" id="formLogin">
+		<div id="errore"></div>
 		<label for="email">Email</label>
 		<input type="email" name = "email" required id ="email">
 		<br><br><label for="password">Password</label>
-		<input type="password" name = "password" required id ="password">
-		<br><br><input type="submit" value="Accedi">
+		<input type="password" name = "password" required id ="pass">
+		<br><br><button type="submit" class="center-submit-button" onclick="check('user')">Accedi</button> 
 	</form>
 </main>
 	<%@ include file="footer.jsp" %>

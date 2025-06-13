@@ -3,13 +3,14 @@ package control;
 import java.io.IOException;
 import java.sql.Connection;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import model.Acquisto;
 import model.ArticoliCarrello;
@@ -17,6 +18,7 @@ import model.ArticoloDAO;
 import model.BeanArticolo;
 import model.BeanCartaPagamento;
 import model.BeanChiave;
+import model.BeanRecensione;
 import model.BeanUtente;
 
 import model.Carrello;
@@ -25,6 +27,7 @@ import model.ChiaveDAO;
 import model.ComposizioneDAO;
 import model.DBConnection;
 import model.OrdineDAO;
+import model.RecensioneDAO;
 import model.UtenteDAO;
 
 /**
@@ -59,8 +62,7 @@ public class TestingServlet extends HttpServlet {
 	
 	@SuppressWarnings("unused")
 	private void testCarrello() {
-		ArticoloDAO articoloDao= new ArticoloDAO();
-		ArrayList<BeanArticolo> articoli = articoloDao.loadAllDistinctArticles();
+		ArrayList<BeanArticolo> articoli = ArticoloDAO.loadAllDistinctArticles();
 		int qta;
 		
 		Carrello carrello = new Carrello();
@@ -178,9 +180,110 @@ public class TestingServlet extends HttpServlet {
 		System.out.println(ris);
 	}
 	
+	@SuppressWarnings("unused")
+	private void TestAggiungiChiaveEsistente() {
+		BeanArticolo art = ArticoloDAO.getArticoloById("7");
+		BeanChiave chiave = new BeanChiave();
+		chiave.setCodice("PIPPO FORTE SEMPRE");
+		int ris = ChiaveDAO.saveKey(art, chiave);
+		System.out.println(ris);
+	}
 	
+	@SuppressWarnings("unused")
+	private void TestAggiungiChiaveNuovoArticolo() {
+		BeanArticolo art = new BeanArticolo();
+		art.setLogo(ArticoloDAO.getNextLogo());
+		art.setDescrizione("DESCRIZIONE ACCURATA!!");
+		art.setNome("GIOCO BELLOOO!!");
+		art.setPiattaforma("PC");
+		art.setPrezzo((float) 10.99);
+		
+		BeanChiave chiave = new BeanChiave();
+		chiave.setCodice("PIPPO FORTE!!a");
+		int ris = ChiaveDAO.saveKey(art, chiave);
+		System.out.println(ris);
+	}
+	@SuppressWarnings("unused")
+	private void TestAggiungiRecensione() {
+		BeanUtente user = UtenteDAO.loadUserById(1);
+		
+		
+		BeanChiave chiave = new BeanChiave();
+		BeanRecensione rec = new BeanRecensione();
+		rec.setData(LocalDate.now());
+		rec.setVoto(1);
+		rec.setTesto("GIOCO MAI PROVATO MA VOLEVO METTERE COMUNQUE IL VOTO MINIMO");
+		rec.setUtenteRecensione(user);
+		boolean ris = RecensioneDAO.saveRecensione(rec, 5);
+		System.out.println(ris);
+	}
+	
+	@SuppressWarnings("unused")
+	private void TestVisualizzaRecensioniByIdArticolo() {
+		ArrayList<BeanRecensione> rec = RecensioneDAO.getRecensioniByIdArticolo("1");
+		
+		System.out.println(rec);
+	}
+	
+	@SuppressWarnings("unused")	private void TestModificaRecensione() {
+		ArrayList<BeanRecensione> rec = RecensioneDAO.getRecensioniByIdArticolo("1");
+		rec.get(0).setTesto("NON RECENSIONE");
+		rec.get(0).setVoto(2);
+		
+		RecensioneDAO.updateRecensione(rec.get(0));
+		
+		System.out.println(rec);
+	}
+	
+	@SuppressWarnings("unused")
+	private void TestEliminaRecensione() {
+		ArrayList<BeanRecensione> rec = RecensioneDAO.getRecensioniByIdArticolo("1");
+		RecensioneDAO.deleteRecensione(rec.get(0).getIdRecensione());
+		System.out.println(rec);
+	}
+	
+	@SuppressWarnings("unused")
+	private void TestModificaArticolo() {
+		BeanArticolo art = ArticoloDAO.getArticoloById("1");
+		art.setPrezzo((float)19.99 );
+		art.setNome("PIPPOPUNK");
+		
+		
+		ArticoloDAO.updateArticolo(art);
+		
+		System.out.println(art);
+	}
+	
+	@SuppressWarnings("unused")
+	private void TestEliminaArticolo() {
+		
+		System.out.println(ArticoloDAO.deleteArticolo(3));
+	}
+	@SuppressWarnings("unused")
+	private void TestExistsArticolo() {
+		BeanArticolo art = ArticoloDAO.getArticoloById("2");
+		System.out.println(ArticoloDAO.ExistArticolo(art));
+	}
+	
+	@SuppressWarnings("unused")
+	private void TestVisualizzaOrdiniFiltrato() {
+		ArrayList<Acquisto> acquisti = OrdineDAO.loadOrdersByIdUserAndTime(1, LocalDateTime.parse("2025-02-01T15:30:45"), LocalDateTime.now());
+		System.out.println(acquisti);
+	}
+	@SuppressWarnings("unused")
+
+	private void TestVisualizzaOrdiniConIdOrdine() {
+		Acquisto ac = OrdineDAO.loadOrderByIdOrder(4,1);
+		System.out.println(ac);
+	}
+	
+	@SuppressWarnings("unused")
+	private void TestFastSearch() {
+		ArrayList<BeanArticolo> fs = ArticoloDAO.fastSearch("punk");
+		System.out.println("fast = " + fs);
+	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		TestOrdinaChiave();
+		TestFastSearch();
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

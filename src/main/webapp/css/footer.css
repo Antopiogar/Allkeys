@@ -1,8 +1,15 @@
 
-.footer {
+footer {
     background-color: #0b0b0b;
     color: #ededed;
     text-align: center;
     padding: 15px;
     font-size: 16px;
+}
+
+@media (max-width: 480px) {
+    footer {
+        padding: 10px;
+        font-size: 14px;
+    }
 }

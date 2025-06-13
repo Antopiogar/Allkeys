@@ -4,15 +4,16 @@ public class BeanArticolo {
 	private int IdArticolo;
 	private String logo;
 	private String nome;
+	private String descrizione;
 	private String piattaforma;
-
 	private float prezzo;
 	
 	public BeanArticolo() {
-		// TODO Auto-generated constructor stub
+		IdArticolo =-1;
 	}
 	
-
+	
+	
 	public int getIdArticolo() {
 		return IdArticolo;
 	}
@@ -26,6 +27,14 @@ public class BeanArticolo {
 
 	public void setPrezzo(float prezzo) {
 		this.prezzo = prezzo;
+	}
+	
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
+	}
+	
+	public String getDescrizione() {
+		return this.descrizione;
 	}
 
 	public String getLogo() {

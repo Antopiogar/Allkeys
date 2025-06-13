@@ -31,7 +31,7 @@ public class CartaPagamentoDAO {
 			
 			
 			risultatoInserimento=ps.executeUpdate();
-			
+			System.out.println("risultato creazione carta = " + risultatoInserimento);
 				if(risultatoInserimento == 1) {
 					con.commit();
 					return true;

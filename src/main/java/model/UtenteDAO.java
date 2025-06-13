@@ -8,16 +8,66 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UtenteDAO {
 
-	private static Connection con;
 	
 	public UtenteDAO() {
 	}
 	
+	public static synchronized boolean checkEmailOnDB(String email) {
+		boolean ris = false;
+		Connection con = DBConnection.getConnection();
+		String query = "SELECT email FROM UTENTE WHERE EMAIL = ?";
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				if(rs.getString("email").equalsIgnoreCase(email)) {
+					ris = true;
+				}
+			}
+			ps.close();
+			rs.close();
+		}catch (Exception e) {
+			e.printStackTrace();		
+		}
+		
+		DBConnection.releseConnection(con);
+		return ris;
+	}
+	
+	public static synchronized ArrayList<BeanUtente> getUsers(){
+		ArrayList<BeanUtente> users = new ArrayList<BeanUtente>();
+		Connection con = DBConnection.getConnection();
+		String query = "SELECT * FROM utente";
+		ResultSet rs = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				BeanUtente utente = new BeanUtente();
+				utente.setNome(rs.getString("nome"));
+				utente.setCf(rs.getString("cf"));
+				utente.setDataNascita(rs.getDate("dataNascita").toLocalDate());
+				utente.setEmail(rs.getString("email"));
+				utente.setIdUtente(rs.getInt("IdUtente"));
+				utente.setCognome(rs.getString("cognome"));
+				utente.setPass(rs.getString("password"));
+				utente.setIsAdmin(rs.getBoolean("isAdmin"));
+				users.add(utente);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return users;
+	}
+	
 	public static synchronized BeanUtente loadUserById(int id) {
-		con=DBConnection.getConnection();
+		Connection con=DBConnection.getConnection();
 		String query = "SELECT * FROM UTENTE WHERE idUtente = ?";
 		ResultSet rs = null;
 		BeanUtente utente = null;
@@ -34,6 +84,7 @@ public class UtenteDAO {
 				utente.setIdUtente(rs.getInt("IdUtente"));
 				utente.setCognome(rs.getString("cognome"));
 				utente.setPass(rs.getString("password"));
+				utente.setIsAdmin(rs.getBoolean("isAdmin"));
 			}
 			DBConnection.releseConnection(con);
 
@@ -46,7 +97,7 @@ public class UtenteDAO {
 	}
 	
 	public synchronized int login(String email, String pass) {
-		con=DBConnection.getConnection();
+		Connection con=DBConnection.getConnection();
 		String query = "SELECT idUtente, email FROM UTENTE WHERE email = ? and password = ?";
 		ResultSet rs = null;
 		int id =-1;
@@ -94,7 +145,7 @@ public class UtenteDAO {
 	
 	public synchronized String register(BeanUtente user) {
 		
-		con=DBConnection.getConnection();
+		Connection con=DBConnection.getConnection();
 		String query = "INSERT INTO UTENTE (nome,cognome,dataNascita,email,cf,password) value (?,?,?,?,?,?);";
 		
 		ResultSet rs = null;
@@ -143,7 +194,7 @@ public class UtenteDAO {
 		
 	}
 	public synchronized String loadNameById(int id) {
-		con=DBConnection.getConnection();
+		Connection con=DBConnection.getConnection();
 		String query = "SELECT Utente.nome FROM UTENTE WHERE idUtente = ?";
 		ResultSet rs = null;
 		String utente = null;
@@ -165,7 +216,7 @@ public class UtenteDAO {
 	}
 
 	public static synchronized String modificaUtenteById(BeanUtente user) {
-		con = DBConnection.getConnection();
+		Connection con = DBConnection.getConnection();
 		int risQuery = 0;
 		String result = "";
 		String query ="""
@@ -205,6 +256,29 @@ public class UtenteDAO {
 		
 		DBConnection.releseConnection(con);
 		return result;
+	}
+	
+	public synchronized int loginAdmin(String email, String pass) {
+		Connection con=DBConnection.getConnection();
+		String query = "SELECT idUtente, email FROM UTENTE WHERE email = ? and password = ? and isAdmin=1";
+		ResultSet rs = null;
+		int id =-1;
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, email);
+			ps.setString(2, pass);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				if(rs.getString("email").equalsIgnoreCase(email))
+					id= rs.getInt("idUtente");
+			}
+			DBConnection.releseConnection(con);
+
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return id;
 	}
 	
 	

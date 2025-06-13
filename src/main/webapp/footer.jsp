@@ -7,9 +7,9 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/footer.css">
 </head>
 <body>
-	<div class="footer">
+	<footer>
 	&copy; 2025 - Allkeys - Tutti i diritti riservati<BR>
 	Autori: Di Perna Saverio e Gargiulo Antonio Pio	
-	</div>
+	</footer>
 </body>
 </html>

@@ -14,20 +14,14 @@
             margin-top: 20px;
         }
     </style>
-<jsp:include page="verificaLogin.jsp" />
 </head>
 <body>
 <%@ include file="../NavBar.jsp" %>
 
 <main>
 <%
-boolean redirect = Boolean.TRUE.equals(session.getAttribute("redirect"));
-if(redirect){
-	out.println("Errore, stai per essere reindirizzato al login...");
-}
-else{
-    ArrayList<BeanCartaPagamento> carte = (ArrayList<BeanCartaPagamento>) request.getAttribute("carte");
-%>
+    ArrayList<BeanCartaPagamento> carte = (ArrayList<BeanCartaPagamento>) request.getAttribute("carte");%>
+
 
 <% if (carte == null || carte.isEmpty()) { %>
     <h1>Nessuna carta memorizzata!</h1>
@@ -54,7 +48,7 @@ else{
             <input type="submit" value="Procedi con il pagamento">
         </div>
     </form>
-<% }} %>
+<% } %>
 </main>
 
 <%@ include file="../footer.jsp" %>
