@@ -5,6 +5,9 @@
     		isAdmin = (boolean)request.getSession().getAttribute("isAdmin");
     %>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/navbar2.css">
+        <script type="text/javascript">
+		var path = '<%= request.getContextPath()%>';
+	</script>
         <script type="text/javascript" src ="<%= request.getContextPath() %>/js/Search2.js" defer></script>
     
     <nav class="navbar">

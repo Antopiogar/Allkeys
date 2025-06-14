@@ -24,7 +24,7 @@ function search() {
     }
 
     if (stringaNavBar.length >= 3) {
-        fetch(`./FastSearch?fastSearch=${encodeURIComponent(stringaNavBar)}`, {
+        fetch(`${path}/FastSearch?fastSearch=${encodeURIComponent(stringaNavBar)}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
