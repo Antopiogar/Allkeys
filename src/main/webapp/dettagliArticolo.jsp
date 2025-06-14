@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script type="text/javascript" src ="<%= request.getContextPath() %>/js/Search2.js" defer></script>
-<script type="text/javascript" src ="<%= request.getContextPath() %>/js/dettagliArticolo.js" defer></script>
+<script type="text/javascript" src ="<%= request.getContextPath() %>/js/DettagliArticolo.js" defer></script>
 
 
 </head>
@@ -40,11 +40,17 @@
 
     <% if (request.getAttribute("result") != null) { %>
         <% if (result) { %>
-            <p>Recensione creata correttamente!</p>
+        	<div class="messaggio-successo" id="messaggio">
+          	  <p>Recensione creata correttamente!</p>
+            </div>
         <% } else { %>
-            <p>Recensione non creata!</p>
+        	<div class="messaggio-errore" id="messaggio">
+            	<p>Recensione non creata!</p>
+            </div>
         <% } %>
-    <% } %>
+       
+    <% request.setAttribute("result", null);
+    } %>
 
     <div class="dettagli-wrapper">
         <div class="dettagli-img">
@@ -56,7 +62,7 @@
             <form action="CartServlet" method="POST">
                 <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>">
                 <input type="hidden" name="action" value="add">
-                <input type="submit" class="center-submit-button" value="Aggiungi al carrello">
+                <input type="submit" value="Aggiungi al carrello" class="center-submit-button">
             </form>
         </div>
     </div>
@@ -128,7 +134,7 @@
 	                    <option value="4">4 - ⭐⭐⭐⭐</option>
 	                    <option value="5">5 - ⭐⭐⭐⭐⭐</option>
 	                </select><br>
-	                <textarea name="recensione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+	                <textarea name="recensione" id="recensione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
 	                <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>"><br>
 					<button type="button" onclick="checkForm()">Aggiungi recensione</button>
 

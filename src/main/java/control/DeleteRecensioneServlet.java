@@ -17,15 +17,7 @@ import model.*;
 public class DeleteRecensioneServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public DeleteRecensioneServlet() {
-        super();
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         int idUser = -1;
         if (session.getAttribute("idUser") != null) {
@@ -66,7 +58,6 @@ public class DeleteRecensioneServlet extends HttpServlet {
         ArrayList<BeanRecensione> recensioni = RecensioneDAO.getRecensioniByIdArticolo(String.valueOf(idArticolo));
         BeanArticolo articoloInfo = ArticoloDAO.getArticoloById(String.valueOf(idArticolo));
 
-        request.setAttribute("result", result);
         request.setAttribute("recensioni", recensioni);
         request.setAttribute("articoloInfo", articoloInfo);
         request.setAttribute("idUser", idUser);
