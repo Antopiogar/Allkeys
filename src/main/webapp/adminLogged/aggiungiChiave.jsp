@@ -33,7 +33,7 @@
 	<form action="<%= request.getContextPath() %>/GestioneAdmin" method="POST">
 		<input type="hidden" value="addSettedKey" name="AdminAction">
 		
-		<label for="articolo">Gioco</label><br>
+		<label for="articolo">Gioco*</label><br>
 		<select name="idArticolo" id="articolo">
 			<%-- Carica gli articoli nel menu a tendina --%>
 			<% for (BeanArticolo articolo : articoli) { %>
@@ -41,11 +41,11 @@
 			<% } %>
 		</select>
 		<br><br>
-		<label for="codice">Codice</label><br>
-		<input type="text" name="codice" id="codice">
+		<label for="codice">Codice*</label><br>
+		<input type="text" name="codice" id="codice" placeholder = "es. KEY-GAME-XBOX-001">
 		<br><br>
-
-		<button type="button"  class="center-submit-button" onclick="checkForm()">Aggiungi chiave di gioco</button> 
+		<p>* campo obbligatorio</p><br>
+		<button type="button" class="center-button" onclick="checkForm()">Aggiungi chiave di gioco</button> 
 	</form>
 
 </main>

@@ -18,10 +18,11 @@
 	
 	<h1>Accedi</h1><br>
 	<form method = "POST" id="formLogin">
-		<label for="email">Email</label>
+		<label for="email">Email*</label>
 		<input type="email" name = "email" required id ="email" placeholder = "es. mario.rossi@email.it">
-		<br><br><label for="password">Password</label>
+		<br><br><label for="password">Password*</label>
 		<input type="password" name = "password" required id ="pass" placeholder="es. ProductKey12@">
+		<br><br><span>* campo obbligatorio</span>
 		<%
 			String emailEsistente = (String)session.getAttribute("EmailEsistente");
 			boolean loginFallito = Boolean.TRUE.equals(session.getAttribute("LoginFallito"));

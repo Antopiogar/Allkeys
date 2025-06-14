@@ -18,7 +18,7 @@
 	<%
 	boolean registrazioneFallita = Boolean.TRUE.equals(session.getAttribute("LoginFallito"));
 	if(registrazioneFallita)
-		out.print("Registrazione Fallita, riprova");
+		%><br><div class = "messaggio-errore" id ="errorInfo">Registrazione Fallita, riprova</div><%
 	%>
 	<form id="form" action="registerServlet" method = "POST">
 		<div id="error" hidden="true">
@@ -35,9 +35,10 @@
 		<input type="email" name = "email" required id ="email" placeholder = "es. mario.rossi@email.it">
 		<br><br><label for="password">Password*</label>
 		<input type="password" name = "password" required id ="password" placeholder="es. ProductKey12@">
-		<br><br><button type="button" onclick="register()">Registrati</button>
-		<span>Sei già registrato? <a href = "login.jsp">Accedi</a></span>
 		<br><br><p>* campo obbligatorio</p>
+		<br><button type="button" onclick="register()">Registrati</button>
+		<span>Sei già registrato? <a href = "login.jsp">Accedi</a></span>
+		
 	</form>
 	
 </main>

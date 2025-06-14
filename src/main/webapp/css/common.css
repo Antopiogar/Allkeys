@@ -376,6 +376,11 @@ input[type="submit"].center-submit-button{
 	text-align: center;
 }
 
+.center-button{
+	display: block;
+	margin: 0 auto;
+}
+
 code{
 	background-color:#1e1e1e;
 	padding:5px 10px;

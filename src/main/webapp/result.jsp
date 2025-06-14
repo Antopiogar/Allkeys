@@ -50,7 +50,7 @@ Catalogo articoli <%= filtro != null ? filtro : "" %>
     </a><br>
     <%
     if(session.getAttribute("isAdmin") != null) isAdmin = (boolean) session.getAttribute("isAdmin");
-    if(isAdmin==true){ %><a href="UpdateArticolo?articolo=<%=articolo.getIdArticolo()%>"><button>✏️</button></a>
+    if(isAdmin==true){ %><a href="UpdateArticolo?articolo=<%=articolo.getIdArticolo()%>&edit=view"><button>✏️</button></a>
   	<button onclick="elimina(<%=articolo.getIdArticolo() %>,'<%=articolo.getNome()%>')">🗑️</button>
     <%} %>
 </div>

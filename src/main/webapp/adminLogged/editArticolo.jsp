@@ -11,7 +11,6 @@
     }
 
     ArrayList<BeanRecensione> recensioni = (ArrayList<BeanRecensione>) request.getAttribute("recensioni");
-
     int idUser = (int) request.getAttribute("idUser");
     boolean isAdmin = (boolean) request.getAttribute("isAdmin");
 
@@ -19,57 +18,72 @@
     if(request.getAttribute("result") != null){
         result = (boolean) request.getAttribute("result");
     }
+    ArrayList<String> piattaforme = null;
+    if(request.getAttribute("piattaforme") != null){ piattaforme = (ArrayList<String>) request.getAttribute("piattaforme");}
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Modifica articolo: <%= articolo.getNome() %></title>
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script type="text/javascript" src ="<%= request.getContextPath() %>/js/Search2.js" defer></script>
-<script type="text/javascript" src ="<%= request.getContextPath() %>/js/dettagliArticolo.js" defer></script>
-
-
+    <meta charset="UTF-8">
+    <title>Modifica articolo: <%= articolo.getNome() %></title>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script type="text/javascript" src ="<%= request.getContextPath() %>/js/Search2.js" defer></script>
+    <script type="text/javascript" src ="<%= request.getContextPath() %>/js/dettagliArticolo.js" defer></script>
 </head>
 <body>
 <%@ include file="../NavBar.jsp" %>
+
 <main>
-	<h1>Modifica articolo: <%=articolo.getNome() %></h1>
+    <h1>Modifica articolo: <%=articolo.getNome() %></h1>
 
     <div class="dettagli-wrapper">
         <div class="dettagli-img">
-            <img src="<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>" alt="Immagine articolo">
+            <img id="previewImage" src="<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>" alt="Immagine articolo" style="max-width: 200px; display: block; margin: 0 auto;">
         </div>
         <div class="dettagli-info">
-        	<p class="center-text"><strong>Nome:</strong><br> <textarea id = "nomeArticolo" rows="1" cols="25"><%=articolo.getNome()%></textarea></p>
-            <p class="center-text"><strong>Piattaforma:</strong><br> <textarea id = "piattaformaArticolo" rows="1" cols="25"><%=articolo.getPiattaforma()%></textarea></p>
-            <p class="center-text"><strong>Prezzo:</strong><br> <textarea id = "prezzoArticolo" rows="1" cols="25"><%=articolo.getPrezzo()%></textarea></p>
+            <p class="center-text"><strong>Nome:</strong><br>
+                <textarea id="nomeArticolo" rows="1" cols="25"><%=articolo.getNome()%></textarea>
+            </p>
+            <p class="center-text"><strong>Piattaforma:</strong><br>
+                <select id="piattaformaArticolo">
+                    <% for(String i : piattaforme) { %>
+                        <option value="<%=i%>"><%=i%></option>
+                    <% } %>
+                </select>
+            </p>
+            <p class="center-text"><strong>Prezzo:</strong><br>
+                <textarea id="prezzoArticolo" rows="1" cols="25"><%=articolo.getPrezzo()%></textarea>
+            </p>
+            <p class="center-text"><strong>Scegli un'immagine per cambiare quella presente:</strong><br>
+                <input type="file" id="fileInput" name="immagine" accept="image/*">
+            </p>
         </div>
     </div>
 
     <div class="descrizione">
         <h2>Descrizione</h2>
         <p class="center-text"><br> 
-  <textarea id="descrizioneArticolo" rows="15" cols="50"><%= articolo.getDescrizione() %></textarea></p>
+            <textarea id="descrizioneArticolo" rows="15" cols="50"><%= articolo.getDescrizione() %></textarea>
+        </p>
     </div>
 
     <div class="recensioni">
         <h2>Recensioni</h2>
-        
+
         <% if (request.getAttribute("deleteMessage") != null) { %>
-    <br><div class="messaggio-info">
-        <%= request.getAttribute("deleteMessage") %>
-    </div>
-<% } %>
+            <br><div class="messaggio-info">
+                <%= request.getAttribute("deleteMessage") %>
+            </div>
+        <% } %>
+
         <%
         boolean existsRecensione = false;
-            if (recensioni != null && !recensioni.isEmpty()) {
-            	
-                for (BeanRecensione rec : recensioni) {
-                	if(rec.getUtenteRecensione().getIdUtente() == idUser)
-                		existsRecensione = true;
+        if (recensioni != null && !recensioni.isEmpty()) {
+            for (BeanRecensione rec : recensioni) {
+                if(rec.getUtenteRecensione().getIdUtente() == idUser)
+                    existsRecensione = true;
         %>
             <div class="recensione-card" id="recensione<%=rec.getIdRecensione() %>">
                 <div class="recensione-header">
@@ -94,21 +108,41 @@
                 <% } %>
                 <% if(isAdmin || (rec.getUtenteRecensione().getIdUtente() == idUser && idUser != -1)) { %>
                     <form action="<%= request.getContextPath() %>/DeleteRecensioneServlet" method="post" style="display:inline;">
-    					<input type="hidden" name="idRec" value="<%= rec.getIdRecensione() %>">
-    					<input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>">
-    					<input type="submit" value="🗑️" title="Elimina recensione">
-					</form>
-
+                        <input type="hidden" name="idRec" value="<%= rec.getIdRecensione() %>">
+                        <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>">
+                        <input type="submit" value="🗑️" title="Elimina recensione">
+                    </form>
                 <% } %>
             </div><br>
-        <%      }
-            } else {
-        %>
+        <% }
+        } else { %>
             <p>Nessuna recensione disponibile per questo articolo.</p>
         <% } %>
     </div>
+
+    <br><br><button onclick="">Modifica</button>
 </main>
 
 <%@ include file="../footer.jsp" %>
+
+<script>
+document.getElementById("fileInput").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById("previewImage");
+    const originalSrc = "<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>";
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = originalSrc;
+    }
+});
+</script>
+
+
 </body>
 </html>
