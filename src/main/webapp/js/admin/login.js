@@ -41,7 +41,7 @@ function check(sorgente) {
 			        errorInfoDiv.style.display="none";
 			    }
         	console.log("Form is valid, submitting...");
-        	document.getElementById("errore").className = "messaggio-successo";
+        	document.getElementById("errore").className = "messaggio-info";
         	document.getElementById("errore").innerHTML = "<br><br>Login in corso...";
         	form.submit();
     }
