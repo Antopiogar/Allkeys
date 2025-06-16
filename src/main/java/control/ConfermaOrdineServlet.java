@@ -37,6 +37,7 @@ public class ConfermaOrdineServlet extends HttpServlet {
                 System.out.println("INIZIO ORDINE");
                 
                 status = OrdineDAO.ConfirmOrder(idUtente, idCarta);
+                
                 System.out.println("FINE ORDINE");
                 // Svuota il carrello solo se ordine riuscito
                 if (status == 0) {

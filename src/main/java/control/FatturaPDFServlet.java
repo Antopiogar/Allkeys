@@ -27,15 +27,15 @@ public class FatturaPDFServlet extends HttpServlet {
 		
 		
 		
-		 Fattura fatt = null;
+		Fattura fatt = null;
 
         Path directoryPath = Paths.get("C:/Allkeys/fatture");
 
         Object idOrdineParametro = request.getParameter("idOrdine");
-        Object idUtente = request.getSession().getAttribute("idUser");
 
         int idOrdine = Integer.parseInt((String) idOrdineParametro);
-        Acquisto ordine = OrdineDAO.loadOrderByIdOrder(idOrdine, (int) idUtente);
+        
+        Acquisto ordine = OrdineDAO.loadOrderByIdOrder(idOrdine);
         
         
         System.out.println("acquisto = "+ordine);

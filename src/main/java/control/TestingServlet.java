@@ -273,7 +273,7 @@ public class TestingServlet extends HttpServlet {
 	@SuppressWarnings("unused")
 
 	private void TestVisualizzaOrdiniConIdOrdine() {
-		Acquisto ac = OrdineDAO.loadOrderByIdOrder(4,1);
+		Acquisto ac = OrdineDAO.loadOrderByIdOrder(4);
 		System.out.println(ac);
 	}
 	

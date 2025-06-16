@@ -530,12 +530,13 @@ WHERE
 	}
 
 
-	public static synchronized Acquisto loadOrderByIdOrder(int idOrdine, int idUtente) {
+	public static synchronized Acquisto loadOrderByIdOrder(int idOrdine) {
 		ArrayList<Acquisto> acquisti = new ArrayList<>();
 		Connection con = DBConnection.getConnection();
 		try {
 			String query="""
 					select distinct 
+						o.fkUtente as idUtente,
 					    o.idOrdine ,
 					    o.dataAcquisto,
 					    o.fattura as fattura,
@@ -585,7 +586,7 @@ WHERE
 	        	}
 	        	//altrimenti inizializza un nuovo acquisto con all'interno il prodotto
 	        	else {
-			        Acquisto ac = new Acquisto(idUtente);
+			        Acquisto ac = new Acquisto(rs.getInt("idUtente"));
 			        BeanCartaPagamento carta = new BeanCartaPagamento();
 			        carta.setIdCarta(rs.getInt("idCarta"));
 			        carta.setnCarta(rs.getString("nCarta"));
