@@ -29,8 +29,26 @@
     <title>Modifica articolo: <%= articolo.getNome() %></title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script type="text/javascript" src ="<%= request.getContextPath() %>/js/Search2.js" defer></script>
-    <script type="text/javascript" src ="<%= request.getContextPath() %>/js/dettagliArticolo.js" defer></script>
+    <script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/ModificaArticolo.js" defer></script>
+	<script>
+		var IdArt = '<%=articolo.getIdArticolo() %>';
+		document.getElementById("fileInput").addEventListener("change", function(event) {
+		    const file = event.target.files[0];
+		    const preview = document.getElementById("previewImage");
+		    const originalSrc = "<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>";
+		
+		    if (file) {
+		        const reader = new FileReader();
+		        reader.onload = function(e) {
+		            preview.src = e.target.result;
+		        }
+		        reader.readAsDataURL(file);
+		    } else {
+		        preview.src = originalSrc;
+		    }
+		});
+	</script>
+
 </head>
 <body>
 <%@ include file="../NavBar.jsp" %>
@@ -42,30 +60,32 @@
         <div class="dettagli-img">
             <img id="previewImage" src="<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>" alt="Immagine articolo" style="max-width: 200px; display: block; margin: 0 auto;">
         </div>
-        <div class="dettagli-info">
+        <form class="dettagli-info">
             <p class="center-text"><strong>Nome:</strong><br>
-                <textarea id="nomeArticolo" rows="1" cols="25"><%=articolo.getNome()%></textarea>
+                <textarea id="nome" rows="1" cols="25"><%=articolo.getNome()%></textarea>
             </p>
             <p class="center-text"><strong>Piattaforma:</strong><br>
-                <select id="piattaformaArticolo">
-                    <% for(String i : piattaforme) { %>
-                        <option value="<%=i%>"><%=i%></option>
-                    <% } %>
+                <select id="piattaforma">
                 </select>
             </p>
+            <div id="nuovaPiattaformaContainer" class="center-text" hidden="true">
+		    	<br><br>
+		    	<label for="nuovaPiattaforma">Nuova Piattaforma</label><br>
+				<input type="text" name="nuovaPiattaforma" id="nuovaPiattaforma" placeholder ="es. PS6">
+			</div>
             <p class="center-text"><strong>Prezzo:</strong><br>
-                <textarea id="prezzoArticolo" rows="1" cols="25"><%=articolo.getPrezzo()%></textarea>
+                <textarea id="prezzo" rows="1" cols="25"><%=articolo.getPrezzo()%></textarea>
             </p>
             <p class="center-text"><strong>Scegli un'immagine per cambiare quella presente:</strong><br>
                 <input type="file" id="fileInput" name="immagine" accept="image/*">
             </p>
-        </div>
+        </form>
     </div>
 
     <div class="descrizione">
         <h2>Descrizione</h2>
         <p class="center-text"><br> 
-            <textarea id="descrizioneArticolo" rows="15" cols="50"><%= articolo.getDescrizione() %></textarea>
+            <textarea id="descrizione" rows="15" cols="50"><%= articolo.getDescrizione() %></textarea>
         </p>
     </div>
 
@@ -120,29 +140,12 @@
         <% } %>
     </div>
 
-    <br><br><button onclick="">Modifica</button>
+    <br><br><button onclick="checkForm()">Modifica</button>
+    <div id="errore">
+    </div>
 </main>
 
 <%@ include file="../footer.jsp" %>
-
-<script>
-document.getElementById("fileInput").addEventListener("change", function(event) {
-    const file = event.target.files[0];
-    const preview = document.getElementById("previewImage");
-    const originalSrc = "<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>";
-
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            preview.src = e.target.result;
-        }
-        reader.readAsDataURL(file);
-    } else {
-        preview.src = originalSrc;
-    }
-});
-</script>
-
 
 </body>
 </html>

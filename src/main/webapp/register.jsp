@@ -21,8 +21,7 @@
 		%><br><div class = "messaggio-errore" id ="errorInfo">Registrazione Fallita, riprova</div><%
 	%>
 	<form id="form" action="registerServlet" method = "POST">
-		<div id="error" hidden="true">
-		</div>
+		
 		<label for="nome">Nome*</label>
 		<input type="text" name = "nome" required id ="nome" placeholder="es. Mario">
 		<br><br><label for="cognome">Cognome*</label>
@@ -36,6 +35,8 @@
 		<br><br><label for="password">Password*</label>
 		<input type="password" name = "password" required id ="password" placeholder="es. ProductKey12@">
 		<br><br><p>* campo obbligatorio</p>
+		<div id="error" hidden="true">
+		</div>
 		<br><button type="button" onclick="register()">Registrati</button>
 		<span>Sei già registrato? <a href = "login.jsp">Accedi</a></span>
 		

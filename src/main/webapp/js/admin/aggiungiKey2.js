@@ -7,9 +7,6 @@ function checkForm() {
 	let errorMsg = "";
 	let focusErrore = false;
 
-
-
-
 	if (codice === "") {
 		errorMsg += "Compila tutti i campi <br>";
 		if (!focusErrore) {

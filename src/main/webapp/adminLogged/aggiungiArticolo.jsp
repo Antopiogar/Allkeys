@@ -10,8 +10,7 @@
 	<meta charset="UTF-8">
 	<title>Aggiungi articolo</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
-	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/AggiungiArticolo2.js" defer></script>
-	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/aggiungiKey2.js" defer></script> <%//per checkForm() %>
+	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/aggiungiArticolo3.js" defer></script>
 </head>
 <body>
 <jsp:include page="../NavBar.jsp" />
@@ -26,7 +25,7 @@
 		}
 	%>
 	<br><h1>Aggiungi un nuovo articolo</h1><br>
-		<div id="errore" style="color: red; margin-bottom: 10px;"></div>
+		<div id="errore" style="margin-bottom: 10px;"></div>
 		<form action="<%= request.getContextPath() %>/AggiungiArticolo" method = "POST" enctype="multipart/form-data">
 			<input type="hidden" value="addSettedArticolo" name="AdminAction">
 			<label for="nome">Nome</label><br>
@@ -40,7 +39,7 @@
 			<br><br><label for="piattaforma">Piattaforma</label><br>
 			<select name="piattaforma" id="piattaforma" onchange="switchPiattaforma()"></select>
 			<div id="nuovaPiattaformaContainer" hidden="true">
-		    	<br><br>
+		    	<br>
 		    	<label for="nuovaPiattaforma">Nuova Piattaforma</label><br>
 				<input type="text" name="nuovaPiattaforma" id="nuovaPiattaforma" placeholder ="es. PS6">
 			</div>

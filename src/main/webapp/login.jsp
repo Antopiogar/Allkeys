@@ -46,7 +46,7 @@
 		
 		<%if(br == true){%><br><br><%}%><button type="submit" onclick="check('user')">Accedi</button>
 		<span>Non sei registrato? <a href = "register.jsp">Registrati ora</a></span>
-		<br><div id="errore"></div>
+		
 	</form>
 </main>
 	<%@ include file="footer.jsp" %>

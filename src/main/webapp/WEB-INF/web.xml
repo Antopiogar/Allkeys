@@ -21,5 +21,14 @@
         <exception-type>java.lang.Throwable</exception-type>
         <location>/errorPages/genericError.jsp</location>
     </error-page>
-
+	<servlet>
+        <servlet-name>default</servlet-name>
+        <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+        <init-param>
+            <param-name>caching</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </servlet>
+    
 </web-app>
+

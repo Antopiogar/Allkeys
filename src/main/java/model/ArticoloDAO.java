@@ -189,6 +189,7 @@ public class ArticoloDAO {
 		try (Connection con = DBConnection.getConnection();
 			 PreparedStatement ps = con.prepareStatement(query)) {
 
+			System.out.println("art =" + art );
 			ps.setString(1, art.getNome());
 			ps.setFloat(2, art.getPrezzo());
 			ps.setString(3, art.getPiattaforma());
