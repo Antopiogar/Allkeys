@@ -28,7 +28,7 @@ public class ArticoloDAO {
 
 	public static synchronized ArrayList<BeanArticolo> loadAllDistinctArticles() {
 		ArrayList<BeanArticolo> articoli = new ArrayList<>();
-		String query = "SELECT DISTINCT * FROM ARTICOLO";
+		String query = "SELECT DISTINCT * FROM ARTICOLO order by idArticolo asc";
 
 		try (Connection con = DBConnection.getConnection();
 			 PreparedStatement ps = con.prepareStatement(query);

@@ -350,7 +350,8 @@ SELECT DISTINCT
 FROM
     Articolo AS a
 JOIN Chiave AS c ON a.idArticolo = c.FkArticolo
-WHERE c.FkOrdine IS NULL;
+WHERE c.FkOrdine IS NULL
+order by a.nome asc;
 
 DROP VIEW IF EXISTS N_Chiavi_Disponibili;
 CREATE VIEW N_Chiavi_Disponibili AS
