@@ -24,6 +24,7 @@ function check(sorgente) {
     if (errore !== "") {
         document.getElementById("errorInfo").className = "messaggio-errore";
         document.getElementById("errorInfo").innerHTML = errore;
+		document.getElementById("errorInfo").style.display= "block"
         return;
     }
     else {
@@ -35,6 +36,7 @@ function check(sorgente) {
         console.log("Form is valid, submitting...");
         document.getElementById("errorInfo").className = "messaggio-successo";
         document.getElementById("errorInfo").innerHTML = "Login in corso...";
+		document.getElementById("errorInfo").style.display= "block"
         form.submit();
     }
 }

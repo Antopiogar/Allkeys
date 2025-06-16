@@ -41,6 +41,10 @@
 				br = false;
 				%><br><br><div class = "messaggio-errore" id ="errorInfo">Email o password errati</div><%
 			}
+			else{
+				br = false;
+				%><br><br><div class = "messaggio-errore" id ="errorInfo" style="display: none"></div><%
+			}
 	
 	%>
 		
