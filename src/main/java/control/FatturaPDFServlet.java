@@ -25,76 +25,68 @@ public class FatturaPDFServlet extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
-		
 		Fattura fatt = null;
 
-        Path directoryPath = Paths.get("C:/Allkeys/fatture");
+        String realPath = getServletContext().getRealPath("/fatture");
+        Path directoryPath = Paths.get(realPath);
 
-        Object idOrdineParametro = request.getParameter("idOrdine");
-
-        int idOrdine = Integer.parseInt((String) idOrdineParametro);
+        String idOrdineParametro = request.getParameter("idOrdine");
+        int idOrdine = Integer.parseInt(idOrdineParametro);
         
+
         Acquisto ordine = OrdineDAO.loadOrderByIdOrder(idOrdine);
         
-        
-        System.out.println("acquisto = "+ordine);
-        System.out.println("path "+ ordine.getOrdine().getFattura());
+        System.out.println("acquisto = " + ordine);
+        System.out.println("path = " + ordine.getOrdine().getFattura());
+
         Path filePath = directoryPath.resolve(ordine.getOrdine().getFattura());
 
         boolean genera = false;
         
         try {
-            
             if (Files.notExists(directoryPath)) {
                 Files.createDirectories(directoryPath);
-            } 
-            System.out.println(filePath);
-            // Controlla e crea il file se non esiste
+            }
+
+            System.out.println("Percorso file: " + filePath);
+
             if (Files.notExists(filePath)) {
-            	
-                fatt = new Fattura(ordine, "C:/Allkeys/fatture/"+ordine.getOrdine().getFattura());
+                String fatturaCompletaPath = filePath.toString();
+                fatt = new Fattura(ordine, fatturaCompletaPath);
                 genera = fatt.genera();
-                if(genera) {
+                if (genera) {
                     System.out.println("File creato con successo.");
-                }
-                else {
-                	System.out.println("ERRORE NELLA GENERAZIONE");
+                } else {
+                    System.out.println("ERRORE NELLA GENERAZIONE");
                 }
             } else {
                 System.out.println("Il file esiste già.");
             }
-          //imposta i parametri per la resituzione di PDF
-    		String mimeType = getServletContext().getMimeType(filePath.toString());
+
+            String mimeType = getServletContext().getMimeType(filePath.toString());
             if (mimeType == null) {
-                mimeType = "application/octet-stream"; // tipo generico
+                mimeType = "application/octet-stream"; 
             }
 
-            // Imposta intestazioni della risposta
             response.setContentType(mimeType);
             response.setContentLengthLong(Files.size(filePath));
             response.setHeader("Content-Disposition", "attachment; filename=\"" + filePath.getFileName().toString() + "\"");
+
             try (OutputStream out = response.getOutputStream()) {
                 Files.copy(filePath, out);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("ERRORE NEL TRASFERIMENTO PDF");
             }
-            catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("ERRORE NEL TRASFERIMENTO PDF");
-			}
 
-            
         } catch (IOException e) {
             System.err.println("Errore durante la creazione del file o della cartella:");
             e.printStackTrace();
         }
     }
-		
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);
-	}	
-		
-	
-
-
+	}
 }
