@@ -97,6 +97,7 @@ function checkForm() {
     divError.hidden = false;
     if (errorMsg) {
         divError.innerHTML = errorMsg;
+        divError.classList.add('message-errore');
         return false;
     } else {
         divError.hidden = true;

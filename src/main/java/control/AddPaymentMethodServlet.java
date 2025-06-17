@@ -1,8 +1,9 @@
 package control;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,49 +16,47 @@ import model.BeanCartaPagamento;
 import model.CartaPagamentoDAO;
 import model.UtenteDAO;
 
-@WebServlet("/AddPaymentMethodServlet")
+@WebServlet("/AddPaymentMethod")
 public class AddPaymentMethodServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-
-    public AddPaymentMethodServlet() {
-        super();
-        
-    }
-
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		doPost(request,response);
-	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sessione = request.getSession();
 		Object objectID = sessione.getAttribute("idUser");
-		Integer id = -1;
+		Integer id = -1; 
 		if (objectID != null) id = (Integer) objectID;
 		String titolare= request.getParameter("titolare");
-		String cvc = (request.getParameter("cvc"));
-
-		String scadenzaStr = request.getParameter("scadenza");
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate scadenza = LocalDate.parse(scadenzaStr, formatter);
-		
+		String cvc = request.getParameter("cvc");
+		String scadenza = request.getParameter("scadenza");
 		String numeroCarta = (request.getParameter("numeroCarta"));
 		
+		
+		System.out.println("cvc " + cvc + " titolare " + titolare + " nCarta " + numeroCarta + " " + numeroCarta.length());
+		boolean ris = false;
+		Gson g = new Gson();
+		JsonObject obj = new JsonObject();
 		if(cvc.length() == 3 && numeroCarta.length() == 16 && id!=-1) {
 			BeanCartaPagamento carta = new BeanCartaPagamento();
 			carta.setTitolare(titolare);
 			carta.setCodiceCVC(cvc);
 			carta.setScadenza(scadenza);
 			carta.setnCarta(numeroCarta);
-			CartaPagamentoDAO.AddCartaPagamento(UtenteDAO.loadUserById(id), carta);
+			ris = CartaPagamentoDAO.AddCartaPagamento(UtenteDAO.loadUserById(id), carta);
 		}
 		else {
 			System.out.println("DATI SMINCHI");
 		}
-		response.sendRedirect(request.getContextPath() + "/index.jsp");
+		if(ris) {
+			obj.addProperty("result", "success");
+		}
+		else {
+			obj.addProperty("result", "errore");
+			obj.addProperty("message", "errore generico");
+		}
+		response.getWriter().write(g.toJson(obj));
+
 		
 		
 	}

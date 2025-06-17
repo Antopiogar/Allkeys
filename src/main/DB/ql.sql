@@ -5,8 +5,8 @@ INSERT INTO Utente (nome, cognome, dataNascita, email, cf, password, isAdmin) VA
 
 -- Inserimento Carte di pagamento
 INSERT INTO Carta_Pagamento (titolare, numeroCarta, scadenza, codiceCVC, FkUtente) VALUES
-('Mario Rossi', '1111222233334444', '2026-10-01', '123', 1),
-('Luca Verdi', '5555666677778888', '2027-04-15', '456', 2);
+('Mario Rossi', '1111222233334444', '01/2027', '123', 1),
+('Luca Verdi', '5555666677778888', '03/2029', '456', 2);
 
 -- Inserimento Articoli originali
 INSERT INTO Articolo (logo, nome, prezzo, piattaforma, descrizione) VALUES

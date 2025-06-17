@@ -107,7 +107,7 @@ public class TestingServlet extends HttpServlet {
 		carta.setIdCarta(1001);
         carta.setTitolare("Antonio Rossi");
         carta.setnCarta("1234567812345678");
-        carta.setScadenza(LocalDate.of(2026, 5, 20)); 
+        carta.setScadenza("26/02"); 
         carta.setCodiceCVC("123");
 		BeanUtente user = UtenteDAO.loadUserById(1);
 		ris = CartaPagamentoDAO.AddCartaPagamento(user, carta);
