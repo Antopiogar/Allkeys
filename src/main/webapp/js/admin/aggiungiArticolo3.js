@@ -34,6 +34,7 @@ function loadPiattaforme() {
 
 
 }
+
 loadPiattaforme();
 
 function switchPiattaforma() {

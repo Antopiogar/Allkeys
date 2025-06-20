@@ -2,7 +2,7 @@ package control;
 
 import model.Carrello;
 import model.OrdineDAO;
-
+import model.UtenteDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -39,6 +39,7 @@ public class ConfermaOrdineServlet extends HttpServlet {
                 if (status == 0) {
                 	
                     session.setAttribute("cart", new Carrello());
+                    OrdineDAO.CreateOrder(null, UtenteDAO.loadUserById(idUtente));
                 }
 
             } catch (NumberFormatException e) {

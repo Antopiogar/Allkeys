@@ -1,6 +1,6 @@
+
 function loadPiattaforme() {
 	let contenitore = document.getElementById("piattaforma");
-	let nuovaPiattaforma = document.getElementById("nuovaPiattaforma");
 
 	fetch(`${path}/PiattaformeServlet`, { method: 'get' })
 		.then(response => response.json())
@@ -28,13 +28,10 @@ function loadPiattaforme() {
 		.catch(error => {
 			console.error("errore durante il caricamento delle piattaforme:", error);
 		});
-
-
-
 }
-loadPiattaforme();
+
 function switchPiattaforma() {
-	let select = document.getElementById("piattaformaArticolo");
+	let select = document.getElementById("piattaforma");
 	let selectedValue = select.value;
 
 	console.log("Selected platform:", selectedValue);
@@ -143,3 +140,24 @@ function checkForm() {
 	document.getElementById("errore").hidden = false;
 	return false;
 }
+
+function start() {
+	document.getElementById("fileInput").addEventListener("change", function (event) {
+		const file = event.target.files[0];
+		const preview = document.getElementById("previewImage");
+		const originalSrc = "<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>";
+
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = function (e) {
+				preview.src = e.target.result;
+			}
+			reader.readAsDataURL(file);
+		} else {
+			preview.src = originalSrc;
+		}
+	});
+	loadPiattaforme();
+}
+
+start();

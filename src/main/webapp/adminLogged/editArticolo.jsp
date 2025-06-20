@@ -29,24 +29,10 @@
     <title>Modifica articolo: <%= articolo.getNome() %></title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/ModificaArticolo.js" defer></script>
+    <script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/ModificaArticolo2.js" defer></script>
 	<script>
 		var IdArt = '<%=articolo.getIdArticolo() %>';
-		document.getElementById("fileInput").addEventListener("change", function(event) {
-		    const file = event.target.files[0];
-		    const preview = document.getElementById("previewImage");
-		    const originalSrc = "<%= request.getContextPath() %>/IMG/loghi/<%= articolo.getLogo() %>";
 		
-		    if (file) {
-		        const reader = new FileReader();
-		        reader.onload = function(e) {
-		            preview.src = e.target.result;
-		        }
-		        reader.readAsDataURL(file);
-		    } else {
-		        preview.src = originalSrc;
-		    }
-		});
 	</script>
 
 </head>
@@ -65,12 +51,12 @@
                 <textarea id="nome" rows="1" cols="25"><%=articolo.getNome()%></textarea>
             </p>
             <p class="center-text"><strong>Piattaforma:</strong><br>
-                <select id="piattaforma">
+                <select id="piattaforma" onchange="switchPiattaforma()">
                 </select>
             </p>
             <div id="nuovaPiattaformaContainer" class="center-text" hidden="true">
-		    	<br><br>
-		    	<label for="nuovaPiattaforma">Nuova Piattaforma</label><br>
+		    	
+		    	<p class="center-text"><strong>Nuova piattaforma:</strong><br>
 				<input type="text" name="nuovaPiattaforma" id="nuovaPiattaforma" placeholder ="es. PS6">
 			</div>
             <p class="center-text"><strong>Prezzo:</strong><br>

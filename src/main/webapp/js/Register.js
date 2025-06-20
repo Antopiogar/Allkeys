@@ -2,6 +2,17 @@
 
 function register() {
     let email = document.getElementById("email").value.trim();
+    let errorDiv = document.getElementById("error");
+    let regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regexEmail.test(email)) {
+        errorDiv.hidden = false;
+        document.getElementById("error2").hidden = false;
+        errorDiv.classList.add('messaggio-errore');
+        errorDiv.classList.remove('messaggio-successo');
+        errorDiv.innerHTML = "L'email inserita non è valida.";
+        document.getElementById("email").focus();
+        return false;
+    }
     console.log("Email to check:", email);
 
     fetch(`./CheckEmailServlet`, {

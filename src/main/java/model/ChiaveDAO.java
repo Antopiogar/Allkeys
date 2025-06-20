@@ -23,6 +23,7 @@ public class ChiaveDAO {
 	public static int confermaChiaviOrdinate(Connection con, int idUtente, int idOrdine){
 		
 		Carrello c = OrdineDAO.LoadCarrelByUser(idUtente);
+		System.out.println("carrello = " +c);
 		if(c == null || c.isEmpty()) {
 			return -1;
 		}
