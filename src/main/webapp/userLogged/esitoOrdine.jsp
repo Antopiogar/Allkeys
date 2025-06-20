@@ -26,7 +26,7 @@
         } else if (status > 0) {
     %>
         <h1>⚠️ Ordine non effettuato</h1>
-        <p>Mancano <strong><%= status %></strong> articoli nel magazzino.</p>
+        <p>Mancano degli articoli nel magazzino.</p>
     <%
         } else if (status == -2) {
     %>
