@@ -15,11 +15,6 @@
 <%@ include file="NavBar.jsp" %>
 <main>
 	<h1>Registrati</h1>
-	<%
-	boolean registrazioneFallita = Boolean.TRUE.equals(session.getAttribute("LoginFallito"));
-	if(registrazioneFallita)
-		%><br><div class = "messaggio-errore" id ="errorInfo">Registrazione Fallita, riprova</div><%
-	%>
 	<form id="form" action="registerServlet" method = "POST">
 		
 		<label for="nome">Nome*</label>
@@ -35,8 +30,13 @@
 		<br><br><label for="password">Password*</label>
 		<input type="password" name = "password" required id ="password" placeholder="es. ProductKey12@">
 		<br><br><p>* campo obbligatorio</p>
-		<div id="error" hidden="true">
+		<div id="error2" hidden="true">
+			<br>
+			<div id="error" hidden="true">
+			
+			</div>
 		</div>
+		
 		<br><button type="button" onclick="register()">Registrati</button>
 		<span>Sei già registrato? <a href = "login.jsp">Accedi</a></span>
 		

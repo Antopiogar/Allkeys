@@ -17,7 +17,6 @@ function register() {
             if (jsonData["exists"] === true) {
                 document.getElementById("error").hidden = false;
                 document.getElementById("error").innerHTML = "Email già registrata. Inserisci un'altra email.";
-                document.getElementById("email").value = "";
                 document.getElementById("email").focus();
             } else {
                 let registerForm = document.getElementById("form");
@@ -45,13 +44,13 @@ function checkForm() {
 
     let expressionNome = /^[A-Za-zÀ-ÿ\s]+$/;
     if (!expressionNome.test(nome)) {
-        nome.focus();
+        document.getElementById('nome').focus();
         focusSet = true;
         errorMsg += 'Il nome non è valido.<br>';
     }
     if (!expressionNome.test(cognome)) {
         if (!focusSet) {
-            cognome.focus();
+            document.getElementById('cognome').focus();
             focusSet = true;
         }
         errorMsg += 'Il cognome non è valido.<br>';
@@ -96,8 +95,9 @@ function checkForm() {
 
     divError.hidden = false;
     if (errorMsg) {
+        document.getElementById("error2").hidden = false;
         divError.innerHTML = errorMsg;
-        divError.classList.add('message-errore');
+        divError.classList.add('messaggio-errore');
         return false;
     } else {
         divError.hidden = true;

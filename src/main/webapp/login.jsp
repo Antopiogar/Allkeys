@@ -24,18 +24,19 @@
 		<input type="password" name = "password" required id ="pass" placeholder="es. ProductKey12@">
 		<br><br><span>* campo obbligatorio</span>
 		<%
-			String emailEsistente = (String)session.getAttribute("EmailEsistente");
+			String emailEsistente = (String)session.getAttribute("Email");
 			boolean loginFallito = Boolean.TRUE.equals(session.getAttribute("LoginFallito"));
 			boolean br = true;
 			if(emailEsistente!=null &&  emailEsistente.equalsIgnoreCase("esistente")){
 				%><br><br><div class = "messaggio-errore" id ="errorInfo">Email già registrata</div><%
 				br = false;
-				session.setAttribute("RisultatoLogin",null);
+				
+				session.setAttribute("Email",null);
 			}
 			else if(emailEsistente!=null && emailEsistente.equalsIgnoreCase("non esistente")){
 				%><br><br><div class = "messaggio-successo" id ="errorInfo">Registrazione riuscita</div><%
 				br = false;
-				session.setAttribute("RisultatoLogin",null);
+				session.setAttribute("Email",null);
 			}
 			else if(loginFallito){
 				br = false;

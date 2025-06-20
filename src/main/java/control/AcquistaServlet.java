@@ -17,9 +17,11 @@ public class AcquistaServlet extends HttpServlet implements Serializable {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-        throws ServletException, IOException {
-        doPost(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+			response.sendRedirect("index.jsp");
+		} catch (IOException e) {
+		}
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 

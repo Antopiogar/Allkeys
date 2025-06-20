@@ -19,10 +19,7 @@ import java.util.ArrayList;
 public class VisualizzaOrdiniServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public VisualizzaOrdiniServlet() {
-        super();
-    }
-
+   
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         int idUser = -1;
@@ -82,9 +79,5 @@ public class VisualizzaOrdiniServlet extends HttpServlet {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("userLogged/ordini.jsp");
         dispatcher.forward(request, response);
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
     }
 }

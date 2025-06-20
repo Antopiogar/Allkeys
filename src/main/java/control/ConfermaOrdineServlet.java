@@ -12,10 +12,6 @@ import java.io.IOException;
 public class ConfermaOrdineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	public ConfermaOrdineServlet() {
-		super();
-	}
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -58,8 +54,11 @@ public class ConfermaOrdineServlet extends HttpServlet {
         request.getRequestDispatcher("userLogged/esitoOrdine.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+			response.sendRedirect("index.jsp");
+		} catch (IOException e) {
+		}
     }
+
 }

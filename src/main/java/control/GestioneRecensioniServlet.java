@@ -49,4 +49,11 @@ public class GestioneRecensioniServlet extends HttpServlet {
     	}
     	
     }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+			response.sendRedirect("index.jsp");
+		} catch (IOException e) {
+		}
+    }
+
 }
