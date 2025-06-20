@@ -61,6 +61,7 @@ function modificaRecensione(idRecensione) {
 
     newCard.appendChild(form);
 
+
     let submitButton = document.createElement("button");
     submitButton.type = "button";
     submitButton.textContent = "Modifica";
@@ -77,7 +78,7 @@ function modificaRecensione(idRecensione) {
 
 function checkForm(idRecensione) {
     console.log("idRecensione:", idRecensione);
-    
+
     let stelleInput = document.getElementById("voto");
     let testoInput = document.getElementById("recensione");
     let errori = "";
@@ -105,7 +106,7 @@ function send(idRecensione) {
     let stelleValue = document.getElementById("voto").value;
     let testoInput = document.getElementById("recensione").value;
     let messaggioElement = document.getElementById("messaggio");
-    if( messaggioElement) {
+    if (messaggioElement) {
         messaggioElement.remove();
     }
     fetch("GestioneRecensioniServlet", {
@@ -119,22 +120,22 @@ function send(idRecensione) {
             "testo": testoInput
         }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.result === "success") {
-            document.getElementById("errore").innerHTML = "Recensione modificata con successo!";
-            document.getElementById("errore").className = "messaggio-successo";
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
-        } else {
-            document.getElementById("errore").innerHTML = data.message;
+        .then(response => response.json())
+        .then(data => {
+            if (data.result === "success") {
+                document.getElementById("errore").innerHTML = "Recensione modificata con successo!";
+                document.getElementById("errore").className = "messaggio-successo";
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                document.getElementById("errore").innerHTML = data.message;
+                document.getElementById("errore").className = "messaggio-errore";
+            }
+        })
+        .catch(error => {
+            console.error("Errore durante la modifica della recensione:", error);
+            document.getElementById("errore").innerHTML = "Errore durante la modifica della recensione.";
             document.getElementById("errore").className = "messaggio-errore";
-        }
-    })
-    .catch(error => {
-        console.error("Errore durante la modifica della recensione:", error);
-        document.getElementById("errore").innerHTML = "Errore durante la modifica della recensione.";
-        document.getElementById("errore").className = "messaggio-errore";
-    });
+        });
 }

@@ -80,4 +80,8 @@ public class VisualizzaOrdiniServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("userLogged/ordini.jsp");
         dispatcher.forward(request, response);
     }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
 }

@@ -140,7 +140,7 @@
         <% } %>
     </div>
 
-    <br><br><button onclick="checkForm()">Modifica</button>
+    <br><br><button onclick="checkForm()">Modifica</button><br>
     <div id="errore">
     </div>
 </main>

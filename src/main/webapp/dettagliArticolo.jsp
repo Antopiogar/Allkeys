@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script type="text/javascript" src ="<%= request.getContextPath() %>/js/Search2.js" defer></script>
-<script type="text/javascript" src ="<%= request.getContextPath() %>/js/DettagliArticolo.js" defer></script>
+<script type="text/javascript" src ="<%= request.getContextPath() %>/js/dettagliArticolo.js" defer></script>
 
 
 </head>
@@ -39,8 +39,10 @@
     <h1><%= articolo.getNome() %></h1>
 
     <% if (request.getAttribute("result") != null) { %>
+    <br>
         <% if (result) { %>
         	<div class="messaggio-successo" id="messaggio">
+          	  
           	  <p>Recensione creata correttamente!</p>
             </div>
         <% } else { %>
@@ -135,8 +137,8 @@
 	                    <option value="5">5 - ⭐⭐⭐⭐⭐</option>
 	                </select><br>
 	                <textarea name="recensione" id="recensione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
-	                <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>"><br>
-					<button type="button" onclick="checkForm()">Aggiungi recensione</button>
+	                <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>"><br><br><br>
+					<button type="button" class = "center-button" onclick="checkForm()">Aggiungi recensione</button>
 
 	            </form>
 	        <% } else { %>

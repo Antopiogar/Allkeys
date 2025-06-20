@@ -16,13 +16,14 @@ import model.*;
 public class DettagliOrdineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        try {
-			response.sendRedirect("index.jsp");
-		} catch (IOException e) {
-		}
+	public DettagliOrdineServlet() {
+		super();
+	}
+	
+	
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request,response);
     }
-
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
     	String idOrdineStr = request.getParameter("idOrdine");
