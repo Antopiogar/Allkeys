@@ -127,11 +127,11 @@ function checkForm() {
 		.then(data => {
 			console.log("Response from GestioneAdmin:", data);
 			if (data.result === "success") {
-				document.getElementById("errore").innerHTML = "Articolo aggiunto con successo! Verrai reindirizzato tra 10 secondi.";
+				document.getElementById("errore").innerHTML = "Articolo aggiunto con successo! Verrai reindirizzato tra 3 secondi.";
 				document.getElementById("errore").className = "messaggio-successo";
 				setTimeout(() => {
 					window.location.href = "./index.jsp";
-				}, 10000);
+				}, 3000);
 			} else {
 				document.getElementById("errore").innerHTML = "Errore durante l'aggiunta dell'articolo: " + data.message;
 				document.getElementById("errore").className = "messaggio-errore";

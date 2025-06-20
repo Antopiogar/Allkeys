@@ -8,7 +8,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Profilo Amministratore</title>
-		<script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/ProfiloAdmin.js"></script>
+		<script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/ProfiloAdmin2.js"></script>
 	
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 </head>

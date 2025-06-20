@@ -37,10 +37,10 @@ function checkForm() {
 			console.log("Response from GestioneAdmin:", data);
 			if (data.result === "success") {
 				document.getElementById("errore").className = "messaggio-successo";
-				document.getElementById("errore").innerHTML = "Articolo aggiunto con successo! Verrai reindirizzato tra 10 secondi.";
+				document.getElementById("errore").innerHTML = "Articolo aggiunto con successo! Verrai reindirizzato tra 3 secondi.";
 				setTimeout(() => {
 					window.location.href = "./index.jsp";
-				}, 10000);
+				}, 3000);
 			} else {
 				document.getElementById("errore").className = "messaggio-errore";
 				document.getElementById("errore").innerHTML = "Errore durante l'aggiunta dell'articolo: " + data.message;

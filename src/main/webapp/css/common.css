@@ -367,7 +367,7 @@ option {
     color: #ededed;
 }
 
-input[type="submit"].center-submit-button{
+.center-submit-button{
 	display: block;
 	margin: 0 auto;
 }

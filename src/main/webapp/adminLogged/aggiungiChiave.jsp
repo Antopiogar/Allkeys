@@ -28,7 +28,7 @@
 		}
 	%>
 	<br><h1>Aggiungi una nuova chiave</h1><br>
-	<div id="errore" style="color: red; margin-bottom: 10px;"></div>
+	<div id="errore" style=" margin-bottom: 10px;"></div>
 
 	<form action="<%= request.getContextPath() %>/GestioneAdmin" method="POST">
 		<input type="hidden" value="addSettedKey" name="AdminAction">

@@ -41,7 +41,6 @@ function checkForm() {
     let divError = document.getElementById('error');
     let errorMsg = '';
     let focusSet = false;
-
     let expressionNome = /^[A-Za-zÀ-ÿ\s]+$/;
     if (!expressionNome.test(nome)) {
         document.getElementById('nome').focus();
@@ -66,7 +65,7 @@ function checkForm() {
         errorMsg += 'La data di nascita non è valida.<br>';
     }
 
-    let expressionCF = /^[A-Z0-9]{16}$/i;
+    let expressionCF = /^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$/i;
     if (!expressionCF.test(cf)) {
         if (!focusSet) {
             document.getElementById('cf').focus();

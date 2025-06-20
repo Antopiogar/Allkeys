@@ -10,7 +10,7 @@
 	<title>Profilo</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 	<!-- NON ESISTE IL FILE = <link rel="stylesheet" href="<%= request.getContextPath() %>/css/profilo.css"> -->
-	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/Profilo.js"></script>
+	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/Profilo2.js"></script>
 </head>
 <body>
 <jsp:include page="../NavBar.jsp" />
