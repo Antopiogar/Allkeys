@@ -29,13 +29,13 @@ import jakarta.servlet.http.HttpServletResponse;
 public class GestioneAdminServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public GestioneAdminServlet() {
-        super();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+			response.sendRedirect("index.jsp");
+		} catch (IOException e) {
+		}
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
-    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int aggiunta = -1;
@@ -137,7 +137,6 @@ public class GestioneAdminServlet extends HttpServlet {
             }
             
             else if(AdminAction.equals("viewAllUsersOrders")) {
-            	ArrayList<BeanUtente> users = UtenteDAO.getUsers();
             	String dataInizioStr = request.getParameter("dataInizio");
                 String dataFineStr = request.getParameter("dataFine");
 
@@ -156,11 +155,8 @@ public class GestioneAdminServlet extends HttpServlet {
                 LocalDateTime t2 = dataFine.atTime(23, 59, 59); // 23:59:59
 
 
-                ArrayList<Acquisto> acquisti = new ArrayList<Acquisto>();
-                for(BeanUtente user : users) {
-                	OrdineDAO.loadOrdersByIdUserAndTimewithArrayList(user.getIdUtente(), t1, t2,acquisti);
-                }
-
+                ArrayList<Acquisto> acquisti = OrdineDAO.loadOrdersByTime(t1, t2);
+                System.out.println(acquisti);
 
                 request.getSession().setAttribute("ordini", acquisti);
                 request.setAttribute("dataInizio", dataInizio.toString());

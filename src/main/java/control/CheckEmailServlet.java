@@ -35,9 +35,13 @@ public class CheckEmailServlet extends HttpServlet {
 		Gson g = new Gson();
 	    response.getWriter().print(g.toJson(root).toString());
 		
-	    
-	    
-	    
 	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+			response.sendRedirect("index.jsp");
+		} catch (IOException e) {
+		}
+    }
+
 
 }

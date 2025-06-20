@@ -348,12 +348,13 @@ WHERE
 		return acquisti;
 	}
 	
-	public static synchronized void loadOrdersByIdUserAndTimewithArrayList(int idUtente,LocalDateTime t1, LocalDateTime t2,ArrayList<Acquisto> acquisti){
-		if(acquisti == null) acquisti = new ArrayList<Acquisto>();
+	public static synchronized ArrayList<Acquisto> loadOrdersByTime(LocalDateTime t1, LocalDateTime t2){
+		ArrayList<Acquisto>	acquisti = new ArrayList<Acquisto>();
 		Connection con = DBConnection.getConnection();
 		try {
 			String query="""
 					SELECT DISTINCT 
+	o.fkUtente as idUtente,
     o.idOrdine,
     o.dataAcquisto,
     a.idArticolo as idArticolo,
@@ -373,19 +374,19 @@ FROM
     JOIN composizione as co ON co.FkOrdine = o.idOrdine
     JOIN carta_pagamento as cp ON cp.idCarta = o.fkCarta
 WHERE 
-    o.fkUtente = ? 
-    AND o.conferma = 1 
+    o.conferma = 1 
     AND a.idArticolo = co.FkArticolo
-    AND o.dataAcquisto BETWEEN ? AND ?""";
+    AND o.dataAcquisto BETWEEN ? AND ?
+    
+ Order by idOrdine asc""";
 			PreparedStatement ps = con.prepareStatement(query);
-			ps.setInt(1, idUtente);
 			if(t1.isBefore(t2)) {
-				ps.setTimestamp(2, Timestamp.valueOf(t1));
-				ps.setTimestamp(3, Timestamp.valueOf(t2));
+				ps.setTimestamp(1, Timestamp.valueOf(t1));
+				ps.setTimestamp(2, Timestamp.valueOf(t2));
 			}
 			else {
-				ps.setTimestamp(3, Timestamp.valueOf(t1));
-				ps.setTimestamp(2, Timestamp.valueOf(t2));
+				ps.setTimestamp(2, Timestamp.valueOf(t1));
+				ps.setTimestamp(1, Timestamp.valueOf(t2));
 			}
 			ResultSet rs = ps.executeQuery();
 	        while (rs.next()) {
@@ -413,6 +414,7 @@ WHERE
 	        	}
 	        	//altrimenti inizializza un nuovo acquisto con all'interno il prodotto
 	        	else {
+	        		int idUtente = rs.getInt("idUtente");
 			        Acquisto ac = new Acquisto(idUtente);
 			        BeanCartaPagamento carta = new BeanCartaPagamento();
 			        carta.setIdCarta(rs.getInt("idCarta"));
@@ -439,6 +441,7 @@ WHERE
 			System.out.println("MORTO LOAD ALL ORDERS BY ID UTENTE");
 		}
 		DBConnection.releseConnection(con);
+		return acquisti;
 	}
 	
 	public static synchronized ArrayList<Acquisto> loadAllOrdersByIdUtente(int idUtente){
@@ -527,12 +530,13 @@ WHERE
 	}
 
 
-	public static synchronized Acquisto loadOrderByIdOrder(int idOrdine, int idUtente) {
+	public static synchronized Acquisto loadOrderByIdOrder(int idOrdine) {
 		ArrayList<Acquisto> acquisti = new ArrayList<>();
 		Connection con = DBConnection.getConnection();
 		try {
 			String query="""
 					select distinct 
+						o.fkUtente as idUtente,
 					    o.idOrdine ,
 					    o.dataAcquisto,
 					    o.fattura as fattura,
@@ -582,7 +586,7 @@ WHERE
 	        	}
 	        	//altrimenti inizializza un nuovo acquisto con all'interno il prodotto
 	        	else {
-			        Acquisto ac = new Acquisto(idUtente);
+			        Acquisto ac = new Acquisto(rs.getInt("idUtente"));
 			        BeanCartaPagamento carta = new BeanCartaPagamento();
 			        carta.setIdCarta(rs.getInt("idCarta"));
 			        carta.setnCarta(rs.getString("nCarta"));

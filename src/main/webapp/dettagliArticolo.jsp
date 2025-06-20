@@ -39,12 +39,20 @@
     <h1><%= articolo.getNome() %></h1>
 
     <% if (request.getAttribute("result") != null) { %>
+    <br>
         <% if (result) { %>
-            <p>Recensione creata correttamente!</p>
+        	<div class="messaggio-successo" id="messaggio">
+          	  
+          	  <p>Recensione creata correttamente!</p>
+            </div>
         <% } else { %>
-            <p>Recensione non creata!</p>
+        	<div class="messaggio-errore" id="messaggio">
+            	<p>Recensione non creata!</p>
+            </div>
         <% } %>
-    <% } %>
+       
+    <% request.setAttribute("result", null);
+    } %>
 
     <div class="dettagli-wrapper">
         <div class="dettagli-img">
@@ -128,9 +136,9 @@
 	                    <option value="4">4 - ⭐⭐⭐⭐</option>
 	                    <option value="5">5 - ⭐⭐⭐⭐⭐</option>
 	                </select><br>
-	                <textarea name="recensione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
-	                <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>"><br>
-					<button type="button" onclick="checkForm()">Aggiungi recensione</button>
+	                <textarea name="recensione" id="recensione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+	                <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>"><br><br><br>
+					<button type="button" class = "center-button" onclick="checkForm()">Aggiungi recensione</button>
 
 	            </form>
 	        <% } else { %>

@@ -17,9 +17,11 @@ public class AcquistaServlet extends HttpServlet implements Serializable {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-        throws ServletException, IOException {
-        doPost(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+			response.sendRedirect("index.jsp");
+		} catch (IOException e) {
+		}
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
@@ -39,6 +41,7 @@ public class AcquistaServlet extends HttpServlet implements Serializable {
         ArrayList<BeanCartaPagamento> carte = CartaPagamentoDAO.loadCartaPagamentoByIdUtente(idUser);
 
         request.setAttribute("carte", carte);
+        request.setAttribute("acquistoInCorso", true);
         request.getRequestDispatcher("/userLogged/acquista.jsp").forward(request, response);
     }
 }

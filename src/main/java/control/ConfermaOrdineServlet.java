@@ -2,7 +2,7 @@ package control;
 
 import model.Carrello;
 import model.OrdineDAO;
-
+import model.UtenteDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -12,10 +12,6 @@ import java.io.IOException;
 public class ConfermaOrdineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	public ConfermaOrdineServlet() {
-		super();
-	}
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -37,11 +33,13 @@ public class ConfermaOrdineServlet extends HttpServlet {
                 System.out.println("INIZIO ORDINE");
                 
                 status = OrdineDAO.ConfirmOrder(idUtente, idCarta);
+                
                 System.out.println("FINE ORDINE");
                 // Svuota il carrello solo se ordine riuscito
                 if (status == 0) {
                 	
                     session.setAttribute("cart", new Carrello());
+                    OrdineDAO.CreateOrder(null, UtenteDAO.loadUserById(idUtente));
                 }
 
             } catch (NumberFormatException e) {
@@ -57,8 +55,11 @@ public class ConfermaOrdineServlet extends HttpServlet {
         request.getRequestDispatcher("userLogged/esitoOrdine.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+			response.sendRedirect("index.jsp");
+		} catch (IOException e) {
+		}
     }
+
 }

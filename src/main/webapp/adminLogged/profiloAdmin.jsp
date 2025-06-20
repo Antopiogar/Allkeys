@@ -8,7 +8,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Profilo Amministratore</title>
-		<script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/ProfiloAdmin.js"></script>
+		<script type="text/javascript" src ="<%= request.getContextPath() %>/js/admin/ProfiloAdmin2.js"></script>
 	
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 </head>
@@ -33,9 +33,7 @@
 	if(user == null) response.sendRedirect(request.getContextPath() + "/login.jsp");
 %>
 
-<% if (risultatoUpdate != null) { %>
-	<div class="profilo-feedback"><%= risultatoUpdate %></div>
-<% } %>
+
 
 <div class="profilo-card" id="contenitore">
 	<h1>Il tuo profilo</h1>
@@ -56,7 +54,12 @@
 		<span>Email:</span> <p id="email"><%= user.getEmail() %></p></div>
 	<div class="profilo-bottone-container">
 	<button type="button" class="profilo-bottone" onclick="modificaDati('<%= request.getContextPath() %>')">Modifica</button>
+	
+	<% if (risultatoUpdate != null) { %>
+	<br><br><div class="profilo-feedback messaggio-info"><%= risultatoUpdate %></div>
+<% } %>
 </div>
+
 
 </div>
 <div class="profilo-card">

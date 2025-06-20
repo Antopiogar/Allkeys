@@ -1,7 +1,6 @@
 package model;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +24,7 @@ public class CartaPagamentoDAO {
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, cp.getTitolare());
 			ps.setString(2, cp.getnCarta());
-			ps.setDate(3, Date.valueOf(cp.getScadenza()));
+			ps.setString(3, cp.getScadenza());
 			ps.setString(4, cp.getCodiceCVC());
 			ps.setInt(5, user.getIdUtente());
 			
@@ -68,7 +67,7 @@ public class CartaPagamentoDAO {
 				bc.setIdCarta(rs.getInt("idCarta"));
 				bc.setTitolare(rs.getString("Titolare"));
 				bc.setnCarta(rs.getString("numeroCarta"));
-				bc.setScadenza(rs.getDate("scadenza").toLocalDate());
+				bc.setScadenza(rs.getString("scadenza"));
 				bc.setCodiceCVC(rs.getString("codiceCVC"));
 				carte.add(bc);
 			}
@@ -98,7 +97,7 @@ public class CartaPagamentoDAO {
 				bc.setIdCarta(rs.getInt("idCarta"));
 				bc.setTitolare(rs.getString("Titolare"));
 				bc.setnCarta(rs.getString("numeroCarta"));
-				bc.setScadenza(rs.getDate("scadenza").toLocalDate());
+				bc.setScadenza(rs.getString("scadenza"));
 				bc.setCodiceCVC(rs.getString("codiceCVC"));
 				
 			}

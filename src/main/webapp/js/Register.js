@@ -2,6 +2,17 @@
 
 function register() {
     let email = document.getElementById("email").value.trim();
+    let errorDiv = document.getElementById("error");
+    let regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regexEmail.test(email)) {
+        errorDiv.hidden = false;
+        document.getElementById("error2").hidden = false;
+        errorDiv.classList.add('messaggio-errore');
+        errorDiv.classList.remove('messaggio-successo');
+        errorDiv.innerHTML = "L'email inserita non è valida.";
+        document.getElementById("email").focus();
+        return false;
+    }
     console.log("Email to check:", email);
 
     fetch(`./CheckEmailServlet`, {
@@ -17,7 +28,6 @@ function register() {
             if (jsonData["exists"] === true) {
                 document.getElementById("error").hidden = false;
                 document.getElementById("error").innerHTML = "Email già registrata. Inserisci un'altra email.";
-                document.getElementById("email").value = "";
                 document.getElementById("email").focus();
             } else {
                 let registerForm = document.getElementById("form");
@@ -42,16 +52,15 @@ function checkForm() {
     let divError = document.getElementById('error');
     let errorMsg = '';
     let focusSet = false;
-
     let expressionNome = /^[A-Za-zÀ-ÿ\s]+$/;
     if (!expressionNome.test(nome)) {
-        nome.focus();
+        document.getElementById('nome').focus();
         focusSet = true;
         errorMsg += 'Il nome non è valido.<br>';
     }
     if (!expressionNome.test(cognome)) {
         if (!focusSet) {
-            cognome.focus();
+            document.getElementById('cognome').focus();
             focusSet = true;
         }
         errorMsg += 'Il cognome non è valido.<br>';
@@ -67,7 +76,7 @@ function checkForm() {
         errorMsg += 'La data di nascita non è valida.<br>';
     }
 
-    let expressionCF = /^[A-Z0-9]{16}$/i;
+    let expressionCF = /^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$/i;
     if (!expressionCF.test(cf)) {
         if (!focusSet) {
             document.getElementById('cf').focus();
@@ -96,7 +105,9 @@ function checkForm() {
 
     divError.hidden = false;
     if (errorMsg) {
+        document.getElementById("error2").hidden = false;
         divError.innerHTML = errorMsg;
+        divError.classList.add('messaggio-errore');
         return false;
     } else {
         divError.hidden = true;

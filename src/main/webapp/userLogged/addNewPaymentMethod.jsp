@@ -7,23 +7,27 @@
 <meta charset="UTF-8">
 <title>Aggiungi metodo di pagamento</title>
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
+	<script type="text/javascript" src ="<%= request.getContextPath() %>/js/Carta.js"></script>
+
 </head>
 <body>
 <%@ include file="../NavBar.jsp" %>
 <main>
 
 		<h1>Inserisci i dati della carta di credito:</h1>
-		<form action="../AddPaymentMethodServlet" method="POST">
-			<br>Titolare<br>
-			<input type="text" name ="titolare" required id="titolare"><br><br>
-			Numero Carta<br>
-			<input type="numeric" name="numeroCarta" required id="numeroCarta">
-			<br>Data di scadenza<br>
-			<input type="date" name="scadenza" required id="scandeza">
-			<br>CVC<br>
-			<input type="numeric" name="cvc" required id="cvc"><br><br>
-			<input type="submit" value="Aggiungi" class="center-submit-button">
-
+		<form>
+			<br>Titolare*<br>
+			<input type="text" name ="titolare" required id="titolare" placeholder="es. Mario Rossi">
+			<br>Numero Carta*<br>
+			<input type="text" name="numeroCarta" required id="numeroCarta" placeholder="es.4532 1234 5678 9012 ">
+			<br>Data di scadenza*<br>
+			<input type="text" name="scadenza" required id="scadenza" placeholder="01/2025">
+			<br>CVC*<br>
+			<input type="text" name="cvc" required id="cvc" placeholder="es.453 "><br><br>
+			<button type="button"  class="center-button" onclick="checkForm()"> Aggiungi</button>
+			<br>
+			<div id="errore" hidden="true"></div>
+			<p>* campo obbligatorio</p>
 		</form>
 </main>
 	<%@ include file="../footer.jsp" %>

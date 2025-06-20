@@ -1,90 +1,83 @@
-drop schema if exists AllKeys;
-create schema if not exists AllKeys;
-use AllKeys;
+DROP SCHEMA IF EXISTS AllKeys;
+CREATE SCHEMA IF NOT EXISTS AllKeys;
+USE AllKeys;
 
-create table Utente(
-	idUtente int auto_increment primary key,
-	nome varchar(50) not null,
-	cognome varchar(50) not null,
-	dataNascita date not null,
-	email varchar(50) not null unique,
-	cf char(16) not null,
-	password char (64) not null,
-	isAdmin boolean not null default 0
+CREATE TABLE Utente (
+    idUtente INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    cognome VARCHAR(50) NOT NULL,
+    dataNascita DATE NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    cf CHAR(16) NOT NULL,
+    password CHAR(64) NOT NULL,
+    isAdmin BOOLEAN NOT NULL DEFAULT 0
 );
 
-create table Carta_Pagamento(
-	idCarta int auto_increment primary key,
-	titolare varchar(50) not null,
-	numeroCarta char(16) not null,
-	scadenza date not null,
-	codiceCVC char(3) not null,
-	FkUtente int null, 
-	foreign key (FkUtente) references Utente(idUtente) 
+CREATE TABLE Carta_Pagamento (
+    idCarta INT AUTO_INCREMENT PRIMARY KEY,
+    titolare VARCHAR(50) NOT NULL,
+    numeroCarta CHAR(16) NOT NULL,
+    scadenza CHAR(8) NOT NULL,
+    codiceCVC CHAR(3) NOT NULL,
+    FkUtente INT NULL,
+    FOREIGN KEY (FkUtente) REFERENCES Utente(idUtente)
 );
 
-create table Articolo(
-	idArticolo int auto_increment primary key,
-	logo varchar(50) unique ,
-	nome varchar(50) not null,
-	prezzo decimal(10,2) not null check (prezzo>=0),
-	piattaforma varchar(20) not null,
-    descrizione text 
+CREATE TABLE Articolo (
+    idArticolo INT AUTO_INCREMENT PRIMARY KEY,
+    logo VARCHAR(50) UNIQUE,
+    nome VARCHAR(50) NOT NULL,
+    prezzo DECIMAL(10,2) NOT NULL CHECK (prezzo >= 0),
+    piattaforma VARCHAR(20) NOT NULL,
+    descrizione TEXT
 );
 
-
-create table Ordine(
-	idOrdine int auto_increment primary key,
-	dataAcquisto datetime not null,
-	conferma boolean not null,
-	fattura varchar(50) ,
-	fkUtente int not null,
-	fkCarta int null,
-	foreign key (fkCarta) references Carta_Pagamento(idCarta) 
-	on delete restrict on update cascade,
-	foreign key (fkUtente) references Utente(idUtente)
-	on delete restrict on update cascade
+CREATE TABLE Ordine (
+    idOrdine INT AUTO_INCREMENT PRIMARY KEY,
+    dataAcquisto DATETIME NOT NULL,
+    conferma BOOLEAN NOT NULL,
+    fattura VARCHAR(50),
+    fkUtente INT NOT NULL,
+    fkCarta INT NULL,
+    FOREIGN KEY (fkCarta) REFERENCES Carta_Pagamento(idCarta)
+    ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (fkUtente) REFERENCES Utente(idUtente)
+    ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-create table Chiave(
-	idChiave int auto_increment primary key,
-	codice varchar(24) not null unique,
-	FkOrdine int null,
-	FkArticolo int not null,
-	foreign key (FkOrdine) references Ordine(idOrdine)
-	on delete restrict on update cascade,
-	foreign key (FkArticolo) references Articolo(idArticolo)
-	on delete restrict on update cascade
-
+CREATE TABLE Chiave (
+    idChiave INT AUTO_INCREMENT PRIMARY KEY,
+    codice VARCHAR(24) NOT NULL UNIQUE,
+    FkOrdine INT NULL,
+    FkArticolo INT NOT NULL,
+    FOREIGN KEY (FkOrdine) REFERENCES Ordine(idOrdine)
+    ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (FkArticolo) REFERENCES Articolo(idArticolo)
+    ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-
-create table Composizione(
-	idComposizione int auto_increment primary key,
-	prezzoPagato decimal(10,2) not null check(prezzoPagato >= 0),
-	
-	qta int,
-	FkArticolo int null,
-	FkOrdine int null,
-
-	foreign key (FkArticolo) references Articolo(idArticolo)
-	on delete restrict on update cascade,
-	foreign key (FkOrdine) references Ordine(idOrdine)
-	on delete restrict on update cascade
-
+CREATE TABLE Composizione (
+    idComposizione INT AUTO_INCREMENT PRIMARY KEY,
+    prezzoPagato DECIMAL(10,2) NOT NULL CHECK(prezzoPagato >= 0),
+    qta INT,
+    FkArticolo INT NULL,
+    FkOrdine INT NULL,
+    FOREIGN KEY (FkArticolo) REFERENCES Articolo(idArticolo)
+    ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (FkOrdine) REFERENCES Ordine(idOrdine)
+    ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-create table Recensione(
-	idRecensione int auto_increment primary key,
-	testo varchar(500) not null,
-	voto int not null check(voto>= 1 && voto <=5),
-	dataRecensione date not null,
-	FkUtente int not null,
-	FkArticolo int not null,
-    unique(fkUtente,FkArticolo),
-	foreign key (FkUtente) references Utente(idUtente)
-	on delete restrict on update cascade,
-	foreign key (FkArticolo) references Articolo(idArticolo)
-	on delete restrict on update cascade
+CREATE TABLE Recensione (
+    idRecensione INT AUTO_INCREMENT PRIMARY KEY,
+    testo VARCHAR(500) NOT NULL,
+    voto INT NOT NULL CHECK(voto >= 1 AND voto <= 5),
+    dataRecensione DATE NOT NULL,
+    FkUtente INT NOT NULL,
+    FkArticolo INT NOT NULL,
+    UNIQUE(FkUtente, FkArticolo),
+    FOREIGN KEY (FkUtente) REFERENCES Utente(idUtente)
+    ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (FkArticolo) REFERENCES Articolo(idArticolo)
+    ON DELETE RESTRICT ON UPDATE CASCADE
 );
-
