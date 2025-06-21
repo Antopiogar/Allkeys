@@ -5,8 +5,6 @@ import java.util.ArrayList;
 public class Carrello {
 	ArrayList<ArticoliCarrello> articoli;
 	
-	
-	//DA FARE NON TOCCARE TODO
 	public synchronized boolean SaveOrder() {
 		//OrdineDAO.CreateOrder(articoli);
 		return false;
@@ -32,7 +30,6 @@ public class Carrello {
 	
 		}
 		catch (Exception e) {
-			e.printStackTrace();
 		}
 		return false;
 	}

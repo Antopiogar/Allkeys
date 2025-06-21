@@ -40,8 +40,6 @@ public class LoginServlet extends HttpServlet {
 			
 			Carrello c= (Carrello) request.getSession().getAttribute("cart");
 			Carrello DB = OrdineDAO.LoadCarrelByUser(idUser);
-			
-			System.out.println("DB"+DB);
 			if(c == null) {
 				c = DB;
 			}
@@ -67,18 +65,13 @@ public class LoginServlet extends HttpServlet {
 			
 			if(idUser == -1) {
 				//login errato
-				System.out.println("idUser = "+ idUser);
-	
 				request.getSession().setAttribute("LoginFallito", true);
-				System.out.println("password errata admin");
 				response.sendRedirect(request.getContextPath() + "/login.jsp");
 			}
 			else {
 				//login Admin
 				Carrello c= (Carrello) request.getSession().getAttribute("cart");
 				Carrello DB = OrdineDAO.LoadCarrelByUser(idUser);
-				
-				System.out.println("DB"+DB);
 				if(c == null) {
 					c = DB;
 				}

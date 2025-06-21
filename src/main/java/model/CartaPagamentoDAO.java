@@ -30,7 +30,6 @@ public class CartaPagamentoDAO {
 			
 			
 			risultatoInserimento=ps.executeUpdate();
-			System.out.println("risultato creazione carta = " + risultatoInserimento);
 				if(risultatoInserimento == 1) {
 					con.commit();
 					return true;
@@ -41,7 +40,6 @@ public class CartaPagamentoDAO {
 			
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
 		}
 		DBConnection.releseConnection(con);
 
@@ -72,8 +70,6 @@ public class CartaPagamentoDAO {
 				carte.add(bc);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("MORTO IN LOAD CARTE");
 		}
 		DBConnection.releseConnection(con);
 		return carte;
@@ -104,8 +100,6 @@ public class CartaPagamentoDAO {
 			ps.close();
 			rs.close();
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("MORTO IN LOAD CARTE");
 		}
 		DBConnection.releseConnection(con);
 		return bc;

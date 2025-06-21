@@ -66,12 +66,10 @@ public class Fattura {
 
     private boolean validaInput() {
         if (path == null || path.trim().isEmpty()) {
-            System.out.println("PATH MORTO");
             return false;
         }
 
         if (ac == null) {
-            System.out.println("acquisto smonco");
             return false;
         }
 

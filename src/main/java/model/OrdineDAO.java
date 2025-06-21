@@ -41,8 +41,6 @@ public class OrdineDAO {
 	        return true;
 
 	    } catch (SQLException e) {
-	    	System.out.println("MORTO IN ORDINE");
-	        e.printStackTrace();
 	    }
 	    return false;
 	}
@@ -89,7 +87,6 @@ public class OrdineDAO {
 				c.setQta(art, rs.getInt("qta"));
 			}
 		}catch (Exception e) {
-			e.printStackTrace();
 		}finally {
 	        DBConnection.releseConnection(con);
 	    }
@@ -122,7 +119,6 @@ public class OrdineDAO {
 	    try {
 	    	
 	    	risultatoUpdateChiavi = ChiaveDAO.confermaChiaviOrdinate(con, IdUtente, idOrder);
-			System.out.println("risultato chiavi " + risultatoUpdateChiavi);
 
     		if(risultatoUpdateChiavi != 0) {
     			con.rollback();
@@ -143,17 +139,10 @@ public class OrdineDAO {
 	    		return -1;
 	    	}
 	    	ps.close();
-			
-    		System.out.println("QUI VA");
-    		
 	        con.commit();
-	        System.out.println("COMMIT?");
-    		
 	        return 0;
 
 	    } catch (SQLException e) {
-	    	System.out.println("MORTO IN ORDINE");
-	        e.printStackTrace();
 	    } finally {
 	        DBConnection.releseConnection(con);
 	    }
@@ -178,10 +167,7 @@ public class OrdineDAO {
 			}
 			else {
 				CreateOrder(null, UtenteDAO.loadUserById(idUser));
-				System.out.println("entra qui");
 			}
-			System.out.println("ARRIVA QUI");
-
 			if(idOrdine == -1) {
 				return false;
 			}
@@ -210,11 +196,7 @@ public class OrdineDAO {
 			try {
 				con.rollback();
 			} catch (SQLException e1) {
-				e1.printStackTrace();
 			}
-			e.printStackTrace();
-			System.out.println("BOOOOM");
-
 		}finally {
 			DBConnection.releseConnection(con);
 		}
@@ -242,9 +224,6 @@ public class OrdineDAO {
 	        ps.close();
 	        rs.close();
 	    } catch (SQLException e) {
-	    	System.out.println("MORTO IN OTTIENI ID CARRELLO");
-	        e.printStackTrace();
-
 	    } finally {
 	        DBConnection.releseConnection(con);
 	    }
@@ -341,8 +320,6 @@ WHERE
 
 	        }
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("MORTO LOAD ALL ORDERS BY ID UTENTE");
 		}
 		DBConnection.releseConnection(con);
 		return acquisti;
@@ -437,8 +414,6 @@ WHERE
 
 	        }
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("MORTO LOAD ALL ORDERS BY ID UTENTE");
 		}
 		DBConnection.releseConnection(con);
 		return acquisti;
@@ -522,8 +497,6 @@ WHERE
 
 	        }
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("MORTO LOAD ALL ORDERS BY ID UTENTE");
 		}
 		DBConnection.releseConnection(con);
 		return acquisti;
@@ -608,8 +581,6 @@ WHERE
 
 	        }
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("MORTO LOAD ALL ORDERS BY ID UTENTE");
 		}
 		DBConnection.releseConnection(con);
 		return acquisti.get(0);

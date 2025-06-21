@@ -23,7 +23,6 @@ public class ServletCatalog extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String piattaforma = request.getParameter("piattaforma");
-		System.out.println(piattaforma);
 		ArrayList<BeanArticolo> articoli = null;
 		if(piattaforma == null) {
 			 articoli = ArticoloDAO.loadAllAvailableArticles();

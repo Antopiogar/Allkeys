@@ -27,13 +27,7 @@ public class GestioneArticoliServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         Gson gson = new Gson();
         JsonObject obj = new JsonObject();
-        
-        
-        
         String action = request.getParameter("AdminAction");
-        
-        
-        System.out.println("Action finale: " + action);
         
         if (action == null) {
             obj.addProperty("result", "failure");
@@ -47,7 +41,6 @@ public class GestioneArticoliServlet extends HttpServlet {
         
         if (action.equalsIgnoreCase("elimina")) {
             int idArticolo = Integer.parseInt(request.getParameter("idArticolo"));
-            System.out.println("Elimino articolo ID: " + idArticolo);
             success = ArticoloDAO.deleteArticolo(idArticolo);
             
         } else if (action.equalsIgnoreCase("modifica")) {
@@ -57,8 +50,6 @@ public class GestioneArticoliServlet extends HttpServlet {
             articolo.setDescrizione(request.getParameter("descrizione"));
             articolo.setPiattaforma(request.getParameter("piattaforma"));
             articolo.setPrezzo(Float.parseFloat(request.getParameter("prezzo")));
-            
-            System.out.println("Modifico articolo ID: " + articolo.getIdArticolo());
             success = ArticoloDAO.updateArticolo(articolo);
         }
         

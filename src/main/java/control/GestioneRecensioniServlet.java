@@ -21,9 +21,7 @@ public class GestioneRecensioniServlet extends HttpServlet {
     
 	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	System.out.println("GESTIONE");
     	String stelleP =  req.getParameter("voto");
-    	System.out.println(stelleP);
 		int nStelle = Integer.parseInt(stelleP);
     	String testo = req.getParameter("testo");
     	int idRecensione = Integer.parseInt( req.getParameter("idRecensione"));

@@ -31,8 +31,7 @@ public class UtenteDAO {
 			}
 			ps.close();
 			rs.close();
-		}catch (Exception e) {
-			e.printStackTrace();		
+		}catch (Exception e) {	
 		}
 		
 		DBConnection.releseConnection(con);
@@ -61,7 +60,6 @@ public class UtenteDAO {
 			}
 		}
 		catch(SQLException e) {
-			e.printStackTrace();
 		}
 		return users;
 	}
@@ -89,8 +87,6 @@ public class UtenteDAO {
 			DBConnection.releseConnection(con);
 
 		} catch (SQLException e) {
-			
-			e.printStackTrace();
 		}
 		return utente;
 		
@@ -113,8 +109,6 @@ public class UtenteDAO {
 			DBConnection.releseConnection(con);
 
 		} catch (SQLException e) {
-			
-			e.printStackTrace();
 		}
 		return id;
 	}
@@ -162,8 +156,6 @@ public class UtenteDAO {
 			}
 		}
 		catch (SQLException e) {
-			
-			e.printStackTrace();
 		}
 		
 		try {
@@ -185,8 +177,6 @@ public class UtenteDAO {
 			
 			
 		} catch (SQLException e) {
-			
-			e.printStackTrace();
 		}
 		DBConnection.releseConnection(con);
 
@@ -208,8 +198,6 @@ public class UtenteDAO {
 			DBConnection.releseConnection(con);
 
 		} catch (SQLException e) {
-			
-			e.printStackTrace();
 		}
 		return utente;
 		
@@ -244,14 +232,10 @@ public class UtenteDAO {
 
 		} 
 		catch (Exception e) {
-			e.printStackTrace();
 			try {
 				con.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
-			System.out.println("MORTO IN MODIFICA UTENTE");
 		}
 		
 		DBConnection.releseConnection(con);
@@ -275,8 +259,6 @@ public class UtenteDAO {
 			DBConnection.releseConnection(con);
 
 		} catch (SQLException e) {
-			
-			e.printStackTrace();
 		}
 		return id;
 	}

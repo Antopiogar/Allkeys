@@ -30,12 +30,8 @@ public class CartServlet extends HttpServlet {
 
     	cart.AddArticolo(articolo);
 		ac = cart.getArticoloById(articolo.getIdArticolo());
-		System.out.println(id);
     	if(id!= null) {		
-    		System.out.println(id);
-
     		OrdineDAO.addArticoloToCarrelloDB((int)id, ac);
-    		System.out.println(id);
 
     	}
     	
@@ -56,7 +52,6 @@ public class CartServlet extends HttpServlet {
         	cart.removeArticolo(articolo);
 
     	}
-    	System.out.println(cart.getArticoloById(articolo.getIdArticolo()));
     	//aggiornamento lato DB
     	if(idUser != null) {
     		int idUtente = (int) idUser; 
