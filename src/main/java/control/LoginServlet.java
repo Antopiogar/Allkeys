@@ -33,10 +33,11 @@ public class LoginServlet extends HttpServlet {
 		email = request.getParameter("email");
 		pass = UtenteDAO.toSHA256(request.getParameter("password"));
 		idUser = uDao.login(email, pass);
+		System.out.println("login user = " + idUser);
 		
 		
 		//Login user
-		if(idUser == 1) {
+		if(idUser >= 1 && !UtenteDAO.loadUserById(idUser).getIsAdmin()) {
 			
 			Carrello c= (Carrello) request.getSession().getAttribute("cart");
 			Carrello DB = OrdineDAO.LoadCarrelByUser(idUser);
