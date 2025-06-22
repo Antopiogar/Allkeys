@@ -43,7 +43,7 @@
 		    	<label for="nuovaPiattaforma">Nuova Piattaforma</label><br>
 				<input type="text" name="nuovaPiattaforma" id="nuovaPiattaforma" placeholder ="es. PS6">
 			</div>
-			<br><br><label for="immagine">Logo (.png)</label><br>
+			<br><br><label for="immagine">Logo</label><br>
     		<input type="file" name="immagine" id="immagine" accept=".png,image/png" >
 			<br><br><button type="button" class="center-button" onclick="checkForm()">Aggiungi articolo</button> 
 		</form>

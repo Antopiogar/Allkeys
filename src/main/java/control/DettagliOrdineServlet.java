@@ -37,7 +37,6 @@ public class DettagliOrdineServlet extends HttpServlet {
         ArrayList<Acquisto> ordini = (ArrayList<Acquisto>) request.getSession().getAttribute("ordini");
         
         Acquisto acquisto = Acquisto.getAcquistoByIdOrder(ordini, idOrdine);
-        System.out.println("Acquisto "+acquisto);
         if(acquisto == null)
         	response.sendRedirect("VisualizzaOrdiniServlet");
         request.setAttribute("acquisto", acquisto);

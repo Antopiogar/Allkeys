@@ -20,7 +20,6 @@ public class ArticoloDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 		return result + ".png";
@@ -45,7 +44,6 @@ public class ArticoloDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 		return articoli;
@@ -71,7 +69,6 @@ public class ArticoloDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 		return articoli;
@@ -99,7 +96,6 @@ public class ArticoloDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 		return articoli;
@@ -126,7 +122,6 @@ public class ArticoloDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 		return articolo;
@@ -145,7 +140,6 @@ public class ArticoloDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 		return piattaforme;
@@ -168,14 +162,11 @@ public class ArticoloDAO {
 				try (ResultSet rs = ps.getGeneratedKeys()) {
 					if (rs.next()) {
 						idArt = rs.getInt(1);
-						System.out.println("newIdArticolo = " + idArt);
 					}
 				}
 			}
 
 		} catch (SQLException e) {
-			System.out.println("ERRORE NELL'INSERIMENTO ARTICOLO");
-			e.printStackTrace();
 		}
 
 		return idArt;
@@ -189,7 +180,6 @@ public class ArticoloDAO {
 		try (Connection con = DBConnection.getConnection();
 			 PreparedStatement ps = con.prepareStatement(query)) {
 
-			System.out.println("art =" + art );
 			ps.setString(1, art.getNome());
 			ps.setFloat(2, art.getPrezzo());
 			ps.setString(3, art.getPiattaforma());
@@ -203,14 +193,12 @@ public class ArticoloDAO {
 			return true;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
 
 	public static synchronized boolean deleteArticolo(int idArt) {
 		if (idArt < 1) {
-			System.out.println("Errore id articolo");
 			return false;
 		}
 
@@ -221,7 +209,6 @@ public class ArticoloDAO {
 
 			ps.setInt(1, idArt);
 			int result = ps.executeUpdate();
-			System.out.println("result =" + result);
 
 			if (result < 1) {
 				con.rollback();
@@ -232,7 +219,6 @@ public class ArticoloDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -256,7 +242,6 @@ public class ArticoloDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 		return ris;
@@ -285,7 +270,6 @@ public class ArticoloDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 		return articoli;

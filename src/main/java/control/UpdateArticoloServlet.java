@@ -59,9 +59,7 @@ public class UpdateArticoloServlet extends HttpServlet {
 	}
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("entr");
         String idArticolo = request.getParameter("articolo");
-        System.out.println("RecivedIdArticolo = " + idArticolo);
         HttpSession session = request.getSession();
         Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
         boolean result = true;
@@ -113,7 +111,7 @@ public class UpdateArticoloServlet extends HttpServlet {
                     result = false;
                 }
             } else {
-                System.out.println("Nessun file valido selezionato");
+                System.err.println("Nessun file valido selezionato");
             }
         }
         
@@ -124,14 +122,9 @@ public class UpdateArticoloServlet extends HttpServlet {
         String prezzoArticolo = request.getParameter("prezzo");
         articolo.setPrezzo(Float.parseFloat(prezzoArticolo));
         articolo.setPiattaforma(request.getParameter("piattaforma"));
-        System.out.println("art servlet = " + articolo);
         
         if(result)
         	result = ArticoloDAO.updateArticolo(articolo); 
-        System.out.println(result);
-        
-       
-        
         Gson g = new Gson();
         JsonObject obj = new JsonObject();
         if(result) {

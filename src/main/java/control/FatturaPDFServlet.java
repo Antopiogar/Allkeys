@@ -35,9 +35,6 @@ public class FatturaPDFServlet extends HttpServlet {
         
 
         Acquisto ordine = OrdineDAO.loadOrderByIdOrder(idOrdine);
-        
-        System.out.println("acquisto = " + ordine);
-        System.out.println("path = " + ordine.getOrdine().getFattura());
 
         Path filePath = directoryPath.resolve(ordine.getOrdine().getFattura());
 
@@ -48,19 +45,10 @@ public class FatturaPDFServlet extends HttpServlet {
                 Files.createDirectories(directoryPath);
             }
 
-            System.out.println("Percorso file: " + filePath);
-
             if (Files.notExists(filePath)) {
                 String fatturaCompletaPath = filePath.toString();
                 fatt = new Fattura(ordine, fatturaCompletaPath);
                 genera = fatt.genera();
-                if (genera) {
-                    System.out.println("File creato con successo.");
-                } else {
-                    System.out.println("ERRORE NELLA GENERAZIONE");
-                }
-            } else {
-                System.out.println("Il file esiste già.");
             }
 
             String mimeType = getServletContext().getMimeType(filePath.toString());
@@ -75,13 +63,11 @@ public class FatturaPDFServlet extends HttpServlet {
             try (OutputStream out = response.getOutputStream()) {
                 Files.copy(filePath, out);
             } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("ERRORE NEL TRASFERIMENTO PDF");
+                System.err.println("ERRORE NEL TRASFERIMENTO PDF");
             }
 
         } catch (IOException e) {
             System.err.println("Errore durante la creazione del file o della cartella:");
-            e.printStackTrace();
         }
     }
 

@@ -94,7 +94,7 @@ function checkForm() {
         errorMsg += 'L\'email non è valida.<br>';
     }
 
-    let expressionPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    let expressionPassword = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
     if (!expressionPassword.test(password)) {
         if (!focusSet) {
             document.getElementById('password').focus();

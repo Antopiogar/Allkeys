@@ -23,7 +23,6 @@ public class ChiaveDAO {
 	public static int confermaChiaviOrdinate(Connection con, int idUtente, int idOrdine){
 		
 		Carrello c = OrdineDAO.LoadCarrelByUser(idUtente);
-		System.out.println("carrello = " +c);
 		if(c == null || c.isEmpty()) {
 			return -1;
 		}
@@ -33,19 +32,10 @@ public class ChiaveDAO {
 		//controlla se è possibile acquistare tutte le chiavi dell'ordine
 		//se non è possibile acquistare indica l'id del primo articolo non acquistabile
 		
-			System.out.println("CARRELLO CONFERMA "+ c);
-			System.out.println("\ndisp");
-			System.out.println(disp);
 			for(ArticoliCarrello art : c.getArticoli()) {
-				
-				System.out.println(c.getArticoli());
-				
 				idArt = art.getArticolo().getIdArticolo();
 				Integer disponibilita = disp.get(idArt);
-				System.out.println("idArt " + idArt);
 				if (disponibilita == null || art.getQta() > disponibilita) {
-					System.out.println("idArt " + idArt );
-
 				    return idArt;
 				}
 				
@@ -66,34 +56,25 @@ public class ChiaveDAO {
 		//Update chiave set fkOrdine = 5 where fkArticolo = 3 and fkOrdine is null order by idChiave desc limit 1
 		String query = "Update chiave set fkOrdine = ? where fkArticolo = ? and fkOrdine is null order by idChiave desc limit ? ";
 		try {
-			System.out.println("ORDINA CHIAVE");
 			int r=0;
 			for(ArticoliCarrello ac : c.getArticoli()) {
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setInt(1, idOrdine);
 				ps.setInt(2,ac.getArticolo().getIdArticolo());
 				ps.setInt(3, ac.getQta());
-				System.out.println("Update chiave set fkOrdine = %s where fkArticolo = %s and fkOrdine is null order by idChiave desc limit %s".formatted(idOrdine,ac.getArticolo().getIdArticolo(),ac.getQta()));
 				r= ps.executeUpdate();
-				System.out.println("r = "+r +"qta"+ac.getQta());
 				if(r != ac.getQta()) {
-					System.out.println("Rollback eseguito, qualcosa non va!");
-
 					con.rollback();
 					return false;
 				}
 				ps.close();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("MORTO IN SALVA CHIAVI");
 			return false;
 		}
 		try {
 			con.commit();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return true;
 		
@@ -119,12 +100,9 @@ public class ChiaveDAO {
 			ps.close();
 			rs.close();
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("ERRORE IN CARICAMENTO DISPONIBILITA");
 			DBConnection.releseConnection(con);
 		}
 		
-		System.out.println("DISP = " + disp);
 		DBConnection.releseConnection(con);
 		return disp;
 	}
@@ -166,8 +144,6 @@ public class ChiaveDAO {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("MORTO IN CARICA CHIAVE DA ID ORDINE");
 		}finally {
 			DBConnection.releseConnection(con);
 		}
@@ -181,8 +157,6 @@ public class ChiaveDAO {
 	// -2 se si vuole aggiungere una chiave duplicata
 	public static synchronized int saveKey(BeanArticolo art,BeanChiave chiave) {
 		int idArticolo = ArticoloDAO.ExistArticolo(art);
-		System.out.println("idArticolo = "+ idArticolo);
-
 		Connection con = DBConnection.getConnection();
 
 		//articolo non ancora esistente
@@ -195,8 +169,6 @@ public class ChiaveDAO {
 			}
 		}
 		else{ 
-			
-			System.out.println("idArticolo = "+ idArticolo);
 		}
 		String query= """
 				INSERT INTO CHIAVE (codice,fkArticolo) value(?,?);
@@ -217,22 +189,18 @@ public class ChiaveDAO {
 		
 		}
 		catch(SQLIntegrityConstraintViolationException e1) {
-			System.out.println("ROLLBACK IN CREAZIONE CHIAVI, CHIAVE DUPLICATA");
 			DBConnection.releseConnection(con);
 			return -2;
 
 		}
 		catch (Exception e) {
-			e.printStackTrace();
 			try {
 				con.rollback();
-				System.out.println("ROLLBACK IN CREAZIONE CHIAVI");
 				DBConnection.releseConnection(con);
 				return -1;
 
 			}
 			catch (SQLException e1) {
-				e1.printStackTrace();
 			}
 
 		}

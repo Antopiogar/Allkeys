@@ -34,7 +34,6 @@ public class ComposizioneDAO {
 						ps.setInt(4, FkOrdine);
 						risultatoInserimento = ps.executeUpdate();
 						if(risultatoInserimento != 1) {
-							System.out.println("ERRORE IN INSERIMENTO");
 				        	con.rollback();
 						}
 					}
@@ -61,13 +60,10 @@ public class ComposizioneDAO {
 
 		}
 	     catch (SQLException e) {
-	        e.printStackTrace();
 	        try {
 	        	con.rollback(); 
 	        	} 
 	        catch (SQLException ex) {
-	        	ex.printStackTrace();
-	        	System.out.println("MORTO IN COMPOSIZIONE");
 	        }
 	    } finally {
 	        DBConnection.releseConnection(con);
@@ -97,13 +93,10 @@ public class ComposizioneDAO {
 			con.commit();
 		}
 	    catch (SQLException e) {
-	        e.printStackTrace();
 	        try {
 	        	con.rollback(); 
 	        	} 
 	        catch (SQLException ex) {
-	        	ex.printStackTrace();
-	        	System.out.println("MORTO IN UPDATE");
 	        }
 	    } finally {
 	        DBConnection.releseConnection(con);
@@ -132,13 +125,10 @@ public class ComposizioneDAO {
 
 		}
 	     catch (SQLException e) {
-	        e.printStackTrace();
 	        try {
 	        	con.rollback(); 
 	        	} 
 	        catch (SQLException ex) {
-	        	ex.printStackTrace();
-	        	System.out.println("MORTO IN RIMUOVI");
 	        }
 	    } finally {
 	        DBConnection.releseConnection(con);

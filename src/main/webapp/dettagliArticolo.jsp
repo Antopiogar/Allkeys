@@ -127,20 +127,21 @@
         <% } %>
 		<% if(!existsRecensione) {%>
 	        <% if(idUser != -1) { %>
-	            <form action="AddRecensioneServlet" method="POST" id="formAggiungi">
-	                <select name="voto" id="voto" required>
+	        <div class="recensione-card center-text"><strong>Crea una recensione:</strong><br>
+	            <br><form action="AddRecensioneServlet" method="POST" id="formAggiungi">
+	                <select name="voto" class = "center center-text" id="voto" required>
 	                    <option value="" disabled selected>Seleziona un voto</option>
 	                    <option value="1">1 - ⭐</option>
 	                    <option value="2">2 - ⭐⭐</option>
 	                    <option value="3">3 - ⭐⭐⭐</option>
 	                    <option value="4">4 - ⭐⭐⭐⭐</option>
 	                    <option value="5">5 - ⭐⭐⭐⭐⭐</option>
-	                </select><br>
-	                <textarea name="recensione" id="recensione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
-	                <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>"><br><br><br>
+	                </select>
+	                <textarea name="recensione" class="center center-text" id="recensione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+	                <input type="hidden" name="idArticolo" value="<%= articolo.getIdArticolo() %>"><br>
 					<button type="button" class = "center-button" onclick="checkForm()">Aggiungi recensione</button>
 
-	            </form>
+	            </form></div>
 	        <% } else { %>
 	            <p>Per scrivere una recensione esegui il <a href="<%= request.getContextPath() %>/login.jsp">login</a></p>
 	        <% } 

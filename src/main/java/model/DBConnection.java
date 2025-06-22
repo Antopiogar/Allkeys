@@ -31,8 +31,7 @@ public class DBConnection {
 
             dataSource = new HikariDataSource(config);
         } catch (Exception e) {
-            System.err.println("❌ Errore durante l'inizializzazione di HikariCP:");
-            e.printStackTrace();
+            System.err.println("Errore durante l'inizializzazione di HikariCP:");
         }
     }
 
@@ -40,8 +39,7 @@ public class DBConnection {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
-            System.err.println("❌ Errore ottenendo la connessione dal pool:");
-            e.printStackTrace();
+            System.err.println("Errore ottenendo la connessione dal pool:");
             return null;
         }
     }
@@ -52,7 +50,6 @@ public class DBConnection {
                 con.close(); // Restituisce la connessione al pool
             } catch (SQLException e) {
                 System.err.println("❌ Errore nel rilascio della connessione:");
-                e.printStackTrace();
             }
         }
     }

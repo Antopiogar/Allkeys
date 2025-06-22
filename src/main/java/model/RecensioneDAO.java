@@ -50,8 +50,6 @@ public class RecensioneDAO {
 			DBConnection.releseConnection(con);
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		DBConnection.releseConnection(con);
 		return recensioni;
@@ -82,13 +80,10 @@ public class RecensioneDAO {
 		
 		}
 		catch (Exception e) {
-			e.printStackTrace();
 			try {
 				con.rollback();
-				System.out.println("ROLLBACK IN CREAZIONE RECENSIONE");
 			}
 			catch (SQLException e1) {
-				e1.printStackTrace();
 			}
 
 		}
@@ -123,7 +118,6 @@ public class RecensioneDAO {
 			
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return true;
 	}
@@ -151,7 +145,6 @@ public class RecensioneDAO {
 
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return true;
 	}
