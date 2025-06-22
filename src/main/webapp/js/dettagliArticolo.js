@@ -17,10 +17,6 @@ function modificaRecensione(idRecensione) {
     form.action = "modificaRecensione";
     form.className = "recensione-form";
 
-    let labelStelle = document.createElement("label");
-    labelStelle.textContent = "Stelle:";
-    labelStelle.htmlFor = "stelle";
-    form.appendChild(labelStelle);
 
     let stelleInput = document.createElement("select");
 
@@ -31,34 +27,42 @@ function modificaRecensione(idRecensione) {
             voto++;
         }
     }
+	
+	let textModificaRecensione = document.createElement("p");
+	textModificaRecensione.textContent = "Modifica Recensione";
+	textModificaRecensione.classList.add("center-text");
+	textModificaRecensione.style.fontWeight = "bold";
+	form.appendChild(textModificaRecensione);
 
     stelleInput.name = "voto";
     stelleInput.id = "voto";
+	stelleInput.classList.add("center");
     for (let i = 0; i < 5; i++) {
         let stelleOption = document.createElement("option");
         stelleOption.value = i + 1;
         stelleOption.textContent = "⭐".repeat(i + 1);
+		stelleOption.classList.add("center");
         stelleInput.appendChild(stelleOption);
     }
     stelleInput.childNodes[voto - 1].selected = true;
     stelleInput.value = voto;
     form.appendChild(stelleInput);
 
-    let br = document.createElement("br");
-    form.appendChild(br);
-
-    let labelTesto = document.createElement("label");
-    labelTesto.textContent = "Testo:";
-    labelTesto.htmlFor = "recensione";
 
     let testoInput = document.createElement("textarea");
     testoInput.name = "recensione";
     testoInput.value = testo;
     testoInput.id = "recensione";
-
-    form.appendChild(labelTesto);
+	
+	testoInput.classList.add("center");
+	
     form.appendChild(testoInput);
-
+	
+	
+	let br = document.createElement("br");
+	form.appendChild(br);
+		
+		
     newCard.appendChild(form);
 
 

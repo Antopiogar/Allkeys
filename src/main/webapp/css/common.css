@@ -381,6 +381,11 @@ option {
 	margin: 0 auto;
 }
 
+.center{
+	display: block;
+	margin: 0 auto;
+}
+
 code{
 	background-color:#1e1e1e;
 	padding:5px 10px;
